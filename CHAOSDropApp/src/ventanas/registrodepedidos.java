@@ -8,15 +8,25 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+
 
 public class registrodepedidos extends javax.swing.JInternalFrame {
-
-    public static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/tu_base_de_datos";
-        String username = "tu_usuario";
-        String password = "";
-        return DriverManager.getConnection(url, username, password);
+    
+public static Connection conectar() {
+    try {
+        String url = "jdbc:mysql://localhost:3306/chaos_app";
+        String user = "root"; 
+        String pass = ""; 
+        return DriverManager.getConnection(url, user, pass);
+    } catch (SQLException e) {
+        System.out.println("Error de conexión: " + e.getMessage());
+        return null;
     }
+}
+
     
     public registrodepedidos() {
         initComponents();
@@ -363,7 +373,53 @@ public class registrodepedidos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+                                                 
+    String nombre = txtNombre.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String ciudad = (String) cmbCiudad.getSelectedItem();
+    String descripcion = txtDescripcion.getText().trim();
+    int peso = (Integer) spnPeso.getValue();
+    String destino = (String) cmbDestino.getSelectedItem();
+    String tipo = (String) cmbTipo.getSelectedItem();
+    double tarifabase = Double.parseDouble(txtTarifabase.getText().trim());
+    double impuesto = Double.parseDouble(txtImpuesto.getText().trim());
+    double total = Double.parseDouble(txtTotal.getText().trim());
+
+    Connection con = conectar(); // asegúrate de tener este método accesible
+    if (con != null) {
+        try {
+            String sql = "INSERT INTO pedidos (nombre, telefono, ciudad, descripcion, peso, destino, tipo_envio, Tarifabase, impuesto, total_pagar) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, telefono);
+            ps.setString(3, ciudad);
+            ps.setString(4, descripcion);
+            ps.setInt(5, peso);
+            ps.setString(6, destino);
+            ps.setString(7, tipo);
+            ps.setDouble(8, tarifabase);
+            ps.setDouble(9, impuesto);
+            ps.setDouble(10, total);
+
+            int fila = ps.executeUpdate();
+            if (fila > 0) {
+                JOptionPane.showMessageDialog(null, "Pedido registrado con éxito.");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo registrar el pedido.");
+            }
+
+            ps.close();
+            con.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al registrar: " + ex.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "No hay conexión con la base de datos.");
+    }
+
+
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
