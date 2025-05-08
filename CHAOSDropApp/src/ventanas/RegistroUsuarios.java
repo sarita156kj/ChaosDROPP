@@ -1,8 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ventanas;
+
+import conexion.Conexion_DB;
+import java.awt.Cursor;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -46,6 +51,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         txtContraseña = new javax.swing.JPasswordField();
         txtConfirmar = new javax.swing.JPasswordField();
         btnRegistrarse = new javax.swing.JButton();
+        lblIniciarSesion = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -68,13 +74,21 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nombre:");
 
+        txtnombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtapellido.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 17)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Apellido:");
 
+        txtusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         jLabel5.setFont(new java.awt.Font("Segoe UI", 2, 17)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nombre de Usuario:");
+
+        txtcelular.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 17)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -84,6 +98,8 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Correo:");
 
+        txtcorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         jLabel8.setFont(new java.awt.Font("Segoe UI", 2, 17)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Contraseña:");
@@ -91,6 +107,10 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 2, 17)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Confirmar Contraseña:");
+
+        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtConfirmar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -165,9 +185,25 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         btnRegistrarse.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         btnRegistrarse.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrarse.setText("Registrarse");
+        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarseActionPerformed(evt);
+            }
+        });
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI Emoji", 2, 16)); // NOI18N
-        jLabel10.setText("¿Ya tienes cuenta? Inicia sesión.");
+        lblIniciarSesion.setFont(new java.awt.Font("Segoe UI Emoji", 2, 14)); // NOI18N
+        lblIniciarSesion.setText("¿Ya tienes cuenta? Inicia sesión.");
+        lblIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblIniciarSesionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblIniciarSesionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblIniciarSesionMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,9 +215,9 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jLabel10)
+                .addComponent(lblIniciarSesion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRegistrarse)
+                .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         jPanel1Layout.setVerticalGroup(
@@ -192,32 +228,39 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrarse)
-                    .addComponent(jLabel10))
+                    .addComponent(lblIniciarSesion))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login1.png"))); // NOI18N
+        jLabel10.setText("jLabel10");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(630, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(76, 76, 76))
+                    .addComponent(jLabel1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addGap(52, 52, 52)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(43, 43, 43)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -233,6 +276,79 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
+        // Obtener valores de los campos
+        String nombre = txtnombre.getText().trim();
+        String apellido = txtapellido.getText().trim();
+        String usuario = txtusuario.getText().trim();
+        String telefono = txtcelular.getText().trim();
+        String correo = txtcorreo.getText().trim();
+        String contrasena = new String(txtContraseña.getPassword()).trim();
+        String confirmar = new String(txtConfirmar.getPassword()).trim();
+
+        // Validar que todos los campos estén llenos
+        if (nombre.isEmpty() || apellido.isEmpty() || usuario.isEmpty()
+                || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        // Validar que las contraseñas coincidan
+        if (!contrasena.equals(confirmar)) {
+            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
+            return;
+        }
+
+        // Validar que el teléfono solo contenga números
+        if (!telefono.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "El número de teléfono solo debe contener dígitos.");
+            return;
+        }
+
+        // Insertar en la base de datos
+        try (Connection conn = Conexion_DB.conectar()) {
+            if (conn == null) {
+                JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.");
+                return;
+            }
+
+            String sql = "INSERT INTO usuarios (nombre, apellido, usuario, correo, telefono, contrasena) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setString(3, usuario);
+            ps.setString(4, correo);
+            ps.setString(5, telefono);
+            ps.setString(6, contrasena);
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.");
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Cerrar esta ventana y abrir la de inicio de sesión
+        this.dispose();
+        new InicioSesion().setVisible(true);
+    }//GEN-LAST:event_btnRegistrarseActionPerformed
+
+    private void lblIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseClicked
+        // TODO add your handling code here:
+        InicioSesion inicio = new InicioSesion();
+        inicio.setVisible(true);
+    }//GEN-LAST:event_lblIniciarSesionMouseClicked
+
+    private void lblIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseEntered
+        // TODO add your handling code here:
+        lblIniciarSesion.setText("<html><u><b>¿Ya tienes cuenta? Inicia sesión</b></u></html>");
+        lblIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_lblIniciarSesionMouseEntered
+
+    private void lblIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseExited
+        // TODO add your handling code here:
+        lblIniciarSesion.setText("<html><u>¿Ya tienes cuenta? Inicia sesión</u></html>");
+    }//GEN-LAST:event_lblIniciarSesionMouseExited
 
     /**
      * @param args the command line arguments
@@ -284,6 +400,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblIniciarSesion;
     private javax.swing.JPasswordField txtConfirmar;
     private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtapellido;
