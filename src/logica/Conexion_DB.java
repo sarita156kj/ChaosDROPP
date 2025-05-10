@@ -3,39 +3,35 @@ package logica;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Conexion_DB {
-
-    // Datos de conexión
-    private static final String BASE = "chaos_app";   
-    private static final String USER = "root";        
-    private static final String PASSWORD = "";      
-    private static final String URL = "jdbc:mysql://localhost:3306/"+ BASE;
-
-    // Constructor vacío (opcional)
-    public Conexion_DB() {}
-
-    // Método estático para obtener la conexión
-    public static Connection conectar() {
-        Connection link = null;
-        try {
-            // Cargar el driver de MySQL
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Establecer la conexión
-            link = DriverManager.getConnection(URL, USER, PASSWORD);
-
-        } catch (SQLException e) {
-            // Si ocurre un error de conexión
-            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos: " + e.getMessage());
-            e.printStackTrace(); // Imprime el error completo en la consola
-        } catch (ClassNotFoundException ex) {
-            // Si no se encuentra el driver
-            JOptionPane.showMessageDialog(null, "Driver de base de datos no encontrado: " + ex.getMessage());
-            ex.printStackTrace(); // Imprime el error completo en la consola
-        }
-        return link; // Devuelve el objeto Connection, o null si hubo un error
+    
+    private final String base = "chaos_app";
+    private final String user = "root";
+    private final String password = "";
+    private final String url = "jdbc:mysql://localhost:3306/" + base;
+ 
+    public Conexion_DB(){
+        
     }
-}
-
+        public Connection conectar(){
+        Connection link=null;
+        try
+       {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+ 
+           link=DriverManager.getConnection(this.url, this.user, this.password);
+            
+        }catch(SQLException e){
+            
+        JOptionPane.showConfirmDialog(null, e);
+        
+    }   catch (ClassNotFoundException ex) {   
+            Logger.getLogger(Conexion_DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+return link;
+} 
+} 

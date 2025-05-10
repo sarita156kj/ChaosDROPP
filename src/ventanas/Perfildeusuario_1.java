@@ -7,7 +7,6 @@ package ventanas;
 import com.sun.jdi.connect.spi.Connection;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
 import logica.Conexion_DB;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
