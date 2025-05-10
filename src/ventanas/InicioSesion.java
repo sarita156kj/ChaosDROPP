@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ventanas;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import logica.Conexion_DB;
 import java.awt.Cursor;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -189,9 +183,9 @@ public class InicioSesion extends javax.swing.JFrame {
         }
 
         // Conectar a la base de datos y verificar credenciales
-        try (Connection conn = (Connection) Conexion_DB.conectar()) {
+            try (java.sql.Connection con = Conexion_DB.conectar()) {
             String sql = "SELECT * FROM usuarios WHERE usuario = ? AND correo = ? AND contrasena = ?";
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            java.sql.PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, usuario);
             ps.setString(2, correo);
             ps.setString(3, contrasena);
@@ -221,7 +215,6 @@ public class InicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAccederActionPerformed
 
     private void lblRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistrateMouseClicked
-        // TODO add your handling code here:
         RegistroUsuarios inicio = new RegistroUsuarios();
         inicio.setVisible(true);
     }//GEN-LAST:event_lblRegistrateMouseClicked

@@ -1,24 +1,26 @@
-
 package logica;
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.sql.SQLException;
 
 public class Catalogopedidos extends javax.swing.JFrame {
+
     // Componentes gráficos (botones, campos de texto, JComboBox, JTable)
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<String> jComboCategoria;
     private javax.swing.JTextField txtnarticulo;
+    private javax.swing.JTextField txtcodigoarticulo;
     private javax.swing.JTextField txtprecio;
     private javax.swing.JTextField txtstock;
     private javax.swing.JTable tablaCatalogo;
-    private javax.swing.JTextField txtbuscar;
+    private javax.swing.JTextField txtbuscar; // Campo para la búsqueda
 
     private int idProductoSeleccionado = -1;
 
@@ -35,22 +37,24 @@ public class Catalogopedidos extends javax.swing.JFrame {
         btnNuevo.addActionListener(this::btnNuevoActionPerformed);
         btnEditar.addActionListener(this::btnEditarActionPerformed);
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
-        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         // Configura la JTable para mostrar los productos
         tablaCatalogo = new javax.swing.JTable();
         JScrollPane scrollPane = new JScrollPane(tablaCatalogo);
         tablaCatalogo.setModel(new DefaultTableModel(
-            new Object [][] {},
-            new String [] {"ID", "Nombre", "Categoría", "Precio", "Stock", "Estado"}
+                new Object[][]{},
+                new String[]{
+                    "ID", "Nombre", "Categoría", "Precio", "Stock", "Código_articulo"
+                }
         ));
+
         // Agregar el JScrollPane que contiene la tabla al panel del formulario
     }
 
     private void mostrarProductos() {
         DefaultTableModel modelo = (DefaultTableModel) tablaCatalogo.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla
+        modelo.setRowCount(0); // Limpiar la tabla antes de llenarla
 
         try (Connection con = Conexion_DB.getConexion()) {
             String query = "SELECT * FROM catalogo";
@@ -64,7 +68,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                     rs.getString("categoria"),
                     rs.getDouble("precio"),
                     rs.getInt("stock"),
-                    rs.getBoolean("estado")
+                    rs.getString("codigo_articulo") // Asegúrate de que el nombre de la columna es correcto
                 };
                 modelo.addRow(row); // Agregar cada producto a la tabla
             }
@@ -91,9 +95,10 @@ public class Catalogopedidos extends javax.swing.JFrame {
         String categoria = jComboCategoria.getSelectedItem().toString();
         String precioStr = txtprecio.getText();
         String stockStr = txtstock.getText();
+        String codigoArticulo = txtcodigoarticulo.getText();
 
         // Validación de campos vacíos
-        if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+        if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || codigoArticulo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos deben estar completos.");
             return;
         }
@@ -107,12 +112,13 @@ public class Catalogopedidos extends javax.swing.JFrame {
             if (idProductoSeleccionado == -1) {
                 // Insertar nuevo producto
                 Connection con = Conexion_DB.getConexion();
-                String query = "INSERT INTO catalogo (nombre, categoria, precio, stock, estado) VALUES (?, ?, ?, ?, 1)";
+                String query = "INSERT INTO catalogo (nombre, categoria, precio, stock, codigo_articulo) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, nombre);
                 ps.setString(2, categoria);
                 ps.setDouble(3, precio);
                 ps.setInt(4, stock);
+                ps.setString(5, codigoArticulo);
                 ps.executeUpdate();
 
                 JOptionPane.showMessageDialog(this, "Producto guardado correctamente.");
@@ -152,12 +158,14 @@ public class Catalogopedidos extends javax.swing.JFrame {
             String categoria = (String) tablaCatalogo.getValueAt(filaSeleccionada, 2);
             double precio = (double) tablaCatalogo.getValueAt(filaSeleccionada, 3);
             int stock = (int) tablaCatalogo.getValueAt(filaSeleccionada, 4);
+            String codigoArticulo = (String) tablaCatalogo.getValueAt(filaSeleccionada, 5);
 
             // Rellenar los campos con los datos seleccionados
             txtnarticulo.setText(nombre);
             jComboCategoria.setSelectedItem(categoria);
             txtprecio.setText(String.valueOf(precio));
             txtstock.setText(String.valueOf(stock));
+            txtcodigoarticulo.setText(codigoArticulo);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un producto para editar.");
         }
@@ -183,31 +191,48 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         rs.getString("categoria"),
                         rs.getDouble("precio"),
                         rs.getInt("stock"),
-                        rs.getBoolean("estado")
+                        rs.getString("codigo_articulo")
                     };
                     modelo.addRow(row); // Agregar fila de resultados a la tabla
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Error al buscar productos: " + e.getMessage());
             }
-        } else {
-            mostrarProductos(); // Mostrar todos los productos si no hay texto de búsqueda
         }
     }
 
-    // 5. Función para el botón "Cancelar"
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
-        limpiarCampos();
-        idProductoSeleccionado = -1; // Resetear el id del producto seleccionado
-    }
+    // 5. Función para el botón "Eliminar"
+    private void btnEliminarActionPerformed(ActionEvent e) {
+        if (idProductoSeleccionado == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar.");
+            return;
+        }
 
-    // 6. Función para el botón "Salir"
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0); // Cerrar la aplicación
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este producto?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try (Connection con = Conexion_DB.getConexion()) {
+            String query = "DELETE FROM catalogo WHERE id=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, idProductoSeleccionado);
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
+                limpiarCampos();
+                idProductoSeleccionado = -1;
+                mostrarProductos(); // Refrescar la tabla
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + ex.getMessage());
+        }
     }
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> new Catalogopedidos().setVisible(true));
     }
-    
 }
