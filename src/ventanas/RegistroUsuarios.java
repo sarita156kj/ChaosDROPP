@@ -1,6 +1,6 @@
 package ventanas;
 
-import conexion.Conexion_DB;
+import logica.Conexion_DB;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
