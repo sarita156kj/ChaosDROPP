@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import static logica.Catalogopedidos.mostrarProductos;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
      */
     public Catalogopedidos() {
         initComponents();
+         mostrarProductos();
     }
 
     /**
@@ -588,7 +590,6 @@ public class Catalogopedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
-   logica.Catalogopedidos.mostrarProductos();
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
