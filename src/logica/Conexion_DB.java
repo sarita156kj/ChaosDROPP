@@ -11,7 +11,7 @@ public class Conexion_DB {
     private static final String BASE = "chaos_app";   
     private static final String USER = "root";        
     private static final String PASSWORD = "";      
-    private static final String URL = "jdbc:mysql://localhost:3306/";
+    private static final String URL = "jdbc:mysql://localhost:3306/"+ BASE;
 
     // Constructor vacío (opcional)
     public Conexion_DB() {}

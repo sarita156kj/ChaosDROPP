@@ -53,6 +53,11 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel40.setText("Nombre de Usuario:");
 
         txtusuario1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtusuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtusuario1ActionPerformed(evt);
+            }
+        });
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel41.setText("Correo:");
@@ -159,11 +164,11 @@ public class InicioSesion extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addContainerGap(49, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -229,6 +234,10 @@ public class InicioSesion extends javax.swing.JFrame {
         // TODO add your handling code here:
         lblRegistrate.setText("<html><u>¿No tienes cuenta? Regístrate.</u></html>");
     }//GEN-LAST:event_lblRegistrateMouseExited
+
+    private void txtusuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtusuario1ActionPerformed
 
     /**
      * @param args the command line arguments
