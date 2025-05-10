@@ -3,26 +3,35 @@ package logica;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Conexion_DB {
 
-    // Nombre más descriptivo para el método
-    public static Connection getConexion() {
-        try {
-            String url = "jdbc:mysql://localhost:3306/chaos_app";  // Asegúrate que el nombre de la base de datos es correcto
-            String user = "root";  // Usualmente 'root', pero cambia según tu configuración
-            String pass = "";  // Asegúrate de que este es el password correcto
-            return DriverManager.getConnection(url, user, pass);
-        } catch (SQLException e) {
-            // Mejor manejo de errores
-            System.err.println("Error de conexión: " + e.getMessage());
-            e.printStackTrace();  // Esto te dará más detalles sobre el error
-            return null;
-        }
+    private final String base = "basereserva";
+    private final String user = "root";
+    private final String password = "";
+    private final String url = "jdbc:mysql://localhost:3306/" + base;
+
+    public Conexion_DB() {
+
     }
 
-    public static Connection conectar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Connection conectar() {
+        Connection link = null;
+        try {
+            Class.forName("org.gjt.mm.mysql.Driver");
+
+            link = DriverManager.getConnection(this.url, this.user, this.password);
+
+        } catch (SQLException e) {
+
+            JOptionPane.showConfirmDialog(null, e);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Conexion_DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return link;
     }
 }
-

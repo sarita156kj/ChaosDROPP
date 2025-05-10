@@ -1,5 +1,6 @@
 package ventanas;
 
+import java.beans.Statement;
 import javax.swing.JOptionPane;
 import logica.Conexion_DB;
 import java.sql.Connection;
@@ -65,7 +66,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(8, 9, 39));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -273,6 +274,11 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaCatalogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCatalogoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaCatalogo);
 
         btnSalir.setBackground(new java.awt.Color(204, 204, 204));
@@ -531,6 +537,37 @@ public class Catalogopedidos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
+        DefaultTableModel modelo;
+        String[] titulos = {"Nombre", "Categoría", "Precio", "Stock", "ID Producto"}; // Ajustado a tus 5 columnas
+        String[] registro = new String[5]; // Ajustado a 5 columnas
+        int totalregistros = 0;
+
+        modelo = new DefaultTableModel(null, titulos);
+        String sSQL = "SELECT nombre, categoria, precio, stock, id_producto FROM productos"; // Consulta ajustada
+
+        try {
+            Statement st = (Statement) cn.createStatement();
+            ResultSet rs = (ResultSet) st.executeQuery(sSQL);
+
+            while (rs.next()) {
+                registro[0] = rs.getString("nombre");       // Nombre
+                registro[1] = rs.getString("categoria");    // Categoría
+                registro[2] = rs.getString("precio");       // Precio
+                registro[3] = rs.getString("stock");        // Stock
+                registro[4] = rs.getString("id_producto");  // ID Producto
+
+                totalregistros = totalregistros + 1;
+                modelo.addRow(registro);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showConfirmDialog(null, e);
+        }
+
+
+    }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
      * @param args the command line arguments
