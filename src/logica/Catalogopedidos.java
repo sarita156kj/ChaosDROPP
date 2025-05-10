@@ -4,235 +4,263 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.sql.SQLException;
 
-public class Catalogopedidos extends javax.swing.JFrame {
+public class Catalogopedidos {
 
-    // Componentes gráficos (botones, campos de texto, JComboBox, JTable)
-    private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JComboBox<String> jComboCategoria;
-    private javax.swing.JTextField txtnarticulo;
-    private javax.swing.JTextField txtcodigoarticulo;
-    private javax.swing.JTextField txtprecio;
-    private javax.swing.JTextField txtstock;
-    private javax.swing.JTable tablaCatalogo;
-    private javax.swing.JTextField txtbuscar; // Campo para la búsqueda
+    private static JTable tablaCatalogo;
+    private final JTextField txtnarticulo;
+    private final JTextField txtprecio;
+    private final JTextField txtstock;
+    private final JTextField txtcodigoarticulo; // Nuevo campo para código de artículo
+    private final JComboBox<String> jComboCategoria;
+    private final JButton btnNuevo;
+    private final JButton btnGuardar;
+    private final JButton btnEditar;
+    private final JButton btnBuscar;
+    private final JButton btnEliminar;
+    private final JButton btnSalir;
 
     private int idProductoSeleccionado = -1;
 
     public Catalogopedidos() {
-        initComponents();
-        mostrarProductos(); // Llamada a la función para cargar los productos
+
+        tablaCatalogo = new JTable();
+        txtnarticulo = new JTextField();
+        txtcodigoarticulo = new JTextField();
+        txtprecio = new JTextField();
+        txtstock = new JTextField();
+        jComboCategoria = new JComboBox<>();
+        btnNuevo = new JButton("Nuevo");
+        btnGuardar = new JButton("Guardar");
+        btnEditar = new JButton("Editar");
+        btnBuscar = new JButton("Buscar");
+        btnEliminar = new JButton("Eliminar");
+        btnSalir = new JButton("Salir");
+
+        btnNuevo.addActionListener(e -> btnNuevoActionPerformed(e));
+        btnGuardar.addActionListener(e -> btnGuardarActionPerformed(e));
+        btnEditar.addActionListener(e -> btnEditarActionPerformed(e));
+        btnBuscar.addActionListener(e -> btnBuscarActionPerformed(e));
+        btnEliminar.addActionListener(e -> btnEliminarActionPerformed(e));
+        btnSalir.addActionListener(e -> btnSalirActionPerformed(e));
     }
 
-    private void initComponents() {
-        // Aquí debes configurar y crear los componentes, como los botones, campos de texto, etc.
+    // Método para mostrar los productos en la tabla
+public static void mostrarProductos() {
+    // Crear un modelo para la tabla
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("ID");
+    model.addColumn("Nombre");
+    model.addColumn("Código Artículo");
+    model.addColumn("Categoría");
+    model.addColumn("Precio");
+    model.addColumn("Stock");
 
-        // Asigna los listeners de los botones
-        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
-        btnNuevo.addActionListener(this::btnNuevoActionPerformed);
-        btnEditar.addActionListener(this::btnEditarActionPerformed);
-        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
-        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+    // Consulta SQL para obtener los productos activos
+    String query = "SELECT * FROM catalogo WHERE estado = 1"; // Filtrar solo los productos activos
 
-        // Configura la JTable para mostrar los productos
-        tablaCatalogo = new javax.swing.JTable();
-        JScrollPane scrollPane = new JScrollPane(tablaCatalogo);
-        tablaCatalogo.setModel(new DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                    "ID", "Nombre", "Categoría", "Precio", "Stock", "Código_articulo"
-                }
-        ));
+    // Abrir la conexión correctamente
+    try (Connection con = Conexion_DB.conectar(); 
+         PreparedStatement stmt = con.prepareStatement(query); 
+         ResultSet rs = stmt.executeQuery()) {
 
-        // Agregar el JScrollPane que contiene la tabla al panel del formulario
-    }
+        // Limpiar las filas previas del modelo para evitar duplicados
+        model.setRowCount(0);
 
-    private void mostrarProductos() {
-        DefaultTableModel modelo = (DefaultTableModel) tablaCatalogo.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla antes de llenarla
-
-        try (Connection con = Conexion_DB.getConexion()) {
-            String query = "SELECT * FROM catalogo";
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Object[] row = {
-                    rs.getInt("id"),
-                    rs.getString("nombre"),
-                    rs.getString("categoria"),
-                    rs.getDouble("precio"),
-                    rs.getInt("stock"),
-                    rs.getString("codigo_articulo") // Asegúrate de que el nombre de la columna es correcto
-                };
-                modelo.addRow(row); // Agregar cada producto a la tabla
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los productos: " + e.getMessage());
+        // Iterar sobre el ResultSet para llenar el modelo
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id"),
+                rs.getString("nombre"),
+                rs.getString("codigo_articulo"),
+                rs.getString("categoria"),
+                rs.getDouble("precio"),
+                rs.getInt("stock")
+            });
         }
+
+        // Asignar el modelo a la tabla para mostrar los productos
+        tablaCatalogo.setModel(model);
+
+    } catch (SQLException e) {
+        // Manejo de excepciones
+        JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + e.getMessage());
+    }
+}
+
+    // Método para limpiar los campos para un nuevo producto
+    private void btnNuevoActionPerformed(ActionEvent evt) {
+        limpiarCampos();
+        idProductoSeleccionado = -1; // Resetear el id seleccionado
     }
 
-    private void limpiarCampos() {
-        txtnarticulo.setText("");
-        txtprecio.setText("");
-        txtstock.setText("");
-        jComboCategoria.setSelectedIndex(0); // Establecer la primera categoría como predeterminada
-    }
-
-    // 1. Función para el botón "Nuevo"
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {
-        limpiarCampos();  // Limpiar los campos para ingresar nuevo producto
-    }
-
-    // 2. Función para el botón "Guardar"
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {
+    // Método para guardar un producto
+    private void btnGuardarActionPerformed(ActionEvent evt) {
         String nombre = txtnarticulo.getText();
+        String codigoArticulo = txtcodigoarticulo.getText(); // Obtener el código de artículo
         String categoria = jComboCategoria.getSelectedItem().toString();
         String precioStr = txtprecio.getText();
         String stockStr = txtstock.getText();
-        String codigoArticulo = txtcodigoarticulo.getText();
 
         // Validación de campos vacíos
-        if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || codigoArticulo.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos deben estar completos.");
+        if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben estar completos.");
             return;
         }
 
         try {
-            // Convertir los datos a los tipos correctos
             double precio = Double.parseDouble(precioStr);
             int stock = Integer.parseInt(stockStr);
 
-            // Si idProductoSeleccionado es -1, es un nuevo producto, si no, se actualizará el existente
-            if (idProductoSeleccionado == -1) {
-                // Insertar nuevo producto
-                Connection con = Conexion_DB.getConexion();
-                String query = "INSERT INTO catalogo (nombre, categoria, precio, stock, codigo_articulo) VALUES (?, ?, ?, ?, ?)";
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, nombre);
-                ps.setString(2, categoria);
-                ps.setDouble(3, precio);
-                ps.setInt(4, stock);
-                ps.setString(5, codigoArticulo);
-                ps.executeUpdate();
+            String query = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock, estado) VALUES (?, ?, ?, ?, ?, 1)";
 
-                JOptionPane.showMessageDialog(this, "Producto guardado correctamente.");
-            } else {
-                // Actualizar producto existente
-                Connection con = Conexion_DB.getConexion();
-                String query = "UPDATE catalogo SET nombre=?, categoria=?, precio=?, stock=? WHERE id=?";
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, nombre);
-                ps.setString(2, categoria);
-                ps.setDouble(3, precio);
-                ps.setInt(4, stock);
-                ps.setInt(5, idProductoSeleccionado);
-                ps.executeUpdate();
+            try (Connection con = Conexion_DB.getConexion(); PreparedStatement ps = con.prepareStatement(query)) {
 
-                JOptionPane.showMessageDialog(this, "Producto actualizado correctamente.");
+                ps.setString(1, nombre);
+                ps.setString(2, codigoArticulo); // Establecer el código de artículo
+                ps.setString(3, categoria);
+                ps.setDouble(4, precio);
+                ps.setInt(5, stock);
+
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Producto guardado correctamente.");
+                limpiarCampos();
+                mostrarProductos(); // Actualizar la tabla
+
             }
-
-            // Limpiar campos y recargar la tabla
-            limpiarCampos();
-            mostrarProductos();
-
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Precio o stock inválidos.");
+            JOptionPane.showMessageDialog(null, "El precio o el stock no son válidos.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar el producto: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al guardar el producto: " + e.getMessage());
         }
     }
 
-    // 3. Función para el botón "Editar"
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
-        int filaSeleccionada = tablaCatalogo.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            // Obtener los datos de la fila seleccionada
-            idProductoSeleccionado = (int) tablaCatalogo.getValueAt(filaSeleccionada, 0);
-            String nombre = (String) tablaCatalogo.getValueAt(filaSeleccionada, 1);
-            String categoria = (String) tablaCatalogo.getValueAt(filaSeleccionada, 2);
-            double precio = (double) tablaCatalogo.getValueAt(filaSeleccionada, 3);
-            int stock = (int) tablaCatalogo.getValueAt(filaSeleccionada, 4);
-            String codigoArticulo = (String) tablaCatalogo.getValueAt(filaSeleccionada, 5);
-
-            // Rellenar los campos con los datos seleccionados
-            txtnarticulo.setText(nombre);
-            jComboCategoria.setSelectedItem(categoria);
-            txtprecio.setText(String.valueOf(precio));
-            txtstock.setText(String.valueOf(stock));
-            txtcodigoarticulo.setText(codigoArticulo);
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un producto para editar.");
-        }
-    }
-
-    // 4. Función para el botón "Buscar"
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {
-        String buscarTexto = txtbuscar.getText().trim();
-        DefaultTableModel modelo = (DefaultTableModel) tablaCatalogo.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla
-
-        if (!buscarTexto.isEmpty()) {
-            try (Connection con = Conexion_DB.getConexion()) {
-                String query = "SELECT * FROM catalogo WHERE nombre LIKE ?";
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, "%" + buscarTexto + "%");
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                    Object[] row = {
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("categoria"),
-                        rs.getDouble("precio"),
-                        rs.getInt("stock"),
-                        rs.getString("codigo_articulo")
-                    };
-                    modelo.addRow(row); // Agregar fila de resultados a la tabla
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error al buscar productos: " + e.getMessage());
-            }
-        }
-    }
-
-    // 5. Función para el botón "Eliminar"
-    private void btnEliminarActionPerformed(ActionEvent e) {
+    // Método para editar un producto
+    private void btnEditarActionPerformed(ActionEvent evt) {
         if (idProductoSeleccionado == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar.");
+            JOptionPane.showMessageDialog(null, "Debes buscar un producto primero.");
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este producto?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) {
+        String nombre = txtnarticulo.getText();
+        String codigoArticulo = txtcodigoarticulo.getText(); // Obtener el código de artículo
+        String categoria = jComboCategoria.getSelectedItem().toString();
+        String precioStr = txtprecio.getText();
+        String stockStr = txtstock.getText();
+
+        if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos deben estar completos.");
+            return;
+        }
+
+        try {
+            double precio = Double.parseDouble(precioStr);
+            int stock = Integer.parseInt(stockStr);
+
+            String query = "UPDATE catalogo SET nombre=?, codigo_articulo=?, categoria=?, precio=?, stock=? WHERE id=?";
+
+            try (Connection con = Conexion_DB.getConexion(); PreparedStatement ps = con.prepareStatement(query)) {
+
+                ps.setString(1, nombre);
+                ps.setString(2, codigoArticulo); // Establecer el código de artículo
+                ps.setString(3, categoria);
+                ps.setDouble(4, precio);
+                ps.setInt(5, stock);
+                ps.setInt(6, idProductoSeleccionado);
+
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente.");
+                limpiarCampos();
+                mostrarProductos(); // Actualizar la tabla
+
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El precio o el stock no son válidos.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage());
+        }
+    }
+
+    // Método para buscar un producto
+    private void btnBuscarActionPerformed(ActionEvent evt) {
+        String nombre = txtnarticulo.getText();
+
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre del producto no puede estar vacío.");
             return;
         }
 
         try (Connection con = Conexion_DB.getConexion()) {
-            String query = "DELETE FROM catalogo WHERE id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, idProductoSeleccionado);
-            int filasAfectadas = ps.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
-                limpiarCampos();
-                idProductoSeleccionado = -1;
-                mostrarProductos(); // Refrescar la tabla
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto.");
+            String query = "SELECT * FROM catalogo WHERE nombre=?";
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setString(1, nombre);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        idProductoSeleccionado = rs.getInt("id");
+                        txtnarticulo.setText(rs.getString("nombre"));
+                        txtcodigoarticulo.setText(rs.getString("codigo_articulo")); // Rellenar el código de artículo
+                        jComboCategoria.setSelectedItem(rs.getString("categoria"));
+                        txtprecio.setText(String.valueOf(rs.getDouble("precio")));
+                        txtstock.setText(String.valueOf(rs.getInt("stock")));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+                    }
+                }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + ex.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
         }
     }
 
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> new Catalogopedidos().setVisible(true));
+    // Método para eliminar un producto
+    private void btnEliminarActionPerformed(ActionEvent evt) {
+        if (idProductoSeleccionado == -1) {
+            JOptionPane.showMessageDialog(null, "Debes buscar un producto primero.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            try (Connection con = Conexion_DB.getConexion()) {
+                String query = "DELETE FROM catalogo WHERE id=?";
+                try (PreparedStatement ps = con.prepareStatement(query)) {
+                    ps.setInt(1, idProductoSeleccionado);
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+                    limpiarCampos();
+                    mostrarProductos(); // Actualizar la tabla
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage());
+            }
+        }
+    }
+
+    // Método para salir (cerrar la ventana)
+    private void btnSalirActionPerformed(ActionEvent evt) {
+        System.exit(0);  // Esto cerrará la aplicación
+    }
+
+    // Método para limpiar los campos
+    private void limpiarCampos() {
+        txtnarticulo.setText("");
+        txtcodigoarticulo.setText(""); // Limpiar el campo del código de artículo
+        txtprecio.setText("");
+        txtstock.setText("");
+        jComboCategoria.setSelectedIndex(0);
+        idProductoSeleccionado = -1;
+    }
+
+    // Método para obtener la conexión con la base de datos
+    public static class Conexion_DB {
+
+        public static Connection getConexion() throws SQLException {
+            // Asegúrate de que este método devuelva una conexión válida a tu base de datos
+            return null; // Reemplaza con la implementación real
+        }
+
+        private static Connection conectar() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 }

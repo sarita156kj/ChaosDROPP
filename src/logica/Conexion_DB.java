@@ -3,34 +3,35 @@ package logica;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Conexion_DB {
 
-    private final String base = "basereserva";
-    private final String user = "root";
-    private final String password = "";
-    private final String url = "jdbc:mysql://localhost:3306/" + base;
+    // Datos de conexión
+    private static final String base = "chaos_app";   
+    private static final String user = "root";        
+    private static final String password = "";      
+    private static final String url = "jdbc:mysql://localhost:3306/" + base;
 
-    public Conexion_DB() {
+    // Constructor vacío (opcional)
+    public Conexion_DB() {}
 
-    }
-
-    public Connection conectar() {
+    // Método estático para obtener la conexión
+    public static Connection conectar() {
         Connection link = null;
         try {
-            Class.forName("org.gjt.mm.mysql.Driver");
+            // Cargar el driver de MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            link = DriverManager.getConnection(this.url, this.user, this.password);
+            // Establecer la conexión
+            link = DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {
-
-            JOptionPane.showConfirmDialog(null, e);
-
+            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos: " + e.getMessage());
+            e.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Conexion_DB.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Driver de base de datos no encontrado: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return link;
     }
