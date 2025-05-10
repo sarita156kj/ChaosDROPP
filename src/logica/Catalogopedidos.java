@@ -57,37 +57,41 @@ public static void mostrarProductos() {
     model.addColumn("Stock");
 
     // Consulta SQL para obtener los productos activos
-    String query = "SELECT * FROM catalogo WHERE estado = 1"; // Filtrar solo los productos activos
+    String query = "SELECT * FROM catalogo WHERE estado = 1"; 
 
-    // Abrir la conexión correctamente
-    try (Connection con = Conexion_DB.conectar(); 
-         PreparedStatement stmt = con.prepareStatement(query); 
-         ResultSet rs = stmt.executeQuery()) {
+    try (Connection con = logica.Conexion_DB.conectar()) {
 
-        // Limpiar las filas previas del modelo para evitar duplicados
-        model.setRowCount(0);
-
-        // Iterar sobre el ResultSet para llenar el modelo
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("id"),
-                rs.getString("nombre"),
-                rs.getString("codigo_articulo"),
-                rs.getString("categoria"),
-                rs.getDouble("precio"),
-                rs.getInt("stock")
-            });
+        if (con == null) {
+            JOptionPane.showMessageDialog(null, "Error: No se pudo conectar a la base de datos.");
+            return;
         }
+        
+        try (PreparedStatement stmt = con.prepareStatement(query); 
+             ResultSet rs = stmt.executeQuery()) {
+            
+            model.setRowCount(0); // Limpiar las filas previas
 
-        // Asignar el modelo a la tabla para mostrar los productos
+            // Llenar el modelo con los datos del ResultSet
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("codigo_articulo"),
+                    rs.getString("categoria"),
+                    rs.getDouble("precio"),
+                    rs.getInt("stock")
+                });
+            }
+        }
+        
+        // Asignar el modelo a la tabla
         tablaCatalogo.setModel(model);
 
     } catch (SQLException e) {
-        // Manejo de excepciones
         JOptionPane.showMessageDialog(null, "Error al cargar los productos: " + e.getMessage());
+        e.printStackTrace(); // Para mayor detalle en consola
     }
 }
-
     // Método para limpiar los campos para un nuevo producto
     private void btnNuevoActionPerformed(ActionEvent evt) {
         limpiarCampos();
@@ -259,8 +263,6 @@ public static void mostrarProductos() {
             return null; // Reemplaza con la implementación real
         }
 
-        private static Connection conectar() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+        
     }
 }
