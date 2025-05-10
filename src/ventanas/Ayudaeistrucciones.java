@@ -26,27 +26,59 @@ public class Ayudaeistrucciones extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jPanel1.setBackground(new java.awt.Color(8, 9, 39));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Ayuda - Conociendo a Fondo CHAOS y Nuestra App de Gestión");
+
+        jTextArea1.setBackground(new java.awt.Color(8, 9, 39));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setRows(5);
+        jTextArea1.setText("¡Bienvenido al centro de ayuda integral de CHAOS! Queremos que comprendas a fondo nuestra identidad como marca y cómo nuestra avanzada aplicación de gestión está diseñada meticulosamente para optimizar cada interacción que\n tienes con nosotros.\n\nCHAOS: Más que Ropa, una Declaración de Estilo.\n\nEn CHAOS, no solo vendemos prendas de vestir; cultivamos una filosofía de estilo que celebra la sofisticación sin esfuerzo, el confort que te acompaña en tu día a día y la vibrante energía del entorno urbano contemporáneo.\n Cada una de nuestras colecciones está cuidadosamente curada para ofrecerte prendas de la más alta calidad, confeccionadas con atención al detalle y pensadas para integrarse perfectamente en los diversos escenarios de tu vida.\n Ya sea para una reunión importante, una salida casual con amigos o un evento especial, en CHAOS encontrarás la pieza ideal que te permitirá expresar tu individualidad con elegancia moderna.\n\nNuestra identidad de marca se basa en la creencia de que la ropa masculina debe ser tanto funcional como estilizada. Buscamos constantemente la innovación en diseño y la selección de materiales premium para garantizar durabilidad,\n comodidad y un ajuste impecable. Nos inspiramos en las tendencias urbanas globales, pero las reinterpretamos a través de una lente de refinamiento y atemporalidad, creando así prendas que trascienden las modas pasajeras.\n\nLa App de Gestión de CHAOS: Un Pilar de Eficiencia para una Experiencia Excepcional\n\nEn nuestro firme compromiso por brindarte un servicio de excelencia, reconocimos la necesidad de evolucionar nuestros procesos operativos. La gestión manual de pedidos y envíos, si bien funcional en sus inicios, presentaba limitaciones\n inherentes que podían impactar en la rapidez, la precisión y la transparencia de tu experiencia de compra. Es por ello que invertimos en el desarrollo de esta robusta aplicación de escritorio, una herramienta diseñada para automatizar, \ncentralizar y optimizar cada aspecto de la gestión de tus pedidos y la logística de nuestros envíos.\n\nEsta aplicación no es solo una herramienta interna; es una extensión de nuestro compromiso contigo, nuestro cliente. Al digitalizar y estructurar nuestros procesos, podemos minimizar errores, agilizar los tiempos de respuesta y ofrecerte \nuna visibilidad completa del estado de tu compra.\n\nDescifrando las Funcionalidades Clave de Nuestra App\n\nNuestra aplicación de gestión es un sistema integral con diversas funcionalidades diseñadas para asegurar una experiencia fluida y satisfactoria:\n\nRegistro de Pedidos Detallado: La Base de una Gestión Impecable:\n\nInformación Exhaustiva del Producto: Al registrar tu pedido, nuestra app captura cada detalle de los artículos seleccionados, incluyendo tallas, colores, materiales, códigos de identificación únicos (SKUs) e incluso imágenes referenciales.\n• Esto asegura que tu pedido se procese con la máxima precisión.\n• Información Completa del Envío: Registramos meticulosamente la dirección de entrega, la fecha en que realizaste tu pedido y el método de envío que elegiste. Esto nos permite planificar la logística de manera eficiente.\n• Asociación Directa con tu Perfil de Cliente: Cada pedido se vincula automáticamente a tu cuenta, lo que nos permite tener un historial completo de tus compras y personalizar futuras interacciones.\n• Aplicación de Descuentos y Códigos Promocionales: La app integra la posibilidad de aplicar automáticamente descuentos específicos asociados a tu cuenta o códigos promocionales que hayas ingresado, asegurando la transparencia en el precio final.\n• Cálculo Inteligente de Costos de Envío: Basándose en la dirección de destino y el método de envío seleccionado, la aplicación calcula de forma precisa los costos de envío, evitando sorpresas y garantizando una facturación correcta.\n• Campo para Notas y Solicitudes Especiales: Te ofrecemos la posibilidad de incluir notas adicionales a tu pedido (por ejemplo, instrucciones de entrega específicas o solicitudes de empaquetado especial), lo que nos permite personalizar aún más tu experiencia.\n• Generación de un Código de Pedido Único: Al registrarse, cada pedido recibe un código de identificación único, que se convierte en la referencia principal para cualquier consulta o seguimiento.\n• Gestión del Estado del Envío: Transparencia en Cada Paso:\n\n• Seguimiento en Tiempo Real a Través de Etapas Definidas: Nuestra app rastrea tu pedido a través de distintas etapas claramente definidas: \"En Proceso\" (preparación y embalaje), \"Enviado\" (en tránsito con la empresa de mensajería) y \"Entregado\"\n (confirmación de recepción).\n• Integración Futura con Servicios de Mensajería: Estamos trabajando en la posible integración con las APIs de las principales empresas de mensajería para que podamos proporcionarte directamente el número de seguimiento y las actualizaciones de \nestado en tiempo real dentro de nuestra plataforma.\n• Alertas Internas para una Gestión Proactiva: El sistema genera alertas automáticas para nuestro equipo logístico ante cualquier cambio de estado significativo o posible incidencia (retrasos, problemas con la dirección), permitiéndonos actuar de manera\n proactiva.\n• Historial Detallado de Cambios de Estado: La app mantiene un registro cronológico de cada cambio de estado, incluyendo la fecha y la hora, lo que nos permite tener una trazabilidad completa del proceso de envío.\nGestión de Datos de Clientes: \n\nConociéndote para Servirte Mejor:\n\n• Registro Seguro y Detallado de tu Información: Al crear una cuenta, almacenamos de forma segura tu información personal y de contacto, facilitando futuras compras y personalizando tu experiencia.\n• Posibilidad de Actualizar y Modificar tus Datos: Te ofrecemos la opción de revisar y actualizar tu información personal y tus direcciones de envío en cualquier momento.\n• Segmentación Inteligente para Ofertas Personalizadas: La app nos permite segmentar a nuestros clientes en diferentes grupos según sus preferencias e historial de compras, lo que nos ayuda a ofrecerte promociones y recomendaciones más relevantes para ti.\n• Registro de tus Preferencias de Compra (a futuro): En futuras actualizaciones, podríamos incluir la opción de que indiques tus tallas habituales, estilos preferidos u otras preferencias, para que nuestras recomendaciones sean aún más acertadas.\n• Historial de Interacciones para un Soporte Eficaz: Registramos cualquier consulta, reclamo o devolución que hayas realizado, lo que nos permite tener un contexto completo al brindarte soporte y ofrecerte soluciones más rápidas y efectivas.\n• Gestión de Múltiples Direcciones de Envío: Si lo necesitas, podrás guardar varias direcciones de envío (por ejemplo, tu domicilio, tu lugar de trabajo o la dirección de un familiar), agilizando el proceso de compra.\n• Visualización del Historial de Pedidos por Cliente: Tu Historial de Estilo a un Clic de Distancia:\n\nAcceso Rápido a Todas tus Compras Anteriores: Puedes consultar fácilmente un listado completo de todos los pedidos que has realizado con CHAOS.\nDetalles Completos de Cada Pedido: Al seleccionar un pedido específico, podrás ver todos los artículos incluidos, las tallas, los colores, la fecha de compra, la dirección de envío y el estado de entrega.\nHerramienta Útil para Devoluciones y Reclamos: Tener acceso rápido a tu historial de pedidos facilita el proceso de inicio de una devolución o la presentación de un reclamo, ya que toda la información relevante está disponible de inmediato.\nBase para Recomendaciones Personalizadas: Analizar tu historial de compras nos permite entender mejor tu estilo y ofrecerte recomendaciones de productos que podrían interesarte.\nEn CHAOS, esta aplicación de gestión es mucho más que un software interno; es una herramienta esencial que nos permite operar de manera más eficiente, reducir errores y, lo más importante, ofrecerte una experiencia de compra \nexcepcional desde el momento en que descubres nuestra marca hasta que recibes tu pedido en casa. Estamos comprometidos con la mejora continua y exploraremos futuras funcionalidades para seguir optimizando nuestros servicios y fortalecer\n nuestra relación contigo. ¡Gracias por ser parte de la familia CHAOS!");
+        jTextArea1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
+        jScrollPane1.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1186, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(163, 163, 163))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jLabel1)
-                .addContainerGap(223, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -89,5 +121,8 @@ public class Ayudaeistrucciones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

@@ -39,7 +39,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -115,10 +114,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         jMenu2.setText("Navegación");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jMenuItem5.setText("Volver al inicio");
-        jMenu2.add(jMenuItem5);
 
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
@@ -219,7 +214,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuBar menuBar;

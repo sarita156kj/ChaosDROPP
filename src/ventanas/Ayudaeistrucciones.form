@@ -23,28 +23,95 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="200" max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="37" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="223" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="27" green="9" red="8" type="rgb"/>
+        </Property>
       </Properties>
-    </Component>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel1" pref="1186" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="549" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="36" style="3"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Ayuda - Conociendo a Fondo CHAOS y Nuestra App de Gesti&#xf3;n"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="jTextArea1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="27" green="9" red="8" type="rgb"/>
+                </Property>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="text" type="java.lang.String" value="&#xa1;Bienvenido al centro de ayuda integral de CHAOS! Queremos que comprendas a fondo nuestra identidad como marca y c&#xf3;mo nuestra avanzada aplicaci&#xf3;n de gesti&#xf3;n est&#xe1; dise&#xf1;ada meticulosamente para optimizar cada interacci&#xf3;n que&#xa; tienes con nosotros.&#xa;&#xa;CHAOS: M&#xe1;s que Ropa, una Declaraci&#xf3;n de Estilo.&#xa;&#xa;En CHAOS, no solo vendemos prendas de vestir; cultivamos una filosof&#xed;a de estilo que celebra la sofisticaci&#xf3;n sin esfuerzo, el confort que te acompa&#xf1;a en tu d&#xed;a a d&#xed;a y la vibrante energ&#xed;a del entorno urbano contempor&#xe1;neo.&#xa; Cada una de nuestras colecciones est&#xe1; cuidadosamente curada para ofrecerte prendas de la m&#xe1;s alta calidad, confeccionadas con atenci&#xf3;n al detalle y pensadas para integrarse perfectamente en los diversos escenarios de tu vida.&#xa; Ya sea para una reuni&#xf3;n importante, una salida casual con amigos o un evento especial, en CHAOS encontrar&#xe1;s la pieza ideal que te permitir&#xe1; expresar tu individualidad con elegancia moderna.&#xa;&#xa;Nuestra identidad de marca se basa en la creencia de que la ropa masculina debe ser tanto funcional como estilizada. Buscamos constantemente la innovaci&#xf3;n en dise&#xf1;o y la selecci&#xf3;n de materiales premium para garantizar durabilidad,&#xa; comodidad y un ajuste impecable. Nos inspiramos en las tendencias urbanas globales, pero las reinterpretamos a trav&#xe9;s de una lente de refinamiento y atemporalidad, creando as&#xed; prendas que trascienden las modas pasajeras.&#xa;&#xa;La App de Gesti&#xf3;n de CHAOS: Un Pilar de Eficiencia para una Experiencia Excepcional&#xa;&#xa;En nuestro firme compromiso por brindarte un servicio de excelencia, reconocimos la necesidad de evolucionar nuestros procesos operativos. La gesti&#xf3;n manual de pedidos y env&#xed;os, si bien funcional en sus inicios, presentaba limitaciones&#xa; inherentes que pod&#xed;an impactar en la rapidez, la precisi&#xf3;n y la transparencia de tu experiencia de compra. Es por ello que invertimos en el desarrollo de esta robusta aplicaci&#xf3;n de escritorio, una herramienta dise&#xf1;ada para automatizar, &#xa;centralizar y optimizar cada aspecto de la gesti&#xf3;n de tus pedidos y la log&#xed;stica de nuestros env&#xed;os.&#xa;&#xa;Esta aplicaci&#xf3;n no es solo una herramienta interna; es una extensi&#xf3;n de nuestro compromiso contigo, nuestro cliente. Al digitalizar y estructurar nuestros procesos, podemos minimizar errores, agilizar los tiempos de respuesta y ofrecerte &#xa;una visibilidad completa del estado de tu compra.&#xa;&#xa;Descifrando las Funcionalidades Clave de Nuestra App&#xa;&#xa;Nuestra aplicaci&#xf3;n de gesti&#xf3;n es un sistema integral con diversas funcionalidades dise&#xf1;adas para asegurar una experiencia fluida y satisfactoria:&#xa;&#xa;Registro de Pedidos Detallado: La Base de una Gesti&#xf3;n Impecable:&#xa;&#xa;Informaci&#xf3;n Exhaustiva del Producto: Al registrar tu pedido, nuestra app captura cada detalle de los art&#xed;culos seleccionados, incluyendo tallas, colores, materiales, c&#xf3;digos de identificaci&#xf3;n &#xfa;nicos (SKUs) e incluso im&#xe1;genes referenciales.&#xa;&#x2022; Esto asegura que tu pedido se procese con la m&#xe1;xima precisi&#xf3;n.&#xa;&#x2022; Informaci&#xf3;n Completa del Env&#xed;o: Registramos meticulosamente la direcci&#xf3;n de entrega, la fecha en que realizaste tu pedido y el m&#xe9;todo de env&#xed;o que elegiste. Esto nos permite planificar la log&#xed;stica de manera eficiente.&#xa;&#x2022; Asociaci&#xf3;n Directa con tu Perfil de Cliente: Cada pedido se vincula autom&#xe1;ticamente a tu cuenta, lo que nos permite tener un historial completo de tus compras y personalizar futuras interacciones.&#xa;&#x2022; Aplicaci&#xf3;n de Descuentos y C&#xf3;digos Promocionales: La app integra la posibilidad de aplicar autom&#xe1;ticamente descuentos espec&#xed;ficos asociados a tu cuenta o c&#xf3;digos promocionales que hayas ingresado, asegurando la transparencia en el precio final.&#xa;&#x2022; C&#xe1;lculo Inteligente de Costos de Env&#xed;o: Bas&#xe1;ndose en la direcci&#xf3;n de destino y el m&#xe9;todo de env&#xed;o seleccionado, la aplicaci&#xf3;n calcula de forma precisa los costos de env&#xed;o, evitando sorpresas y garantizando una facturaci&#xf3;n correcta.&#xa;&#x2022; Campo para Notas y Solicitudes Especiales: Te ofrecemos la posibilidad de incluir notas adicionales a tu pedido (por ejemplo, instrucciones de entrega espec&#xed;ficas o solicitudes de empaquetado especial), lo que nos permite personalizar a&#xfa;n m&#xe1;s tu experiencia.&#xa;&#x2022; Generaci&#xf3;n de un C&#xf3;digo de Pedido &#xda;nico: Al registrarse, cada pedido recibe un c&#xf3;digo de identificaci&#xf3;n &#xfa;nico, que se convierte en la referencia principal para cualquier consulta o seguimiento.&#xa;&#x2022; Gesti&#xf3;n del Estado del Env&#xed;o: Transparencia en Cada Paso:&#xa;&#xa;&#x2022; Seguimiento en Tiempo Real a Trav&#xe9;s de Etapas Definidas: Nuestra app rastrea tu pedido a trav&#xe9;s de distintas etapas claramente definidas: &quot;En Proceso&quot; (preparaci&#xf3;n y embalaje), &quot;Enviado&quot; (en tr&#xe1;nsito con la empresa de mensajer&#xed;a) y &quot;Entregado&quot;&#xa; (confirmaci&#xf3;n de recepci&#xf3;n).&#xa;&#x2022; Integraci&#xf3;n Futura con Servicios de Mensajer&#xed;a: Estamos trabajando en la posible integraci&#xf3;n con las APIs de las principales empresas de mensajer&#xed;a para que podamos proporcionarte directamente el n&#xfa;mero de seguimiento y las actualizaciones de &#xa;estado en tiempo real dentro de nuestra plataforma.&#xa;&#x2022; Alertas Internas para una Gesti&#xf3;n Proactiva: El sistema genera alertas autom&#xe1;ticas para nuestro equipo log&#xed;stico ante cualquier cambio de estado significativo o posible incidencia (retrasos, problemas con la direcci&#xf3;n), permiti&#xe9;ndonos actuar de manera&#xa; proactiva.&#xa;&#x2022; Historial Detallado de Cambios de Estado: La app mantiene un registro cronol&#xf3;gico de cada cambio de estado, incluyendo la fecha y la hora, lo que nos permite tener una trazabilidad completa del proceso de env&#xed;o.&#xa;Gesti&#xf3;n de Datos de Clientes: &#xa;&#xa;Conoci&#xe9;ndote para Servirte Mejor:&#xa;&#xa;&#x2022; Registro Seguro y Detallado de tu Informaci&#xf3;n: Al crear una cuenta, almacenamos de forma segura tu informaci&#xf3;n personal y de contacto, facilitando futuras compras y personalizando tu experiencia.&#xa;&#x2022; Posibilidad de Actualizar y Modificar tus Datos: Te ofrecemos la opci&#xf3;n de revisar y actualizar tu informaci&#xf3;n personal y tus direcciones de env&#xed;o en cualquier momento.&#xa;&#x2022; Segmentaci&#xf3;n Inteligente para Ofertas Personalizadas: La app nos permite segmentar a nuestros clientes en diferentes grupos seg&#xfa;n sus preferencias e historial de compras, lo que nos ayuda a ofrecerte promociones y recomendaciones m&#xe1;s relevantes para ti.&#xa;&#x2022; Registro de tus Preferencias de Compra (a futuro): En futuras actualizaciones, podr&#xed;amos incluir la opci&#xf3;n de que indiques tus tallas habituales, estilos preferidos u otras preferencias, para que nuestras recomendaciones sean a&#xfa;n m&#xe1;s acertadas.&#xa;&#x2022; Historial de Interacciones para un Soporte Eficaz: Registramos cualquier consulta, reclamo o devoluci&#xf3;n que hayas realizado, lo que nos permite tener un contexto completo al brindarte soporte y ofrecerte soluciones m&#xe1;s r&#xe1;pidas y efectivas.&#xa;&#x2022; Gesti&#xf3;n de M&#xfa;ltiples Direcciones de Env&#xed;o: Si lo necesitas, podr&#xe1;s guardar varias direcciones de env&#xed;o (por ejemplo, tu domicilio, tu lugar de trabajo o la direcci&#xf3;n de un familiar), agilizando el proceso de compra.&#xa;&#x2022; Visualizaci&#xf3;n del Historial de Pedidos por Cliente: Tu Historial de Estilo a un Clic de Distancia:&#xa;&#xa;Acceso R&#xe1;pido a Todas tus Compras Anteriores: Puedes consultar f&#xe1;cilmente un listado completo de todos los pedidos que has realizado con CHAOS.&#xa;Detalles Completos de Cada Pedido: Al seleccionar un pedido espec&#xed;fico, podr&#xe1;s ver todos los art&#xed;culos incluidos, las tallas, los colores, la fecha de compra, la direcci&#xf3;n de env&#xed;o y el estado de entrega.&#xa;Herramienta &#xda;til para Devoluciones y Reclamos: Tener acceso r&#xe1;pido a tu historial de pedidos facilita el proceso de inicio de una devoluci&#xf3;n o la presentaci&#xf3;n de un reclamo, ya que toda la informaci&#xf3;n relevante est&#xe1; disponible de inmediato.&#xa;Base para Recomendaciones Personalizadas: Analizar tu historial de compras nos permite entender mejor tu estilo y ofrecerte recomendaciones de productos que podr&#xed;an interesarte.&#xa;En CHAOS, esta aplicaci&#xf3;n de gesti&#xf3;n es mucho m&#xe1;s que un software interno; es una herramienta esencial que nos permite operar de manera m&#xe1;s eficiente, reducir errores y, lo m&#xe1;s importante, ofrecerte una experiencia de compra &#xa;excepcional desde el momento en que descubres nuestra marca hasta que recibes tu pedido en casa. Estamos comprometidos con la mejora continua y exploraremos futuras funcionalidades para seguir optimizando nuestros servicios y fortalecer&#xa; nuestra relaci&#xf3;n contigo. &#xa1;Gracias por ser parte de la familia CHAOS!"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder thickness="5">
+                      <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+                    </LineBorder>
+                  </Border>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>
