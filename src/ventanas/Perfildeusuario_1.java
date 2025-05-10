@@ -4,12 +4,25 @@
  */
 package ventanas;
 
+import com.sun.jdi.connect.spi.Connection;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;
+import logica.Conexion_DB;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author marco
  */
 public class Perfildeusuario_1 extends javax.swing.JFrame {
+
+    private Object DriverManager;
 
     /**
      * Creates new form Perfildeusuario
@@ -71,15 +84,15 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
         txtconueva.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         txtconueva.setText("Nueva");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Contraseña actual:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Cambiar Contraseña");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Confirmar contraseña:");
 
@@ -91,7 +104,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Contraseña nueva:");
 
@@ -144,18 +157,18 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
         txtnuevo.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         txtnuevo.setText("Nuevo");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Usuario actual:");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Cambiar nombre de usuario");
 
         txtuactual.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         txtuactual.setText("Actual");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nuevo usuario:");
 
@@ -285,7 +298,66 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmarActionPerformed
-        // TODO add your handling code here:
+      String contrasenaActual = new String(txtcoactual.getText());
+    String nuevaContrasena = new String(txtconueva.getText());
+    String confirmarContrasena = new String(txtcoconfirmar.getText());
+    
+    if (contrasenaActual.isEmpty() || nuevaContrasena.isEmpty() || confirmarContrasena.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (!nuevaContrasena.equals(confirmarContrasena)) {
+        JOptionPane.showMessageDialog(this, "La nueva contraseña no coincide.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (nuevaContrasena.length() < 6) {
+        JOptionPane.showMessageDialog(this, "La nueva contraseña debe tener al menos 6 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mi_empresa", "root", "1234");
+        String sqlVerificar = "SELECT contrasena FROM usuarios WHERE usuario = ?";
+        PreparedStatement ps = conn.prepareStatement(sqlVerificar);
+          String txtusuario1 = null;
+        ps.setString(1, txtusuario1);  // Usa tu variable que guarda el usuario actual
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            String contrasenaBD = rs.getString("contrasena");
+            if (!contrasenaActual.equals(contrasenaBD)) {
+                JOptionPane.showMessageDialog(this, "La contraseña actual es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Si pasa las validaciones, actualiza la contraseña
+        String sqlActualizar = "UPDATE usuarios SET contrasena = ? WHERE usuario = ?";
+        ps = conn.prepareStatement(sqlActualizar);
+        ps.setString(1, nuevaContrasena);
+          String usuarioActual = null;
+        ps.setString(2, usuarioActual);
+        ps.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, "¡Contraseña cambiada con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        // Limpiar campos
+        txtcoactual.setText("");
+        txtconueva.setText("");
+        txtcoconfirmar.setText("");
+
+        conn.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }   catch (IOException ex) {
+            Logger.getLogger(Perfildeusuario_1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnconfirmarActionPerformed
 
     private void txtcoactualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcoactualActionPerformed
