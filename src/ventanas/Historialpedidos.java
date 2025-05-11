@@ -111,7 +111,7 @@ public class Historialpedidos extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Bienvenido al historial de pedidos - ¿Que deseas ver?");
+        jLabel3.setText("Bienvenido al historial de pedidos - ¿omQue deseas ver?");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

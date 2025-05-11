@@ -88,7 +88,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("toy harta>");
+        jLabel4.setText("Contraseña acctual:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -297,65 +297,6 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmarActionPerformed
-      String contrasenaActual = new String(txtcoactual.getText());
-    String nuevaContrasena = new String(txtconueva.getText());
-    String confirmarContrasena = new String(txtcoconfirmar.getText());
-    
-    if (contrasenaActual.isEmpty() || nuevaContrasena.isEmpty() || confirmarContrasena.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    if (!nuevaContrasena.equals(confirmarContrasena)) {
-        JOptionPane.showMessageDialog(this, "La nueva contraseña no coincide.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    if (nuevaContrasena.length() < 6) {
-        JOptionPane.showMessageDialog(this, "La nueva contraseña debe tener al menos 6 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mi_empresa", "root", "1234");
-        String sqlVerificar = "SELECT contrasena FROM usuarios WHERE usuario = ?";
-        PreparedStatement ps = conn.prepareStatement(sqlVerificar);
-          String txtusuario1 = null;
-        ps.setString(1, txtusuario1);  // Usa tu variable que guarda el usuario actual
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            String contrasenaBD = rs.getString("contrasena");
-            if (!contrasenaActual.equals(contrasenaBD)) {
-                JOptionPane.showMessageDialog(this, "La contraseña actual es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Si pasa las validaciones, actualiza la contraseña
-        String sqlActualizar = "UPDATE usuarios SET contrasena = ? WHERE usuario = ?";
-        ps = conn.prepareStatement(sqlActualizar);
-        ps.setString(1, nuevaContrasena);
-          String usuarioActual = null;
-        ps.setString(2, usuarioActual);
-        ps.executeUpdate();
-
-        JOptionPane.showMessageDialog(this, "¡Contraseña cambiada con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-        // Limpiar campos
-        txtcoactual.setText("");
-        txtconueva.setText("");
-        txtcoconfirmar.setText("");
-
-        conn.close();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }   catch (IOException ex) {
-            Logger.getLogger(Perfildeusuario_1.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }//GEN-LAST:event_btnconfirmarActionPerformed
 
