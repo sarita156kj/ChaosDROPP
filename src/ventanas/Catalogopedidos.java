@@ -17,15 +17,14 @@ import static logica.VCatalogopedidos.mostrarProductos;
  */
 public class Catalogopedidos extends javax.swing.JFrame {
 
+    private int idArticuloSeleccionado;
     private int idProductoSeleccionado;
 
-    /**
-     * Creates new form VCatalogopedidos
-     */
     public Catalogopedidos() {
         initComponents();
         logica.VCatalogopedidos.setTabla(tablaCatalogo); // Asigna la JTable de este JFrame a la clase lógica
-        mostrarProductos(); // Llama al método para cargar los productos
+        mostrarProductos();
+
     }
 
     /**
@@ -57,7 +56,6 @@ public class Catalogopedidos extends javax.swing.JFrame {
         txtcodigoarticulo = new javax.swing.JTextField();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -104,35 +102,34 @@ public class Catalogopedidos extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtidarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtprecio)
+                        .addGap(192, 192, 192))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(179, 179, 179))
-                            .addComponent(txtprecio))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(258, 258, 258)
+                                .addComponent(jLabel5))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel2)
-                                .addComponent(jLabel10)
                                 .addComponent(txtcodigoarticulo)
                                 .addComponent(jComboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4)
                                 .addComponent(txtstock)
                                 .addComponent(txtnarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(4, 4, 4)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(72, 72, 72)))
-                .addGap(186, 186, 186)
-                .addComponent(jLabel5)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtidarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                            .addComponent(jLabel10))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(32, 32, 32)
@@ -155,8 +152,8 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtnarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtcodigoarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -164,7 +161,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -203,14 +200,6 @@ public class Catalogopedidos extends javax.swing.JFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -221,8 +210,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -233,9 +221,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addComponent(btnNuevo)
                         .addGap(18, 18, 18)
-                        .addComponent(btnGuardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditar))
+                        .addComponent(btnGuardar))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -395,31 +381,9 @@ public class Catalogopedidos extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
+        idArticuloSeleccionado = -1;
+        btnGuardar.setText("Guardar");
     }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // Verificar que haya un producto seleccionado en la tabla
-        int row = tablaCatalogo.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto de la tabla para editar.");
-            return;
-        }
-
-        // Obtener los valores del producto seleccionado en la tabla
-        idProductoSeleccionado = (int) tablaCatalogo.getValueAt(row, 0);
-        String nombre = (String) tablaCatalogo.getValueAt(row, 1);
-        String codigoArticulo = (String) tablaCatalogo.getValueAt(row, 2);
-        String categoria = (String) tablaCatalogo.getValueAt(row, 3);
-        double precio = (double) tablaCatalogo.getValueAt(row, 4);
-        int stock = (int) tablaCatalogo.getValueAt(row, 5);
-
-        // Cargar los datos del producto en los campos del formulario
-        txtnarticulo.setText(nombre);
-        txtcodigoarticulo.setText(codigoArticulo);
-        jComboCategoria.setSelectedItem(categoria);
-        txtprecio.setText(String.valueOf(precio));
-        txtstock.setText(String.valueOf(stock));
-    }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         System.exit(0);
@@ -432,63 +396,91 @@ public class Catalogopedidos extends javax.swing.JFrame {
         String precioStr = txtprecio.getText().trim();
         String stockStr = txtstock.getText().trim();
 
-        // Validar que todos los campos estén llenos
-        if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
-            return; // Sale del método si hay campos vacíos
-        }
-
-        try {
-            // Validar que el precio sea un número válido
-            double precio = Double.parseDouble(precioStr);
-            // Validar que el stock sea un número entero válido
-            int stock = Integer.parseInt(stockStr);
-
-            // Consulta SQL para verificar si el artículo ya existe por nombre o código de artículo
-            String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE nombre = ? OR codigo_articulo = ?";
-            // Consulta SQL para insertar un nuevo producto
-            String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
-
-            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery);) {
-
-                checkStmt.setString(1, nombre);
-                checkStmt.setString(2, codigoArticulo);
-                ResultSet rs = checkStmt.executeQuery();
-                rs.next();
-                int count = rs.getInt(1);
-
-                if (count > 0) {
-                    JOptionPane.showMessageDialog(null, "El artículo ya existe. No se puede registrar.");
-                    return; // Sale del método si el artículo ya existe
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Catalogopedidos.class.getName()).log(Level.SEVERE, null, ex);
+        if (btnGuardar.getText().equals("Guardar")) { // Modo Guardar Nuevo
+            // Validar que todos los campos estén llenos
+            if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
+                return; // Sale del método si hay campos vacíos
             }
 
-            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(insertQuery)) {
+            try {
+                // Validar que el precio sea un número válido
+                double precio = Double.parseDouble(precioStr);
+                // Validar que el stock sea un número entero válido
+                int stock = Integer.parseInt(stockStr);
 
+                // Consulta SQL para verificar si el artículo ya existe por nombre o código de artículo
+                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id_articulo != ?";
+                // Consulta SQL para insertar un nuevo producto
+                String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
+
+                try (java.sql.Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery);) {
+                    checkStmt.setString(1, nombre);
+                    checkStmt.setString(2, codigoArticulo);
+                    checkStmt.setInt(3, -1); // Indicamos que no estamos excluyendo ningún ID en la verificación de existencia
+                    ResultSet rs = checkStmt.executeQuery();
+                    rs.next();
+                    int count = rs.getInt(1);
+
+                    if (count > 0) {
+                        JOptionPane.showMessageDialog(null, "Ya existe un artículo con ese nombre o código.");
+                        return; // Sale del método si el artículo ya existe
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Catalogopedidos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(insertQuery)) {
+                    ps.setString(1, nombre);
+                    ps.setString(2, codigoArticulo);
+                    ps.setString(3, categoria);
+                    ps.setDouble(4, precio);
+                    ps.setInt(5, stock);
+
+                    int filasAfectadas = ps.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        JOptionPane.showMessageDialog(null, "Artículo registrado exitosamente.");
+                        limpiarCampos();
+                        mostrarProductos(); // Recargar la tabla
+                        btnGuardar.setText("Guardar"); // Asegurarse de que el botón vuelva a decir "Guardar"
+                        idArticuloSeleccionado = -1; // Resetear el ID seleccionado
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al guardar el artículo.");
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
+                    e.printStackTrace();
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
+            }
+        } else if (btnGuardar.getText().equals("Actualizar")) { // Modo Editar Existente
+            // Consulta SQL para actualizar el producto existente
+            String updateQuery = "UPDATE catalogo SET nombre = ?, codigo_articulo = ?, categoria = ?, precio = ?, stock = ? WHERE id_articulo = ?";
+
+            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(updateQuery)) {
                 ps.setString(1, nombre);
                 ps.setString(2, codigoArticulo);
                 ps.setString(3, categoria);
-                ps.setDouble(4, precio);
-                ps.setInt(5, stock);
+                ps.setDouble(4, Double.parseDouble(precioStr));
+                ps.setInt(5, Integer.parseInt(stockStr));
+                ps.setInt(6, idArticuloSeleccionado);
 
                 int filasAfectadas = ps.executeUpdate();
                 if (filasAfectadas > 0) {
-                    JOptionPane.showMessageDialog(null, "Artículo registrado exitosamente.");
+                    JOptionPane.showMessageDialog(null, "Artículo actualizado exitosamente.");
                     limpiarCampos();
                     mostrarProductos(); // Recargar la tabla
+                    btnGuardar.setText("Guardar"); // Volver a la funcionalidad de guardar
+                    idArticuloSeleccionado = -1; // Resetear el ID seleccionado
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al guardar el artículo.");
+                    JOptionPane.showMessageDialog(null, "Error al actualizar el artículo.");
                 }
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
                 e.printStackTrace();
             }
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
         }    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -510,18 +502,18 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("ID");
                 model.addColumn("Nombre");
-                model.addColumn("Código Artículo");
-                model.addColumn("Categoría");
                 model.addColumn("Precio");
+                model.addColumn("Categoría");
+                model.addColumn("Código Artículo");
                 model.addColumn("Stock");
 
                 while (rs.next()) {
                     model.addRow(new Object[]{
-                        rs.getInt("id"),
+                        rs.getInt("id_articulo"),
                         rs.getString("nombre"),
-                        rs.getString("codigo_articulo"),
-                        rs.getString("categoria"),
                         rs.getDouble("precio"),
+                        rs.getString("categoria"),
+                        rs.getString("codigo_articulo"),
                         rs.getInt("stock")
                     });
                 }
@@ -544,90 +536,47 @@ public class Catalogopedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int filaSeleccionada = tablaCatalogo.getSelectedRow();
 
-        int row = tablaCatalogo.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto para eliminar.");
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar un producto en la tabla para eliminar.");
             return;
         }
 
-        // Obtener el id del producto seleccionado
-        int idProductoSeleccionado = (int) tablaCatalogo.getValueAt(row, 0); // Suponiendo que el id está en la primera columna
+        int idEliminar = (int) tablaCatalogo.getValueAt(filaSeleccionada, 0);
 
-        // Confirmación de eliminación
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este producto?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
-        if (confirmacion == JOptionPane.NO_OPTION) {
-            return; // Si el usuario cancela la eliminación, no hacer nada
-        }
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement("DELETE FROM catalogo WHERE id_articulo=?")) {
+                ps.setInt(1, idEliminar);
+                int filasAfectadas = ps.executeUpdate();
 
-        // Definir la consulta SQL para eliminar el producto
-        String query = "DELETE FROM catalogo WHERE id = ?";
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+                    limpiarCampos();
+                    mostrarProductos();
+                    idArticuloSeleccionado = -1; // Resetear el ID seleccionado
+                    btnGuardar.setText("Guardar");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo eliminar el producto.");
+                }
 
-        try (java.sql.Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
-            // Configurar el parámetro de la consulta
-            ps.setInt(1, idProductoSeleccionado); // Parámetro 1: idProductoSeleccionado
-
-            // Ejecutar la consulta
-            int filasAfectadas = ps.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage());
             }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + e.getMessage());
         }
-
-        // Actualizar la tabla después de eliminar el producto
-        logica.VCatalogopedidos.mostrarProductos();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
-int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
-
-    Object valorId = tablaCatalogo.getValueAt(fila, 0);
-    if (valorId != null) {
-        txtidarticulo.setText(valorId.toString()); // ID
-    } else {
-        txtidarticulo.setText(""); // O algún otro valor por defecto o manejo de error
-    }
-
-    Object valorNombre = tablaCatalogo.getValueAt(fila, 1);
-    if (valorNombre != null) {
-        txtnarticulo.setText(valorNombre.toString()); // Nombre del Artículo
-    } else {
-        txtnarticulo.setText("");
-    }
-
-    Object valorCodigo = tablaCatalogo.getValueAt(fila, 4);
-    if (valorCodigo != null) {
-        txtcodigoarticulo.setText(valorCodigo.toString()); // Código Artículo
-    } else {
-        txtcodigoarticulo.setText("");
-    }
-
-    Object valorCategoria = tablaCatalogo.getValueAt(fila, 3);
-    if (valorCategoria != null) {
-        jComboCategoria.setSelectedItem(valorCategoria.toString()); // Categoría
-    } else {
-        jComboCategoria.setSelectedIndex(-1); // Deseleccionar el combo o manejar de otra forma
-    }
-
-    Object valorPrecio = tablaCatalogo.getValueAt(fila, 2);
-    if (valorPrecio != null) {
-        txtprecio.setText(valorPrecio.toString()); // Precio
-    } else {
-        txtprecio.setText("");
-    }
-
-    Object valorStock = tablaCatalogo.getValueAt(fila, 5);
-    if (valorStock != null) {
-        txtstock.setText(valorStock.toString()); // Stock Disponible
-    } else {
-        txtstock.setText("");
-    }
+        btnGuardar.setText("Editar");
+        int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
+        
+        txtidarticulo.setText(tablaCatalogo.getValueAt(fila, 0).toString());
+        txtnarticulo.setText(tablaCatalogo.getValueAt(fila, 1).toString());
+        txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 2).toString());
+        jComboCategoria.setSelectedItem(tablaCatalogo.getValueAt(fila, 3).toString());
+        txtprecio.setText(tablaCatalogo.getValueAt(fila, 4).toString());
+        txtstock.setText(tablaCatalogo.getValueAt(fila, 5).toString());
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
@@ -667,7 +616,6 @@ int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
