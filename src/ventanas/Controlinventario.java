@@ -67,7 +67,6 @@ public class Controlinventario extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCatalogo = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -316,10 +315,6 @@ public class Controlinventario extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, -1, 580));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pexels-markrz-15106841.jpg"))); // NOI18N
-        jLabel5.setText("jLabel5");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1590, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -632,7 +627,6 @@ public class Controlinventario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
