@@ -66,10 +66,10 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(8, 9, 39));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(8, 9, 39));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user1.png"))); // NOI18N
@@ -80,7 +80,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Foto de perfil");
 
-        jPanel3.setBackground(new java.awt.Color(8, 9, 39));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         txtconueva.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
@@ -153,7 +153,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(8, 9, 39));
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         txtnuevo.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
@@ -208,7 +208,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
-        btnconfirmar.setBackground(new java.awt.Color(8, 9, 39));
+        btnconfirmar.setBackground(new java.awt.Color(0, 0, 0));
         btnconfirmar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnconfirmar.setForeground(new java.awt.Color(255, 255, 255));
         btnconfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cambiar pasword.png"))); // NOI18N
@@ -220,7 +220,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
             }
         });
 
-        btnusuario.setBackground(new java.awt.Color(8, 9, 39));
+        btnusuario.setBackground(new java.awt.Color(0, 0, 0));
         btnusuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnusuario.setForeground(new java.awt.Color(255, 255, 255));
         btnusuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cambiar user.png"))); // NOI18N
@@ -274,7 +274,7 @@ public class Perfildeusuario_1 extends javax.swing.JFrame {
                 .addGap(26, 26, 26))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo proyect.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
