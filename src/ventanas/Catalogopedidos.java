@@ -19,6 +19,11 @@ public class Catalogopedidos extends javax.swing.JFrame {
 
     private int idArticuloSeleccionado;
     private int idProductoSeleccionado;
+    private Object originalNombre;
+    private Object originalCodigoArticulo;
+    private Object originalCategoria;
+    private Object originalPrecio;
+    private Object originalStock;
 
     public Catalogopedidos() {
         initComponents();
@@ -109,27 +114,21 @@ public class Catalogopedidos extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtprecio)
-                        .addGap(192, 192, 192))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(285, 285, 285)
-                                .addComponent(jLabel5))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2)
-                                .addComponent(txtcodigoarticulo)
-                                .addComponent(jComboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addComponent(txtstock)
-                                .addComponent(txtnarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel10))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel1)
+                        .addGap(285, 285, 285)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2)
+                        .addComponent(txtcodigoarticulo)
+                        .addComponent(jComboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addComponent(txtstock)
+                        .addComponent(txtnarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3))
+                .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(32, 32, 32)
@@ -152,25 +151,25 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtnarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtcodigoarticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(242, 242, 242)
                         .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(69, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -367,7 +366,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,7 +401,6 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
                 return; // Sale del método si hay campos vacíos
             }
-
             try {
                 // Validar que el precio sea un número válido
                 double precio = Double.parseDouble(precioStr);
@@ -410,11 +408,11 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 int stock = Integer.parseInt(stockStr);
 
                 // Consulta SQL para verificar si el artículo ya existe por nombre o código de artículo
-                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id_articulo != ?";
+                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id != ?";
                 // Consulta SQL para insertar un nuevo producto
                 String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
 
-                try (java.sql.Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery);) {
+                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery);) {
                     checkStmt.setString(1, nombre);
                     checkStmt.setString(2, codigoArticulo);
                     checkStmt.setInt(3, -1); // Indicamos que no estamos excluyendo ningún ID en la verificación de existencia
@@ -446,6 +444,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al guardar el artículo.");
                     }
+
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
                     e.printStackTrace();
@@ -455,8 +454,16 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
             }
         } else if (btnGuardar.getText().equals("Actualizar")) { // Modo Editar Existente
-            // Consulta SQL para actualizar el producto existente
-            String updateQuery = "UPDATE catalogo SET nombre = ?, codigo_articulo = ?, categoria = ?, precio = ?, stock = ? WHERE id_articulo = ?";
+            // Validar si hubo alguna modificación
+            if (nombre.equals(originalNombre)
+                    && codigoArticulo.equals(originalCodigoArticulo)
+                    && categoria.equals(originalCategoria)
+                    && precioStr.equals(originalPrecio)
+                    && stockStr.equals(originalStock)) {
+                JOptionPane.showMessageDialog(null, "No se realizaron modificaciones al artículo.");
+                return; // Detener la actualización si no hubo cambios
+            }// Consulta SQL para actualizar el producto existente
+            String updateQuery = "UPDATE catalogo SET nombre = ?, codigo_articulo = ?, categoria = ?, precio = ?, stock = ? WHERE id = ?";
 
             try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(updateQuery)) {
                 ps.setString(1, nombre);
@@ -473,6 +480,12 @@ public class Catalogopedidos extends javax.swing.JFrame {
                     mostrarProductos(); // Recargar la tabla
                     btnGuardar.setText("Guardar"); // Volver a la funcionalidad de guardar
                     idArticuloSeleccionado = -1; // Resetear el ID seleccionado
+                    // Limpiar los valores originales después de la actualización
+                    originalNombre = null;
+                    originalCodigoArticulo = null;
+                    originalCategoria = null;
+                    originalPrecio = null;
+                    originalStock = null;
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al actualizar el artículo.");
                 }
@@ -480,6 +493,8 @@ public class Catalogopedidos extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
                 e.printStackTrace();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
             }
         }    }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -509,7 +524,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
 
                 while (rs.next()) {
                     model.addRow(new Object[]{
-                        rs.getInt("id_articulo"),
+                        rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         rs.getString("categoria"),
@@ -547,7 +562,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
 
         int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement("DELETE FROM catalogo WHERE id_articulo=?")) {
+            try (Connection con = Conexion_Chaos.conectar(); var ps = con.prepareStatement("DELETE FROM catalogo WHERE id=?")) {
                 ps.setInt(1, idEliminar);
                 int filasAfectadas = ps.executeUpdate();
 
@@ -572,20 +587,36 @@ public class Catalogopedidos extends javax.swing.JFrame {
         btnGuardar.setText("Actualizar");
         int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
         if (fila >= 0) {
-            idArticuloSeleccionado = (int) tablaCatalogo.getValueAt(fila, 0); // Asigna el ID directamente
+
+            if (fila >= 0) {
+                idArticuloSeleccionado = (int) tablaCatalogo.getValueAt(fila, 0);
+                System.out.println("ID Seleccionado desde la tabla: " + idArticuloSeleccionado); // Agregar esta línea
+                originalNombre = tablaCatalogo.getValueAt(fila, 1).toString();
+                originalCodigoArticulo = tablaCatalogo.getValueAt(fila, 2).toString();
+                originalCategoria = tablaCatalogo.getValueAt(fila, 3).toString();
+                originalPrecio = tablaCatalogo.getValueAt(fila, 4).toString();
+                originalStock = tablaCatalogo.getValueAt(fila, 5).toString();
+
+                txtnarticulo.setText((String) originalNombre);
+                txtcodigoarticulo.setText((String) originalCodigoArticulo);
+                jComboCategoria.setSelectedItem(originalCategoria);
+                txtprecio.setText((String) originalPrecio);
+                txtstock.setText((String) originalStock);
+            }
+            txtidarticulo.setText(tablaCatalogo.getValueAt(fila, 0).toString());
             txtnarticulo.setText(tablaCatalogo.getValueAt(fila, 1).toString());
-            txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 2).toString());
+            txtprecio.setText(tablaCatalogo.getValueAt(fila, 2).toString());
             jComboCategoria.setSelectedItem(tablaCatalogo.getValueAt(fila, 3).toString());
-            txtprecio.setText(tablaCatalogo.getValueAt(fila, 4).toString());
+            txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 4).toString());
             txtstock.setText(tablaCatalogo.getValueAt(fila, 5).toString());
         }
-    
+
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -597,27 +628,23 @@ public static void main(String args[]) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Catalogopedidos.class  
+            java.util.logging.Logger.getLogger(Catalogopedidos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Catalogopedidos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Catalogopedidos.class  
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Catalogopedidos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Catalogopedidos.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Catalogopedidos.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Catalogopedidos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -662,6 +689,7 @@ public static void main(String args[]) {
     // End of variables declaration//GEN-END:variables
 
     private void limpiarCampos() {
+        txtidarticulo.setText("");
         txtnarticulo.setText("");
         txtcodigoarticulo.setText("");
         txtprecio.setText("");

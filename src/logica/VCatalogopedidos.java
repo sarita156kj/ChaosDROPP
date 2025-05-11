@@ -23,6 +23,11 @@ public class VCatalogopedidos {
     private final JButton btnSalir;
 
     private int idArticuloSeleccionado = -1;
+    private Object originalNombre;
+    private Object originalCodigoArticulo;
+    private Object originalCategoria;
+    private Object originalPrecio;
+    private Object originalStock;
 
     public VCatalogopedidos(javax.swing.JTextField txtbuscar, javax.swing.JTextField txtnarticulo,
             javax.swing.JTextField txtcodigoarticulo, javax.swing.JComboBox<String> jComboCategoria,
@@ -138,7 +143,7 @@ public class VCatalogopedidos {
                 int stock = Integer.parseInt(stockStr);
 
                 // Consulta SQL para verificar si el artículo ya existe por nombre o código de artículo
-                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id_articulo != ?";
+                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id != ?";
                 // Consulta SQL para insertar un nuevo producto
                 String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
 
@@ -183,9 +188,27 @@ public class VCatalogopedidos {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
             }
         } else if (btnGuardar.getText().equals("Actualizar")) { // Modo Editar Existente
-            // Consulta SQL para actualizar el producto existente
-            String updateQuery = "UPDATE catalogo SET nombre = ?, codigo_articulo = ?, categoria = ?, precio = ?, stock = ? WHERE id_articulo = ?";
+            // Validar si hubo alguna modificación
+            if (nombre.equals(originalNombre)
+                    && codigoArticulo.equals(originalCodigoArticulo)
+                    && categoria.equals(originalCategoria)
+                    && precioStr.equals(originalPrecio)
+                    && stockStr.equals(originalStock)) {
+                JOptionPane.showMessageDialog(null, "No se realizaron modificaciones al artículo.");
+                return; // Detener la actualización si no hubo cambios
+            }
 
+            // Consulta SQL para actualizar el producto existente
+            String updateQuery = "UPDATE catalogo SET nombre = ?, codigo_articulo = ?, categoria = ?, precio = ?, stock = ? WHERE id = ?";
+
+           System.out.println("ID para actualizar: " + idArticuloSeleccionado);
+            System.out.println("Nombre: " + nombre);
+            System.out.println("Código: " + codigoArticulo);
+            System.out.println("Categoría: " + categoria);
+            System.out.println("Precio: " + precioStr);
+            System.out.println("Stock: " + stockStr);
+            System.out.println("Consulta UPDATE: " + updateQuery);
+            
             try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(updateQuery)) {
                 ps.setString(1, nombre);
                 ps.setString(2, codigoArticulo);
@@ -201,6 +224,12 @@ public class VCatalogopedidos {
                     mostrarProductos(); // Recargar la tabla
                     btnGuardar.setText("Guardar"); // Volver a la funcionalidad de guardar
                     idArticuloSeleccionado = -1; // Resetear el ID seleccionado
+                    // Limpiar los valores originales después de la actualización
+                    originalNombre = null;
+                    originalCodigoArticulo = null;
+                    originalCategoria = null;
+                    originalPrecio = null;
+                    originalStock = null;
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al actualizar el artículo.");
                 }
@@ -208,6 +237,8 @@ public class VCatalogopedidos {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
                 e.printStackTrace();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
             }
         }
     }
@@ -238,7 +269,7 @@ public class VCatalogopedidos {
 
                 while (rs.next()) {
                     model.addRow(new Object[]{
-                        rs.getInt("id_articulo"),
+                        rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         rs.getString("categoria"),
@@ -276,7 +307,7 @@ public class VCatalogopedidos {
 
         int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement("DELETE FROM catalogo WHERE id_articulo=?")) {
+            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement("DELETE FROM catalogo WHERE id=?")) {
                 ps.setInt(1, idEliminar);
                 int filasAfectadas = ps.executeUpdate();
 
