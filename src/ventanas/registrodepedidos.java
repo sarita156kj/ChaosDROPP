@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 
@@ -62,7 +60,7 @@ public static Connection conectar() {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         txtPeso1 = new javax.swing.JTextField();
-        txtPeso2 = new javax.swing.JTextField();
+        txtPeso = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         txtClave = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -209,10 +207,10 @@ public static Connection conectar() {
             }
         });
 
-        txtPeso2.setForeground(new java.awt.Color(255, 255, 255));
-        txtPeso2.addActionListener(new java.awt.event.ActionListener() {
+        txtPeso.setForeground(new java.awt.Color(255, 255, 255));
+        txtPeso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPeso2ActionPerformed(evt);
+                txtPesoActionPerformed(evt);
             }
         });
 
@@ -244,7 +242,7 @@ public static Connection conectar() {
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(cmbDestino, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1)
-                        .addComponent(txtPeso2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtPeso, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(cmbCiudad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(74, 74, 74))
         );
@@ -272,7 +270,7 @@ public static Connection conectar() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPeso2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -526,7 +524,6 @@ public static Connection conectar() {
     String pesoTexto = txtPeso.getText().trim();
     double peso = Double.parseDouble(pesoTexto);
     String destino = (String) cmbDestino.getSelectedItem();
-    String tipo = (String) cmbTipo.getSelectedItem();
     double tarifabase = Double.parseDouble(txtTarifabase.getText().trim());
     double impuesto = Double.parseDouble(txtImpuesto.getText().trim());
     double total = Double.parseDouble(txtTotal.getText().trim());
@@ -547,12 +544,11 @@ public static Connection conectar() {
             ps.setString(4, descripcion);
             ps.setDouble(5, peso);
             ps.setString(6, destino);
-            ps.setString(7, tipo);
-            ps.setDouble(8, tarifabase);
-            ps.setDouble(9, impuesto);
-            ps.setDouble(10, total);
-            ps.setString(11, clave);
-            ps.setDate(12, fechaSQL);
+            ps.setDouble(7, tarifabase);
+            ps.setDouble(8, impuesto);
+            ps.setDouble(9, total);
+            ps.setString(10, clave);
+            ps.setDate(11, fechaSQL);
 
             int fila = ps.executeUpdate();
             if (fila > 0) {
@@ -592,9 +588,9 @@ public static Connection conectar() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPeso1ActionPerformed
 
-    private void txtPeso2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPeso2ActionPerformed
+    private void txtPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPeso2ActionPerformed
+    }//GEN-LAST:event_txtPesoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -670,8 +666,8 @@ public static Connection conectar() {
     private javax.swing.JTextField txtImpuesto;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombre1;
+    private javax.swing.JTextField txtPeso;
     private javax.swing.JTextField txtPeso1;
-    private javax.swing.JTextField txtPeso2;
     private javax.swing.JTextField txtTarifabase;
     private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtTelefono1;

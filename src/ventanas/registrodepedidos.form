@@ -205,7 +205,7 @@
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Component id="cmbDestino" alignment="0" max="32767" attributes="0"/>
                               <Component id="jScrollPane1" max="32767" attributes="0"/>
-                              <Component id="txtPeso2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtPeso" alignment="0" max="32767" attributes="0"/>
                               <Component id="cmbCiudad" alignment="0" min="-2" pref="368" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -238,7 +238,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtPeso2" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="txtPeso" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -416,14 +416,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPeso1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtPeso2">
+            <Component class="javax.swing.JTextField" name="txtPeso">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPeso2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPesoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

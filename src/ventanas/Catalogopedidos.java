@@ -585,14 +585,49 @@ public class Catalogopedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
-        int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
+int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
 
-        txtidarticulo.setText(tablaCatalogo.getValueAt(fila, 0).toString());     // ID
-        txtnarticulo.setText(tablaCatalogo.getValueAt(fila, 1).toString());     // Nombre del Artículo
-        txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 4).toString()); // Código Artículo (was showing Precio)
-        jComboCategoria.setSelectedItem(tablaCatalogo.getValueAt(fila, 3).toString()); // Categoría
-        txtprecio.setText(tablaCatalogo.getValueAt(fila, 2).toString());     // Precio (was showing Stock Disponible)
-        txtstock.setText(tablaCatalogo.getValueAt(fila, 5).toString());     // Stock Disponible (was showing Código Artículo)
+    Object valorId = tablaCatalogo.getValueAt(fila, 0);
+    if (valorId != null) {
+        txtidarticulo.setText(valorId.toString()); // ID
+    } else {
+        txtidarticulo.setText(""); // O algún otro valor por defecto o manejo de error
+    }
+
+    Object valorNombre = tablaCatalogo.getValueAt(fila, 1);
+    if (valorNombre != null) {
+        txtnarticulo.setText(valorNombre.toString()); // Nombre del Artículo
+    } else {
+        txtnarticulo.setText("");
+    }
+
+    Object valorCodigo = tablaCatalogo.getValueAt(fila, 4);
+    if (valorCodigo != null) {
+        txtcodigoarticulo.setText(valorCodigo.toString()); // Código Artículo
+    } else {
+        txtcodigoarticulo.setText("");
+    }
+
+    Object valorCategoria = tablaCatalogo.getValueAt(fila, 3);
+    if (valorCategoria != null) {
+        jComboCategoria.setSelectedItem(valorCategoria.toString()); // Categoría
+    } else {
+        jComboCategoria.setSelectedIndex(-1); // Deseleccionar el combo o manejar de otra forma
+    }
+
+    Object valorPrecio = tablaCatalogo.getValueAt(fila, 2);
+    if (valorPrecio != null) {
+        txtprecio.setText(valorPrecio.toString()); // Precio
+    } else {
+        txtprecio.setText("");
+    }
+
+    Object valorStock = tablaCatalogo.getValueAt(fila, 5);
+    if (valorStock != null) {
+        txtstock.setText(valorStock.toString()); // Stock Disponible
+    } else {
+        txtstock.setText("");
+    }
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
