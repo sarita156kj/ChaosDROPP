@@ -1,13 +1,15 @@
 package ventanas;
 
-import javax.swing.JOptionPane;
-import logica.Conexion_DB;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
+import logica.Conexion_Chaos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import static logica.Catalogopedidos.mostrarProductos;
+import static logica.VCatalogopedidos.mostrarProductos;
 
 /**
  *
@@ -18,11 +20,12 @@ public class Catalogopedidos extends javax.swing.JFrame {
     private int idProductoSeleccionado;
 
     /**
-     * Creates new form Catalogopedidos
+     * Creates new form VCatalogopedidos
      */
     public Catalogopedidos() {
         initComponents();
-         mostrarProductos();
+        logica.VCatalogopedidos.setTabla(tablaCatalogo); // Asigna la JTable de este JFrame a la clase lógica
+        mostrarProductos(); // Llama al método para cargar los productos
     }
 
     /**
@@ -355,7 +358,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                         .addGap(102, 102, 102)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel9))
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(330, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,7 +372,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(897, Short.MAX_VALUE))
+                .addContainerGap(439, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -377,16 +380,14 @@ public class Catalogopedidos extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -425,91 +426,87 @@ public class Catalogopedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // Obtener los datos de los campos de texto
-        String nombre = txtnarticulo.getText();
-        String codigoArticulo = txtcodigoarticulo.getText();
+        String nombre = txtnarticulo.getText().trim();
+        String codigoArticulo = txtcodigoarticulo.getText().trim();
         String categoria = jComboCategoria.getSelectedItem().toString();
-        String precioStr = txtprecio.getText();
-        String stockStr = txtstock.getText();
+        String precioStr = txtprecio.getText().trim();
+        String stockStr = txtstock.getText().trim();
 
-        // Validar que los campos no estén vacíos
+        // Validar que todos los campos estén llenos
         if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos deben estar completos.");
-            return;
+            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
+            return; // Sale del método si hay campos vacíos
         }
 
         try {
-            // Convertir los datos a los tipos correctos
+            // Validar que el precio sea un número válido
             double precio = Double.parseDouble(precioStr);
+            // Validar que el stock sea un número entero válido
             int stock = Integer.parseInt(stockStr);
 
-            // Definir la consulta SQL
-            String query;
+            // Consulta SQL para verificar si el artículo ya existe por nombre o código de artículo
+            String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE nombre = ? OR codigo_articulo = ?";
+            // Consulta SQL para insertar un nuevo producto
+            String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
 
-            // Si el idProductoSeleccionado es -1, significa que es un nuevo producto
-            if (idProductoSeleccionado == -1) {
-                query = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock, estado) VALUES (?, ?, ?, ?, ?, 1)";
-            } else {
-                query = "UPDATE catalogo SET nombre=?, codigo_articulo=?, categoria=?, precio=?, stock=? WHERE id=?";
+            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery);) {
+
+                checkStmt.setString(1, nombre);
+                checkStmt.setString(2, codigoArticulo);
+                ResultSet rs = checkStmt.executeQuery();
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count > 0) {
+                    JOptionPane.showMessageDialog(null, "El artículo ya existe. No se puede registrar.");
+                    return; // Sale del método si el artículo ya existe
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Catalogopedidos.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // Ejecutar la consulta en un bloque común
-            try (Connection con = Conexion_DB.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
-                // Configurar los parámetros de la consulta
-                ps.setString(1, nombre);  // Parámetro 1: nombre
-                ps.setString(2, codigoArticulo);  // Parámetro 2: código_articulo
-                ps.setString(3, categoria);  // Parámetro 3: categoría
-                ps.setDouble(4, precio);  // Parámetro 4: precio
-                ps.setInt(5, stock);  // Parámetro 5: stock
+            try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(insertQuery)) {
 
-                if (idProductoSeleccionado != -1) {
-                    ps.setInt(6, idProductoSeleccionado);  // Parámetro 6: idProductoSeleccionado, solo si no es nuevo
-                }
+                ps.setString(1, nombre);
+                ps.setString(2, codigoArticulo);
+                ps.setString(3, categoria);
+                ps.setDouble(4, precio);
+                ps.setInt(5, stock);
 
-                // Ejecutar la consulta (insertar o actualizar)
-                ps.executeUpdate();
-
-                // Mostrar mensaje según si es un producto nuevo o actualizado
-                if (idProductoSeleccionado == -1) {
-                    JOptionPane.showMessageDialog(this, "Producto guardado correctamente.");
+                int filasAfectadas = ps.executeUpdate();
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(null, "Artículo registrado exitosamente.");
+                    limpiarCampos();
+                    mostrarProductos(); // Recargar la tabla
                 } else {
-                    JOptionPane.showMessageDialog(this, "Producto actualizado correctamente.");
+                    JOptionPane.showMessageDialog(null, "Error al guardar el artículo.");
                 }
 
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error al guardar o actualizar el producto: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al conectar o ejecutar la consulta: " + e.getMessage());
+                e.printStackTrace();
             }
 
-            // Limpiar los campos y actualizar la tabla
-            limpiarCampos();
-            logica.Catalogopedidos.mostrarProductos();
-
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Precio o stock inválidos.");
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para el precio y el stock.");
+        }    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // Obtener el texto de búsqueda
-        String busqueda = txtbuscar.getText().trim();  // Asegurarse de que no haya espacios en blanco al principio y final
+        String busqueda = txtbuscar.getText().trim();
+        System.out.println("Término de búsqueda: " + busqueda);
 
         if (busqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese un término de búsqueda.");
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un término de búsqueda.");
+            mostrarProductos(); // Mostrar todos los productos si la búsqueda está vacía
             return;
         }
 
-        // Crear la consulta SQL para buscar productos por nombre o código_articulo
-        String query = "SELECT * FROM catalogo WHERE (nombre LIKE ? OR codigo_articulo LIKE ?) AND estado = 1";
+        String query = "SELECT * FROM catalogo WHERE nombre LIKE ?";
 
-        try (Connection con = Conexion_DB.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
+        try (Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, "%" + busqueda + "%");
 
-            // Configurar los parámetros de la consulta
-            ps.setString(1, "%" + busqueda + "%");  // Buscar por nombre (LIKE %busqueda%)
-            ps.setString(2, "%" + busqueda + "%");  // Buscar por código_articulo (LIKE %busqueda%)
-
-            // Ejecutar la consulta
             try (ResultSet rs = ps.executeQuery()) {
-                // Crear el modelo de la tabla
                 DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("ID");
                 model.addColumn("Nombre");
@@ -518,7 +515,6 @@ public class Catalogopedidos extends javax.swing.JFrame {
                 model.addColumn("Precio");
                 model.addColumn("Stock");
 
-                // Iterar sobre los resultados y agregar filas a la tabla
                 while (rs.next()) {
                     model.addRow(new Object[]{
                         rs.getInt("id"),
@@ -530,25 +526,25 @@ public class Catalogopedidos extends javax.swing.JFrame {
                     });
                 }
 
-                // Asignar el modelo de la tabla a la tabla visual
                 tablaCatalogo.setModel(model);
 
-                // Si no se encuentra ningún resultado
                 if (model.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(this, "No se encontraron productos que coincidan con la búsqueda.");
+                    JOptionPane.showMessageDialog(null, "No se encontraron productos con el nombre: " + busqueda);
                 }
 
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + e.getMessage());
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al realizar la búsqueda: " + ex.getMessage());
+                ex.printStackTrace();
             }
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error de conexión con la base de datos: " + e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error de conexión con la base de datos: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // Verificar si hay un producto seleccionado en la tabla
+
         int row = tablaCatalogo.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto para eliminar.");
@@ -567,8 +563,7 @@ public class Catalogopedidos extends javax.swing.JFrame {
         // Definir la consulta SQL para eliminar el producto
         String query = "DELETE FROM catalogo WHERE id = ?";
 
-        try (Connection con = Conexion_DB.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
-
+        try (java.sql.Connection con = Conexion_Chaos.conectar(); PreparedStatement ps = con.prepareStatement(query)) {
             // Configurar el parámetro de la consulta
             ps.setInt(1, idProductoSeleccionado); // Parámetro 1: idProductoSeleccionado
 
@@ -586,10 +581,18 @@ public class Catalogopedidos extends javax.swing.JFrame {
         }
 
         // Actualizar la tabla después de eliminar el producto
-        logica.Catalogopedidos.mostrarProductos();
+        logica.VCatalogopedidos.mostrarProductos();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
+        int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
+
+        txtidarticulo.setText(tablaCatalogo.getValueAt(fila, 0).toString());     // ID
+        txtnarticulo.setText(tablaCatalogo.getValueAt(fila, 1).toString());     // Nombre del Artículo
+        txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 4).toString()); // Código Artículo (was showing Precio)
+        jComboCategoria.setSelectedItem(tablaCatalogo.getValueAt(fila, 3).toString()); // Categoría
+        txtprecio.setText(tablaCatalogo.getValueAt(fila, 2).toString());     // Precio (was showing Stock Disponible)
+        txtstock.setText(tablaCatalogo.getValueAt(fila, 5).toString());     // Stock Disponible (was showing Código Artículo)
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
@@ -661,9 +664,12 @@ public class Catalogopedidos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void limpiarCampos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtnarticulo.setText("");
+        txtcodigoarticulo.setText("");
+        txtprecio.setText("");
+        txtstock.setText("");
+        jComboCategoria.setSelectedIndex(0);
+        idProductoSeleccionado = -1;
     }
-
-    
 
 }

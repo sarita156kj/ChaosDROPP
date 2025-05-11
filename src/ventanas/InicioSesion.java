@@ -1,11 +1,11 @@
-
 package ventanas;
 
-import logica.Conexion_DB;
+import com.sun.jdi.connect.spi.Connection;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import logica.Conexion_Chaos;
 
 public class InicioSesion extends javax.swing.JFrame {
 
@@ -188,9 +188,10 @@ public class InicioSesion extends javax.swing.JFrame {
         }
 
         // Conectar a la base de datos y verificar credenciales
-            try (java.sql.Connection con = Conexion_DB.conectar()) {
+        try (java.sql.Connection con = Conexion_Chaos.conectar()) {
             String sql = "SELECT * FROM usuarios WHERE usuario = ? AND correo = ? AND contrasena = ?";
-            java.sql.PreparedStatement ps = con.prepareStatement(sql);
+            java.sql.PreparedStatement ps;
+            ps = con.prepareStatement(sql);
             ps.setString(1, usuario);
             ps.setString(2, correo);
             ps.setString(3, contrasena);
@@ -202,7 +203,7 @@ public class InicioSesion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido/a!");
                 this.dispose(); // Cierra la ventana actual de login
 
-// Abre la ventana principal
+                // Abre la ventana principal
                 new Ventanamultiple().setVisible(true);// Si encuentra un registro, el inicio de sesión es exitoso
                 JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido/a!");
                 this.dispose(); // Cierra la ventana de inicio de sesión
@@ -236,7 +237,7 @@ public class InicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_lblRegistrateMouseExited
 
     private void txtusuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuario1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtusuario1ActionPerformed
 
     /**
