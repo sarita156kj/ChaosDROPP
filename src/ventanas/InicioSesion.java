@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import logica.Conexion_Chaos;
 
-public class InicioSesion extends javax.swing.JFrame {
+public class InicioSesion extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form InicioSesion

@@ -8,7 +8,7 @@ package ventanas;
  *
  * @author sarah
  */
-public class Seguimientodeenvios extends javax.swing.JFrame {
+public class Seguimientodeenvios extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Seguimientodeenvios

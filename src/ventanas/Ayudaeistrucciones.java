@@ -8,7 +8,7 @@ package ventanas;
  *
  * @author marco
  */
-public class Ayudaeistrucciones extends javax.swing.JFrame {
+public class Ayudaeistrucciones extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Ayudaeistrucciones

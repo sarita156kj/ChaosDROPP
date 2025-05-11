@@ -14,7 +14,7 @@ import logica.Conexion_Chaos;
  *
  * @author sarah
  */
-public class RegistroUsuarios extends javax.swing.JFrame {
+public class RegistroUsuarios extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form RegistroUsuarios

@@ -22,7 +22,7 @@ import java.sql.SQLException;
  *
  * @author marco
  */
-public class Perfildeusuario_1 extends javax.swing.JFrame {
+public class Perfildeusuario_1 extends javax.swing.JInternalFrame {
 
     private Object DriverManager;
 

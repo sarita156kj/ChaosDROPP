@@ -8,7 +8,7 @@ package ventanas;
  *
  * @author marco
  */
-public class Historialpedidos extends javax.swing.JFrame {
+public class Historialpedidos extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Historialpedidos

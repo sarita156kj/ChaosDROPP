@@ -8,7 +8,7 @@ import logica.Conexion_Chaos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegistroCliente extends javax.swing.JFrame {
+public class RegistroCliente extends javax.swing.JInternalFrame {
 
     public RegistroCliente() {
         initComponents();

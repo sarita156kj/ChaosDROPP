@@ -66,6 +66,11 @@ public class Ventanamultiple extends javax.swing.JFrame {
         saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         saveMenuItem.setMnemonic('s');
         saveMenuItem.setText("Historial pedido");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
 
         menuBar.add(fileMenu);
@@ -107,6 +112,11 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem3.setText("Perfil");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -125,10 +135,20 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem7.setText("Cerrar Sesión");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem7);
 
         menuBar.add(jMenu2);
@@ -179,6 +199,30 @@ public class Ventanamultiple extends javax.swing.JFrame {
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_cutMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        Historialpedidos form= new Historialpedidos();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        InicioSesion form= new InicioSesion();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Perfildeusuario_1 form= new Perfildeusuario_1();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        Ayudaeistrucciones form= new Ayudaeistrucciones();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
