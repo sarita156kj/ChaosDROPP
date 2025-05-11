@@ -268,8 +268,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
     private void btnClienteExistenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteExistenteActionPerformed
-        this.dispose(); // Cierra el JFrame actual (RegistroCliente)
-
+  
         registrodepedidos ventanaPedidos = new registrodepedidos();
         ventanaPedidos.setVisible(true);
     }//GEN-LAST:event_btnClienteExistenteActionPerformed
