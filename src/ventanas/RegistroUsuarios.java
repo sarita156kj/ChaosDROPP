@@ -233,7 +233,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login1.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/lewis.jpg"))); // NOI18N
         jLabel10.setText("jLabel10");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

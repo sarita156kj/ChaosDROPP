@@ -47,6 +47,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         escritorio.setBackground(new java.awt.Color(8, 9, 39));
 
+        menuBar.setBackground(new java.awt.Color(0, 0, 0));
+
         fileMenu.setMnemonic('f');
         fileMenu.setText("Gestión pedidos");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -74,7 +76,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Catálogo");
+        cutMenuItem.setText("Inventario");
+        cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutMenuItemActionPerformed(evt);
+            }
+        });
         editMenu.add(cutMenuItem);
 
         menuBar.add(editMenu);
@@ -94,6 +101,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         menuBar.add(helpMenu);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gear (2).png"))); // NOI18N
         jMenu1.setText("Configuración");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -144,7 +152,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
         );
 
         pack();
@@ -165,6 +173,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+       Controlinventario form= new Controlinventario();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_cutMenuItemActionPerformed
 
     /**
      * @param args the command line arguments

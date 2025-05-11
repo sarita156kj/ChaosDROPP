@@ -15,7 +15,7 @@ import static logica.VCatalogopedidos.mostrarProductos;
  *
  * @author marco
  */
-public class Controlinventario extends javax.swing.JFrame {
+public class Controlinventario extends javax.swing.JInternalFrame {
 
     private int idArticuloSeleccionado;
     private int idProductoSeleccionado;
