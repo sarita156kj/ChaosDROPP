@@ -241,7 +241,21 @@ public class InicioSesion extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage());
         }
+        // Crear una instancia de la ventana Ventanamultiple
+        Ventanamultiple form = new Ventanamultiple();
 
+        // Hacer visible la nueva ventana
+        form.setVisible(true);
+
+        // Opcional: Cerrar la ventana actual (si es un JFrame)
+        // JFrame ventanaActual = (JFrame) SwingUtilities.getWindowAncestor(btnAcceder);
+        // if (ventanaActual != null) {
+        //     ventanaActual.dispose();
+        // }
+    
+
+        form.setVisible(true);
+   
     }//GEN-LAST:event_btnAccederActionPerformed
 
     private void lblRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistrateMouseClicked

@@ -50,12 +50,22 @@ public class Ventanamultiple extends javax.swing.JFrame {
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
         fileMenu.setMnemonic('f');
-        fileMenu.setText("Gestión pedidos");
+        fileMenu.setText("Pedidos");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        fileMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fileMenuMouseClicked(evt);
+            }
+        });
+        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuActionPerformed(evt);
+            }
+        });
 
         openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Pedido");
+        openMenuItem.setText("Seguimiento de envios");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
@@ -106,7 +116,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         menuBar.add(helpMenu);
 
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gear (2).png"))); // NOI18N
         jMenu1.setText("Configuración");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -155,6 +164,11 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         jMenu3.setText("Salir de la aplicación");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenu3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu3ActionPerformed(evt);
@@ -172,14 +186,14 @@ public class Ventanamultiple extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        registrodepedidos form= new registrodepedidos();
+       Seguimientodeenvios form= new Seguimientodeenvios();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_openMenuItemActionPerformed
@@ -213,7 +227,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Perfildeusuario_1 form= new Perfildeusuario_1();
+      Perfildeusuario_1 form= new Perfildeusuario_1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
@@ -223,6 +237,20 @@ public class Ventanamultiple extends javax.swing.JFrame {
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void fileMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMouseClicked
+        
+    }//GEN-LAST:event_fileMenuMouseClicked
+
+    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+         registrodepedidos_1 form= new registrodepedidos_1();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_fileMenuActionPerformed
 
     /**
      * @param args the command line arguments
