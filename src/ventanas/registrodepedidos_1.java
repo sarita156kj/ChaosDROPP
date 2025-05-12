@@ -13,7 +13,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import logica.Conexion_Chaos;
 
-public class registrodepedidos_1 extends javax.swing.JFrame {
+public class registrodepedidos_1 extends javax.swing.JInternalFrame {
 
     private static final String[] NOMBRES_ARTICULOS = {
         "Gorras de Verano", "Gorra ¨Not today¨", "Gorra Prospectos", "Gorra D", "Gorra de BAK con Rayas",
