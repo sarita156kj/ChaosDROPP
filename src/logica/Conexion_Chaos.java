@@ -14,21 +14,17 @@ public class Conexion_Chaos {
     public static Connection conectar() throws SQLException {
         Connection conexion = null;
         try {
-            // 1. Cargar el driver JDBC (específico para tu base de datos)
-            Class.forName("com.mysql.jdbc.Driver"); // Para MySQL 8.0+
-
-            // 2. Establecer la conexión
+            Class.forName("com.mysql.jdbc.Driver"); 
+            
             conexion = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
 
-            // Si la conexión se establece sin excepciones, 'conexion' contendrá
-            // una instancia válida de Connection.
             System.out.println("Conexión a la base de datos exitosa."); // Opcional: para depuración
 
         } catch (ClassNotFoundException e) {
-            // Error si no se encuentra la clase del driver
+     
             throw new SQLException("Error: No se encontró el driver de la base de datos.", e);
         } catch (SQLException e) {
-            // Error al establecer la conexión (URL incorrecta, credenciales inválidas, etc.)
+            
             throw new SQLException("Error al conectar con la base de datos: " + e.getMessage(), e);
         }
 
@@ -36,7 +32,7 @@ public class Conexion_Chaos {
     }
 
     public static void main(String[] args) {
-        // Método de prueba para verificar si la conexión funciona
+        
         try (Connection con = Conexion_Chaos.conectar()) {
             if (con != null) {
                 System.out.println("La conexión de prueba fue exitosa.");

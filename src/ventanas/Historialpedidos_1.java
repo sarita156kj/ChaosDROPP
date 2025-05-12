@@ -12,10 +12,9 @@ import logica.Conexion_Chaos;
 
 public class Historialpedidos_1 extends javax.swing.JInternalFrame {
 
-
     public Historialpedidos_1() {
         initComponents();
-        cargarHistorialPedidos(); // Cargar el historial al iniciar el formulario
+        cargarHistorialPedidos();
         configurarListeners();
     }
 
@@ -27,7 +26,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                     cargarHistorialPedidosPorNombre(nombreClienteBuscar);
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre del cliente a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    cargarHistorialPedidos(); // Recargar todo el historial si no hay nombre
+                    cargarHistorialPedidos();
                 }
             }
         });
@@ -37,7 +36,6 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                 int filaSeleccionada = tablaHistorialPedidos.getSelectedRow();
 
                 if (filaSeleccionada >= 0) {
-                    // Asumimos que la columna del ID del pedido es la cuarta (índice 3)
                     String idPedidoEliminar = (String) tablaHistorialPedidos.getValueAt(filaSeleccionada, 3);
 
                     int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar el pedido con ID: " + idPedidoEliminar + "?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
@@ -110,11 +108,15 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
 
         tablaHistorialPedidos.setModel(modeloTabla);
 
-        String query = "SELECT * FROM pedidos WHERE nombreCliente = ?";
+        // Modificamos la consulta SQL para que sea insensible a mayúsculas y minúsculas,
+        // y para que busque coincidencias parciales.
+        String query = "SELECT * FROM pedidos WHERE LOWER(nombreCliente) LIKE ?";
 
         try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            pstmt.setString(1, nombreClienteBuscar);
+            // Convertimos el nombre de búsqueda a minúsculas y agregamos el comodín '%'
+            // para buscar coincidencias parciales.
+            pstmt.setString(1, "%" + nombreClienteBuscar.toLowerCase() + "%");
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -135,7 +137,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
 
             if (modeloTabla.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "No se encontraron pedidos para el cliente: " + nombreClienteBuscar, "Información", JOptionPane.INFORMATION_MESSAGE);
-                cargarHistorialPedidos(); // Recargar todo el historial si no hay resultados
+                cargarHistorialPedidos();
             }
 
         } catch (SQLException e) {
@@ -154,7 +156,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
 
             if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(null, "Pedido con ID: " + idPedido + " eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarHistorialPedidos(); // Recargar el historial después de eliminar
+                cargarHistorialPedidos();
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún pedido con el ID: " + idPedido + ".", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -264,7 +266,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Historial Pedidos");
 
@@ -287,8 +289,9 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

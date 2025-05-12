@@ -63,19 +63,19 @@ public class RegistroUsuarios extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CREAR CUENTA");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 40, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Regístrate para continuar.");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 90, 280, -1));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 90, 280, -1));
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 6, true));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Nombre:");
+        jLabel3.setText("Nombre(s):");
 
         txtnombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtnombre.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +88,7 @@ public class RegistroUsuarios extends javax.swing.JInternalFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Apellido:");
+        jLabel4.setText("Apellido(s):");
 
         txtusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 

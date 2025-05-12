@@ -29,8 +29,6 @@ public class InicioSesion extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        txtusuario1 = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
         txtcorreo1 = new javax.swing.JTextField();
         jLabel43 = new javax.swing.JLabel();
@@ -49,24 +47,13 @@ public class InicioSesion extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 8));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel22.setFont(new java.awt.Font("Segoe UI Black", 1, 30)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("INICIA SESIÓN");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("¡Nos alegra tenerte de vuelta, amigo!");
-
-        jLabel40.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
-        jLabel40.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel40.setText("Nombre de Usuario:");
-
-        txtusuario1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtusuario1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtusuario1ActionPerformed(evt);
-            }
-        });
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(255, 255, 255));
@@ -118,44 +105,38 @@ public class InicioSesion extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel40)
                                 .addComponent(jLabel41)
                                 .addComponent(jLabel43)
                                 .addComponent(txtcorreo1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtusuario1)
                                 .addComponent(txtContraseña1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel22))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblRegistrate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                         .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))))
+                        .addGap(62, 62, 62))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel23)
-                .addGap(60, 60, 60)
-                .addComponent(jLabel40)
+                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtusuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jLabel23)
+                .addGap(54, 54, 54)
                 .addComponent(jLabel41)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtcorreo1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel43)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtContraseña1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRegistrate)
                     .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53))
+                .addGap(97, 97, 97))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 590, 610));
@@ -188,24 +169,23 @@ public class InicioSesion extends javax.swing.JInternalFrame {
 
     private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
         // Obtener valores de las cajas de texto
-        String usuario = txtusuario1.getText().trim();
+
         String correo = txtcorreo1.getText().trim();
         String contrasena = new String(txtContraseña1.getPassword()).trim();
 
         // Validar que no haya campos vacíos
-        if (usuario.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
+        if (correo.isEmpty() || contrasena.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
             return;
         }
 
         // Conectar a la base de datos y verificar credenciales
         try (java.sql.Connection con = Conexion_Chaos.conectar()) {
-            String sql = "SELECT * FROM usuarios WHERE usuario = ? AND correo = ? AND contrasena = ?";
+            String sql = "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?";
             java.sql.PreparedStatement ps;
             ps = con.prepareStatement(sql);
-            ps.setString(1, usuario);
-            ps.setString(2, correo);
-            ps.setString(3, contrasena);
+            ps.setString(1, correo);
+            ps.setString(2, contrasena);
 
             ResultSet rs = ps.executeQuery();
 
@@ -216,7 +196,6 @@ public class InicioSesion extends javax.swing.JInternalFrame {
 
                 // Abre la ventana principal
                 new Ventanamultiple().setVisible(true);// Si encuentra un registro, el inicio de sesión es exitoso
-                JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido/a!");
                 this.dispose(); // Cierra la ventana de inicio de sesión
 
                 // Aquí puedes abrir tu menú principal o dashboard
@@ -234,12 +213,6 @@ public class InicioSesion extends javax.swing.JInternalFrame {
         // Hacer visible la nueva ventana
         form.setVisible(true);
 
-        // Opcional: Cerrar la ventana actual (si es un JFrame)
-        // JFrame ventanaActual = (JFrame) SwingUtilities.getWindowAncestor(btnAcceder);
-        // if (ventanaActual != null) {
-        //     ventanaActual.dispose();
-        // }
-    
 
         form.setVisible(true);
    
@@ -260,10 +233,6 @@ public class InicioSesion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         lblRegistrate.setText("<html><u>¿No tienes cuenta? Regístrate.</u></html>");
     }//GEN-LAST:event_lblRegistrateMouseExited
-
-    private void txtusuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuario1ActionPerformed
-
-    }//GEN-LAST:event_txtusuario1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,7 +275,6 @@ public class InicioSesion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JPanel jPanel1;
@@ -314,6 +282,5 @@ public class InicioSesion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblRegistrate;
     private javax.swing.JPasswordField txtContraseña1;
     private javax.swing.JTextField txtcorreo1;
-    private javax.swing.JTextField txtusuario1;
     // End of variables declaration//GEN-END:variables
 }
