@@ -52,7 +52,6 @@ public class RegistroUsuarios extends javax.swing.JInternalFrame {
         txtConfirmar = new javax.swing.JPasswordField();
         btnRegistrarse = new javax.swing.JButton();
         lblIniciarSesion = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
@@ -222,9 +221,6 @@ public class RegistroUsuarios extends javax.swing.JInternalFrame {
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 160, 570, 635));
 
-        jLabel11.setText("jLabel11");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 44, -1, -1));
-
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
         jLabel12.setText("jLabel12");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 170, -1));
@@ -365,7 +361,6 @@ public class RegistroUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRegistrarse;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

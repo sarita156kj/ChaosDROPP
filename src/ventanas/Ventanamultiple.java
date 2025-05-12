@@ -215,7 +215,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        Historialpedidos form= new Historialpedidos();
+        Historialpedidos_1 form= new Historialpedidos_1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_saveMenuItemActionPerformed
