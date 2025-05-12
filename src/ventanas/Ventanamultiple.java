@@ -52,9 +52,24 @@ public class Ventanamultiple extends javax.swing.JFrame {
         fileMenu.setMnemonic('f');
         fileMenu.setText("Pedidos");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        fileMenu.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                fileMenuMenuSelected(evt);
+            }
+        });
         fileMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 fileMenuMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                fileMenuMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                fileMenuMouseReleased(evt);
             }
         });
         fileMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -227,9 +242,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-      Perfildeusuario_1 form= new Perfildeusuario_1();
-        escritorio.add(form);
-        form.setVisible(true);
+      
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -247,10 +260,22 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_fileMenuMouseClicked
 
     private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+       
+    }//GEN-LAST:event_fileMenuActionPerformed
+
+    private void fileMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMousePressed
+     
+    }//GEN-LAST:event_fileMenuMousePressed
+
+    private void fileMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_fileMenuMenuSelected
+       
+    }//GEN-LAST:event_fileMenuMenuSelected
+
+    private void fileMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMouseReleased
          registrodepedidos_1 form= new registrodepedidos_1();
         escritorio.add(form);
         form.setVisible(true);
-    }//GEN-LAST:event_fileMenuActionPerformed
+    }//GEN-LAST:event_fileMenuMouseReleased
 
     /**
      * @param args the command line arguments

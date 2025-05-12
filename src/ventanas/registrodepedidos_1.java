@@ -2,7 +2,6 @@ package ventanas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -755,7 +754,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
     }
 
     private void CargarSugerencias() {
-        AutoCompleteDecorator.decorate(CboArticulo);
+    
     }
 
 }
