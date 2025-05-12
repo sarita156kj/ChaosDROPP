@@ -1,7 +1,6 @@
 package ventanas;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -11,20 +10,13 @@ import logica.Conexion_Chaos;
 
 public class registrodepedidos extends javax.swing.JInternalFrame {
 
-    public static Connection conectar() {
-        try {
-            String url = "jdbc:mysql://localhost:3306/chaos_app";
-            String user = "root";
-            String pass = "";
-            return DriverManager.getConnection(url, user, pass);
-        } catch (SQLException e) {
-            System.out.println("Error de conexión: " + e.getMessage());
-            return null;
-        }
-    }
-
     public registrodepedidos() {
-        initComponents();
+        try {
+            initComponents(); // Llama al método de inicialización de componentes
+            setVisible(true); // Intenta hacerlo visible después de la inicialización
+        } catch (Exception e) {
+            e.printStackTrace(); // Imprime cualquier error en la consola
+        }
     }
 
     /**
@@ -248,7 +240,7 @@ public class registrodepedidos extends javax.swing.JInternalFrame {
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 36)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Datos cliente y pedido");
+        jLabel13.setText("Registro de Pedidos");
 
         txtdireccion.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         txtdireccion.setForeground(new java.awt.Color(255, 255, 255));
@@ -515,45 +507,20 @@ public class registrodepedidos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtdireccionActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cancelar el registro?", "Confirmar Cancelación", JOptionPane.YES_NO_OPTION);
-        if (opcion == JOptionPane.YES_OPTION){
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea cancelar el registro?", "Confirmar Cancelación", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
             this.dispose();
 
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
-         * @param args the command line arguments
-         */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registrodepedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registrodepedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registrodepedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registrodepedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new registrodepedidos().setVisible(true);
-            }
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> {
+            registrodepedidos ventana = new registrodepedidos();
+            ventana.setVisible(true);
         });
     }
 
