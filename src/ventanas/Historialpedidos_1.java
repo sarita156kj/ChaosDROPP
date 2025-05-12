@@ -21,11 +21,10 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
     private void configurarListeners() {
         btnBuscarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                String nombreClienteBuscar = txtNombreClienteBuscar.getText().trim();
-                if (!nombreClienteBuscar.isEmpty()) {
-                    cargarHistorialPedidosPorNombre(nombreClienteBuscar);
+                String textoBusqueda = txtNombreClienteBuscar.getText().trim();
+                if (!textoBusqueda.isEmpty()) {
+                    cargarHistorialPedidosPorNombreApellido(textoBusqueda);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre del cliente a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     cargarHistorialPedidos();
                 }
             }
@@ -63,6 +62,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         modeloTabla.addColumn("Descripción");
         modeloTabla.addColumn("Tipo Pago");
         modeloTabla.addColumn("Estado");
+        modeloTabla.addColumn("Monto Total");
 
         tablaHistorialPedidos.setModel(modeloTabla);
 
@@ -71,7 +71,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement(query); ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                Object[] fila = new Object[11];
+                Object[] fila = new Object[12];
                 fila[0] = rs.getString("nombreCliente");
                 fila[1] = rs.getString("apellidoCliente");
                 fila[2] = rs.getString("telefonoCliente");
@@ -83,6 +83,8 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                 fila[8] = rs.getString("descripcion");
                 fila[9] = rs.getString("tipoPago");
                 fila[10] = rs.getString("estado");
+                fila[11] = rs.getString("total_pago");
+
                 modeloTabla.addRow(fila);
             }
 
@@ -92,7 +94,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         }
     }
 
-    private void cargarHistorialPedidosPorNombre(String nombreClienteBuscar) {
+    private void cargarHistorialPedidosPorNombreApellido(String textoBusqueda) {
         DefaultTableModel modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Nombre Cliente");
         modeloTabla.addColumn("Apellido Cliente");
@@ -105,22 +107,23 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         modeloTabla.addColumn("Descripción");
         modeloTabla.addColumn("Tipo Pago");
         modeloTabla.addColumn("Estado");
+        modeloTabla.addColumn("Monto Total");
 
         tablaHistorialPedidos.setModel(modeloTabla);
 
-        // Modificamos la consulta SQL para que sea insensible a mayúsculas y minúsculas,
-        // y para que busque coincidencias parciales.
-        String query = "SELECT * FROM pedidos WHERE LOWER(nombreCliente) LIKE ?";
+        // Modificamos la consulta SQL para buscar por nombre O apellido (insensible a mayúsculas/minúsculas)
+        String query = "SELECT * FROM pedidos WHERE LOWER(nombreCliente) LIKE ? OR LOWER(apellidoCliente) LIKE ?";
 
         try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            // Convertimos el nombre de búsqueda a minúsculas y agregamos el comodín '%'
-            // para buscar coincidencias parciales.
-            pstmt.setString(1, "%" + nombreClienteBuscar.toLowerCase() + "%");
+            // Convertimos el texto de búsqueda a minúsculas y agregamos el comodín '%'
+            String busquedaLower = "%" + textoBusqueda.toLowerCase() + "%";
+            pstmt.setString(1, busquedaLower);
+            pstmt.setString(2, busquedaLower);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Object[] fila = new Object[11];
+                Object[] fila = new Object[12];
                 fila[0] = rs.getString("nombreCliente");
                 fila[1] = rs.getString("apellidoCliente");
                 fila[2] = rs.getString("telefonoCliente");
@@ -132,16 +135,17 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                 fila[8] = rs.getString("descripcion");
                 fila[9] = rs.getString("tipoPago");
                 fila[10] = rs.getString("estado");
+                fila[11] = rs.getString("total_pago");
                 modeloTabla.addRow(fila);
             }
 
             if (modeloTabla.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "No se encontraron pedidos para el cliente: " + nombreClienteBuscar, "Información", JOptionPane.INFORMATION_MESSAGE);
-                cargarHistorialPedidos();
+                JOptionPane.showMessageDialog(null, "No se encontraron pedidos para el cliente con el nombre o apellido: " + textoBusqueda, "Información", JOptionPane.INFORMATION_MESSAGE);
+                cargarHistorialPedidos(); // Recargar todo el historial si no se encuentran resultados
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar pedidos por nombre: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al buscar pedidos por nombre o apellido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -317,12 +321,12 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        String nombreClienteBuscar = txtNombreClienteBuscar.getText().trim();
-        if (!nombreClienteBuscar.isEmpty()) {
-            cargarHistorialPedidosPorNombre(nombreClienteBuscar);
+        String textoBusqueda = txtNombreClienteBuscar.getText().trim();
+        if (!textoBusqueda.isEmpty()) {
+            cargarHistorialPedidosPorNombreApellido(textoBusqueda);
         } else {
-            JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre del cliente a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            cargarHistorialPedidos(); // Recargar todo el historial si no hay nombre
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese parte del nombre o apellido del cliente a buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            cargarHistorialPedidos(); // Recargar todo el historial si no hay búsqueda
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
