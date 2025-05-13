@@ -8,8 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import logica.Conexion_Chaos;
-
+import java.sql.ResultSet;
 /**
  *
  * @author sarah
@@ -19,8 +20,30 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     /**
      * Creates new form RegistroUsuarios
      */
-    public RegistroUsuarios() {
+   public RegistroUsuarios() {
         initComponents();
+        llenarComboBoxRoles();
+    }
+
+    private void llenarComboBoxRoles() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Seleccionar"); // Opción por defecto
+        try (Connection conn = Conexion_Chaos.conectar()) {
+            if (conn != null) {
+                String sql = "SELECT nombre_rol FROM roles"; // Asegúrate de que tu tabla de roles tenga una columna 'nombre_rol'
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    model.addElement(rs.getString("nombre_rol"));
+                }
+                cbxtipousuario.setModel(model);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos para cargar los roles.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al cargar los roles: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -52,10 +75,12 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         txtConfirmar = new javax.swing.JPasswordField();
         btnRegistrarse = new javax.swing.JButton();
         lblIniciarSesion = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        cbxtipousuario = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setPreferredSize(new java.awt.Dimension(1550, 1024));
@@ -147,6 +172,13 @@ public class RegistroUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Tipo de Usuario:");
+
+        cbxtipousuario.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        cbxtipousuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Administrador", "Vendedor", "Personal de Logística" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -156,31 +188,38 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(lblIniciarSesion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                         .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
+                        .addGap(44, 44, 44))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtcelular, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(txtcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel11)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cbxtipousuario, 0, 198, Short.MAX_VALUE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8)
+                                        .addComponent(txtcelular, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                                        .addComponent(txtusuario)
+                                        .addComponent(txtConfirmar)
+                                        .addComponent(txtContraseña)
+                                        .addComponent(txtcorreo))
+                                    .addGap(58, 58, 58))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,34 +232,38 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtcelular, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cbxtipousuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIniciarSesion)
                     .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(130, 130, 130))
+                .addGap(112, 112, 112))
         );
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 120, 570, 620));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 120, 570, 680));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
         jLabel12.setText("jLabel12");
@@ -266,59 +309,79 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_lblIniciarSesionMouseClicked
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        // Obtener valores de los campos
-        String nombre = txtnombre.getText().trim();
-        String apellido = txtapellido.getText().trim();
-        String usuario = txtusuario.getText().trim();
-        String telefono = txtcelular.getText().trim();
-        String correo = txtcorreo.getText().trim();
-        String contrasena = new String(txtContraseña.getPassword()).trim();
-        String confirmar = new String(txtConfirmar.getPassword()).trim();
 
-        // Validar que todos los campos estén llenos
-        if (nombre.isEmpty() || apellido.isEmpty() || usuario.isEmpty()
-            || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+    String nombre = txtnombre.getText().trim();
+    String apellido = txtapellido.getText().trim();
+    String usuario = txtusuario.getText().trim();
+    String telefono = txtcelular.getText().trim();
+    String correo = txtcorreo.getText().trim();
+    String contrasena = new String(txtContraseña.getPassword()).trim();
+    String confirmar = new String(txtConfirmar.getPassword()).trim();
+    String tipoUsuarioSeleccionado = (String) cbxtipousuario.getSelectedItem();
+    int idRol = -1; // Valor por defecto en caso de error
+
+    // Validar que todos los campos estén llenos
+    if (nombre.isEmpty() || apellido.isEmpty() || usuario.isEmpty()
+            || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty()
+            || tipoUsuarioSeleccionado.equals("Seleccionar")) {
+        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos y seleccione un tipo de usuario.");
+        return;
+    }
+
+    // Validar que las contraseñas coincidan
+    if (!contrasena.equals(confirmar)) {
+        JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
+        return;
+    }
+
+    // Validar que el teléfono solo contenga números
+    if (!telefono.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "El número de teléfono solo debe contener dígitos.");
+        return;
+    }
+
+    // Obtener el ID del rol desde la base de datos
+    try (Connection conn = Conexion_Chaos.conectar()) {
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.");
             return;
         }
 
-        // Validar que las contraseñas coincidan
-        if (!contrasena.equals(confirmar)) {
-            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
+        String sqlRol = "SELECT id_rol FROM roles WHERE nombre_rol = ?";
+        PreparedStatement psRol = conn.prepareStatement(sqlRol);
+        psRol.setString(1, tipoUsuarioSeleccionado);
+        ResultSet rsRol = psRol.executeQuery();
+
+        if (rsRol.next()) {
+            idRol = rsRol.getInt("id_rol");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró el ID del rol seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validar que el teléfono solo contenga números
-        if (!telefono.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "El número de teléfono solo debe contener dígitos.");
-            return;
-        }
+        // Insertar en la base de datos incluyendo el id_rol
+        String sql = "INSERT INTO usuarios (nombre, apellido, usuario, correo, telefono, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, nombre);
+        ps.setString(2, apellido);
+        ps.setString(3, usuario);
+        ps.setString(4, correo);
+        ps.setString(5, telefono);
+        ps.setString(6, contrasena);
+        ps.setInt(7, idRol);
+        ps.executeUpdate();
 
-        // Insertar en la base de datos
-        try (Connection conn = Conexion_Chaos.conectar()) {
-            if (conn == null) {
-                JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.");
-                return;
-            }
+        JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.");
 
-            String sql = "INSERT INTO usuarios (nombre, apellido, usuario, correo, telefono, contrasena) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nombre);
-            ps.setString(2, apellido);
-            ps.setString(3, usuario);
-            ps.setString(4, correo);
-            ps.setString(5, telefono);
-            ps.setString(6, contrasena);
-            ps.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "Error al registrar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
-            JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.");
-        } catch (SQLException ex) {
-            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    // Cerrar esta ventana y abrir la de inicio de sesión
+    this.dispose();
+    new InicioSesion().setVisible(true);
 
-        // Cerrar esta ventana y abrir la de inicio de sesión
-        this.dispose();
-        new InicioSesion().setVisible(true);
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
@@ -362,8 +425,10 @@ public class RegistroUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JComboBox<String> cbxtipousuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

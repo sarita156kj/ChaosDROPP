@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import logica.Usuario;
 
 /**
  *
@@ -27,7 +28,40 @@ public class Ventanamultiple extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(Ventanamultiple.MAXIMIZED_BOTH);
         this.setTitle("Sistema de ventas y pedidos - CHAOSdrop");
+        verificarPermisos(); // Llamamos al método para verificar los permisos
     }
+
+    private void verificarPermisos() {
+        Usuario usuarioAutenticado = InicioSesion.getUsuarioAutenticado();
+
+        if (usuarioAutenticado != null) {
+            if (!usuarioAutenticado.tienePermiso("gestionar_productos")) {
+                editMenu.setEnabled(false);
+            }
+            if (!usuarioAutenticado.tienePermiso("registrar_cliente")) {
+                jMenu2.setEnabled(false);
+            }
+            if (!usuarioAutenticado.tienePermiso("gestionar_pedidos")) {
+                fileMenu.setEnabled(false);
+            }
+            if (!usuarioAutenticado.tienePermiso("generar_reportes")) {
+                helpMenu.setEnabled(false);
+            }
+            if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
+                jMenuItem1.setEnabled(false);
+            }
+            // Puedes seguir añadiendo más verificaciones de permisos para otros elementos del menú
+        } else {
+            // Si no hay usuario autenticado (por alguna razón), podrías deshabilitar todos los menús por seguridad.
+            editMenu.setEnabled(false);
+            jMenu2.setEnabled(false);
+            fileMenu.setEnabled(false);
+            helpMenu.setEnabled(false);
+            jMenu1.setEnabled(false);
+            jMenu3.setEnabled(false);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
