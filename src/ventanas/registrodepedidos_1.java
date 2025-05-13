@@ -45,6 +45,34 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         "Camisa Marea Nocturna", "Camisa Verde Oliva Casual", "Camisa Matices del Desierto", "Camisa Rock n’ Roll Clásico", "Camisa Estampada Tropical Noturna"
     };
 
+    private Map<String, Integer> obtenerCantidadesPedido() {
+        Map<String, Integer> cantidadesPedido = new HashMap<>();
+        String descripcion = txtDescripcion.getText();
+        String[] lineas = descripcion.split("\n");
+
+        for (String linea : lineas) {
+            linea = linea.trim();
+            if (!linea.isEmpty()) {
+                String[] partes = linea.split("x");
+                if (partes.length == 2) {
+                    try {
+                        int cantidad = Integer.parseInt(partes[0].trim());
+                        String nombreArticuloConDetalle = partes[1].trim();
+                        String nombreArticulo = nombreArticuloConDetalle.split("\\(")[0].trim();
+                        cantidadesPedido.put(nombreArticulo, cantidadesPedido.getOrDefault(nombreArticulo, 0) + cantidad);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Formato de cantidad incorrecto en la descripción: " + linea, "Error", JOptionPane.ERROR_MESSAGE);
+                        return null; // Indica un error en el formato
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Formato de descripción de artículo incorrecto: " + linea + "\nDebe ser como 'Cantidad x Nombre del Artículo (Talla)'", "Error", JOptionPane.ERROR_MESSAGE);
+                    return null; // Indica un error en el formato
+                }
+            }
+        }
+        return cantidadesPedido;
+    }
+
     private void calcularMontoTotal() {
         String descripcion = txtDescripcion.getText();
         String[] lineas = descripcion.split("\n");
@@ -53,20 +81,18 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         for (String linea : lineas) {
             linea = linea.trim();
             if (!linea.isEmpty()) {
-                // Asumimos un formato como "Cantidad x Nombre del Artículo (Talla)"
-                // Necesitas adaptar esta lógica según el formato en que el administrador ingresará la descripción
                 String[] partes = linea.split("x");
                 if (partes.length == 2) {
                     try {
                         int cantidad = Integer.parseInt(partes[0].trim());
                         String nombreArticuloConDetalle = partes[1].trim();
-                        // Extraer solo el nombre del artículo para buscar el precio
                         String nombreArticulo = nombreArticuloConDetalle.split("\\(")[0].trim();
 
                         if (preciosArticulos.containsKey(nombreArticulo)) {
                             montoTotal += cantidad * preciosArticulos.get(nombreArticulo);
                         } else {
                             JOptionPane.showMessageDialog(this, "No se encontró el precio para el artículo: " + nombreArticulo, "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            return;
                         }
 
                     } catch (NumberFormatException e) {
@@ -79,34 +105,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
                 }
             }
         }
-
         txtmontototal.setText(String.format("%.2f", montoTotal));
-    }
-
-public registrodepedidos_1() {
-        initComponents();
-        cargarPreciosDesdeCatalogo(); // <--- ¡Llama a este método aquí!
-        CargarSugerencias();
-        CargarArticulos();
-
-        CboArticulo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String articuloSeleccionado = (String) CboArticulo.getSelectedItem();
-                if (articuloSeleccionado != null && !articuloSeleccionado.isEmpty()) {
-                    if (!txtDescripcion.getText().contains(articuloSeleccionado)) {
-                        txtDescripcion.append(articuloSeleccionado + "\n");
-                    }
-                    CboArticulo.setSelectedIndex(-1);
-                }
-            }
-        });
-
-        btnCalcular.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                calcularMontoTotal();
-            }
-        });
-        txtmontototal.setEnabled(false);
     }
 
     /**
@@ -510,122 +509,126 @@ public registrodepedidos_1() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+ // Primero, obtenemos las cantidades del pedido
+    Map<String, Integer> cantidadesPedido = obtenerCantidadesPedido();
+    if (cantidadesPedido == null) {
+        return; // Hubo un error en el formato de la descripción
+    }
 
-        // 1. Obtener los datos de los campos
-        String nombreCliente = txtNombreC.getText().trim();
-        String apellidoCliente = txtApellidoC.getText().trim();
-        String telefonoCliente = txtTelefono.getText().trim();
-        String idPedido = txtcodigo.getText().trim();
+    Connection cn = null;
+    PreparedStatement pstCatalogo = null;
+    PreparedStatement pstPedido = null;
+    ResultSet rsCatalogo = null;
 
-        Date fechaPedidoSeleccionada = jFechaPedido.getDate();
-        Date fechaEntregaSeleccionada = jFechaEntrega.getDate();
+    try {
+        cn = Conexion_Chaos.conectar();
+        cn.setAutoCommit(false); 
 
-        String provincia = (String) cmbCiudad.getSelectedItem();
-        String direccion = txtdireccion.getText().trim();
-        String descripcion = txtDescripcion.getText(); // Aquí obtenemos todos los artículos
-        String tipoPago = (String) cmbTipodePago.getSelectedItem();
-        String estado = (String) CmbEstado.getSelectedItem();
+        // Verificamos el stock y actualizamos la tabla catalogo
+        for (Map.Entry<String, Integer> entry : cantidadesPedido.entrySet()) {
+            String nombreArticulo = entry.getKey();
+            int cantidadPedida = entry.getValue();
 
-        // **NUEVO: Obtener el monto total**
-        String montoTotalStr = txtmontototal.getText().trim();
-        double montoTotal = 0.0;
-        try {
-            montoTotal = Double.parseDouble(montoTotalStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error: El monto total no tiene un formato numérico válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Salir si el formato no es correcto
-        }
+            String consultaStock = "SELECT cantidad FROM catalogo WHERE nombre_articulo = ?";
+            pstCatalogo = cn.prepareStatement(consultaStock);
+            pstCatalogo.setString(1, nombreArticulo);
+            rsCatalogo = pstCatalogo.executeQuery();
 
-        // 2. Validar que todos los campos obligatorios estén llenos (incluyendo que se haya seleccionado al menos un artículo)
-        if (nombreCliente.isEmpty() || apellidoCliente.isEmpty() || telefonoCliente.isEmpty()
-                || idPedido.isEmpty() || fechaPedidoSeleccionada == null || provincia.equals("Seleccionar")
-                || direccion.isEmpty() || tipoPago.equals("Seleccionar") || estado.equals("Seleccionar")
-                || descripcion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios y seleccione al menos un artículo.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 3. Verificar si el cliente existe en la tabla 'clientes' (INLINE)
-        String queryCliente = "SELECT COUNT(*) FROM clientes WHERE nombre = ? AND apellido = ?";
-        Connection conCliente = null;
-        PreparedStatement pstmtCliente = null;
-        ResultSet rsCliente = null;
-        boolean clienteExiste = false;
-        try {
-            conCliente = Conexion_Chaos.conectar();
-            if (conCliente != null) {
-                pstmtCliente = conCliente.prepareStatement(queryCliente);
-                pstmtCliente.setString(1, nombreCliente);
-                pstmtCliente.setString(2, apellidoCliente);
-                rsCliente = pstmtCliente.executeQuery();
-                if (rsCliente.next()) {
-                    clienteExiste = rsCliente.getInt(1) > 0;
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Error: No se pudo establecer la conexión a la base de datos para verificar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al verificar el cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-            return;
-        } finally {
-            try { if (rsCliente != null) rsCliente.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (pstmtCliente != null) pstmtCliente.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (conCliente != null) conCliente.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-
-        if (!clienteExiste) {
-            JOptionPane.showMessageDialog(this, "El cliente no está registrado. Por favor, registre al cliente primero.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // 4. Validar el formato de las fechas
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaPedido = sdf.format(fechaPedidoSeleccionada);
-        String fechaEntrega = (fechaEntregaSeleccionada != null) ? sdf.format(fechaEntregaSeleccionada) : null;
-
-        // 5. Insertar los datos del pedido en la tabla 'pedidos'
-        // **MODIFICADO: Se usa la columna total_pago**
-        String queryPedido = "INSERT INTO pedidos (nombreCliente, apellidoCliente, telefonoCliente, idPedido, fechaPedido, fechaEntrega, provincia, direccion, descripcion, tipoPago, estado, total_pago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection conPedido = null;
-        PreparedStatement pstmtPedido = null;
-        try {
-            conPedido = Conexion_Chaos.conectar();
-            if (conPedido != null) {
-                pstmtPedido = conPedido.prepareStatement(queryPedido);
-                pstmtPedido.setString(1, nombreCliente);
-                pstmtPedido.setString(2, apellidoCliente.isEmpty() ? null : apellidoCliente);
-                pstmtPedido.setString(3, telefonoCliente);
-                pstmtPedido.setString(4, idPedido);
-                pstmtPedido.setString(5, fechaPedido);
-                pstmtPedido.setString(6, fechaEntrega);
-                pstmtPedido.setString(7, provincia);
-                pstmtPedido.setString(8, direccion);
-                pstmtPedido.setString(9, descripcion);
-                pstmtPedido.setString(10, tipoPago);
-                pstmtPedido.setString(11, estado);
-                // **NUEVO: Se establece el valor del monto total en la columna total_pago**
-                pstmtPedido.setDouble(12, montoTotal);
-
-                int filasPedidoAfectadas = pstmtPedido.executeUpdate();
-
-                if (filasPedidoAfectadas > 0) {
-                    JOptionPane.showMessageDialog(this, "Pedido registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    limpiarCamposPedido();
+            if (rsCatalogo.next()) {
+                int stockActual = rsCatalogo.getInt("cantidad");
+                if (stockActual >= cantidadPedida) {
+                    // Hay suficiente stock, procedemos a actualizar
+                    int nuevoStock = stockActual - cantidadPedida;
+                    String actualizarStock = "UPDATE catalogo SET cantidad = ? WHERE nombre_articulo = ?";
+                    PreparedStatement pstActualizar = cn.prepareStatement(actualizarStock);
+                    pstActualizar.setInt(1, nuevoStock);
+                    pstActualizar.setString(2, nombreArticulo);
+                    pstActualizar.executeUpdate();
+                    pstActualizar.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error al registrar el pedido.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No hay suficiente stock para el artículo: " + nombreArticulo + "\nStock disponible: " + stockActual + ", Cantidad pedida: " + cantidadPedida, "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    cn.rollback(); // Revertimos la transacción
+                    return; // Detenemos el registro del pedido
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Error: No se pudo establecer la conexión a la base de datos para registrar el pedido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El artículo: " + nombreArticulo + " no se encontró en el catálogo.", "Error", JOptionPane.ERROR_MESSAGE);
+                cn.rollback(); // Revertimos la transacción
+                return; // Detenemos el registro del pedido
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error de base de datos al registrar el pedido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } finally {
-            try { if (pstmtPedido != null) pstmtPedido.close(); } catch (SQLException e) { e.printStackTrace(); }
-            try { if (conPedido != null) conPedido.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (pstCatalogo != null) pstCatalogo.close();
+            if (rsCatalogo != null) rsCatalogo.close();
         }
+
+        // Si llegamos aquí, significa que hay suficiente stock para todos los artículos
+        // Ahora procedemos a insertar el pedido en la tabla de pedidos
+        try {
+            String sql = "INSERT INTO pedidos (codigo_pedido, nombre_cliente, apellido_cliente, telefono, direccion, provincia, fecha_pedido, fecha_entrega, descripcion, tipo_pago, estado, monto_total) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            pstPedido = cn.prepareStatement(sql);
+            pstPedido.setString(1, txtcodigo.getText());
+            pstPedido.setString(2, txtNombreC.getText());
+            pstPedido.setString(3, txtApellidoC.getText());
+            pstPedido.setString(4, txtTelefono.getText());
+            pstPedido.setString(5, txtdireccion.getText());
+            pstPedido.setString(6, (String) cmbCiudad.getSelectedItem());
+
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaPedido = jFechaPedido.getDate();
+            Date fechaEntrega = jFechaEntrega.getDate();
+
+            if (fechaPedido != null) {
+                pstPedido.setString(7, formatoFecha.format(fechaPedido));
+            } else {
+                pstPedido.setString(7, null); // O manejarlo según tus necesidades
+            }
+
+            if (fechaEntrega != null) {
+                pstPedido.setString(8, formatoFecha.format(fechaEntrega));
+            } else {
+                pstPedido.setString(8, null); // O manejarlo según tus necesidades
+            }
+
+            pstPedido.setString(9, txtDescripcion.getText());
+            pstPedido.setString(10, (String) cmbTipodePago.getSelectedItem());
+            pstPedido.setString(11, (String) CmbEstado.getSelectedItem());
+            pstPedido.setString(12, txtmontototal.getText());
+            pstPedido.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Pedido registrado exitosamente.");
+            limpiarFormulario();
+            cn.commit(); // Confirmamos la transacción
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar el pedido: " + e.getMessage());
+            cn.rollback(); // Revertimos la transacción en caso de error al insertar el pedido
+        } finally {
+            if (pstPedido != null) try { pstPedido.close(); } catch (SQLException e) {}
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al conectar o al verificar el stock: " + e.getMessage());
+        if (cn != null) {
+            try {
+                cn.rollback(); // Aseguramos la reversión en caso de error general
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error al hacer rollback: " + ex.getMessage());
+            }
+        }
+    } finally {
+        if (cn != null) try { cn.setAutoCommit(true); cn.close(); } catch (SQLException e) {}
+    }
+}
+
+private void limpiarFormulario() {
+    txtNombreC.setText("");
+    txtApellidoC.setText("");
+    txtTelefono.setText("");
+    txtdireccion.setText("");
+    txtDescripcion.setText("");
+    txtmontototal.setText("");
+    jFechaPedido.setDate(null);
+    jFechaEntrega.setDate(null);
+    cmbCiudad.setSelectedIndex(0);
+    cmbTipodePago.setSelectedIndex(0);
+    CmbEstado.setSelectedIndex(0);
+
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
