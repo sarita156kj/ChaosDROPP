@@ -35,7 +35,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtnombrecliente = new javax.swing.JTextField();
         txtapellidocliente = new javax.swing.JTextField();
@@ -43,9 +42,9 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         txttelsecundario = new javax.swing.JTextField();
         txtemail = new javax.swing.JTextField();
         txtdireccion = new javax.swing.JTextField();
-        txtciudad = new javax.swing.JTextField();
         cboxprovincia = new javax.swing.JComboBox<>();
         btnRegistrarCliente = new javax.swing.JButton();
+        btnRegistrarCliente1 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -100,22 +99,29 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Dirección:");
 
-        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Ciudad:");
-
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Provincia:");
 
+        txtnombrecliente.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        txtapellidocliente.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        txttelprincipal.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         txttelprincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txttelprincipalActionPerformed(evt);
             }
         });
 
+        txttelsecundario.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        txtemail.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        txtdireccion.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        cboxprovincia.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         cboxprovincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azua", "Baoruco", "Barahona", "Dajabón", "Distrito Nacional", "Duarte", "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal   ", "Independencia", "La Altagracia", "La Romana", "La Vega", "María Trinidad Sánchez", "Monseñor Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Samaná", "San Cristóbal", "San José de Ocoa", "San Juan", "San Pedro de Macorís", "Sánchez Ramírez", "Santiago", "Santiago Rodríguez   ", "Santo Domingo   ", "Valverde" }));
 
         btnRegistrarCliente.setBackground(new java.awt.Color(0, 0, 0));
@@ -129,56 +135,63 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRegistrarCliente1.setBackground(new java.awt.Color(0, 0, 0));
+        btnRegistrarCliente1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnRegistrarCliente1.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarCliente1.setText("Nuevo ");
+        btnRegistrarCliente1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        btnRegistrarCliente1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarCliente1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(txttelsecundario)
-                            .addComponent(txttelprincipal)
-                            .addComponent(txtapellidocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(211, 211, 211)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(59, 59, 59)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addGap(62, 62, 62)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7)
+                                .addComponent(txttelsecundario)
+                                .addComponent(txttelprincipal)
+                                .addComponent(txtapellidocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(85, 85, 85)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtciudad, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cboxprovincia, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtdireccion, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
+                                .addComponent(jLabel10)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtemail, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
                                 .addGap(202, 202, 202)))
-                        .addGap(58, 58, 58))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(58, 58, 58))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(276, 276, 276)
-                        .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(btnRegistrarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,11 +208,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cboxprovincia, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -214,14 +223,16 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txttelprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txttelsecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+                        .addComponent(txttelprincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txttelsecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57))
         );
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 770, -1));
@@ -276,19 +287,18 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         String telefonoSecundario = txttelsecundario.getText().trim();
         String correoElectronico = txtemail.getText().trim();
         String direccion = txtdireccion.getText().trim();
-        String ciudad = txtciudad.getText().trim();
         String provincia = (String) cboxprovincia.getSelectedItem();
 
         // 2. Validar los datos (ejemplo básico)
-        if (nombre.isEmpty() || telefonoPrincipal.isEmpty() || direccion.isEmpty() || ciudad.isEmpty() || provincia.equals("Seleccionar")) {
+        if (nombre.isEmpty() || telefonoPrincipal.isEmpty() || direccion.isEmpty() || provincia.equals("Seleccionar")) {
             JOptionPane.showMessageDialog(this, "Por favor, complete los campos obligatorios (Nombre, Teléfono Principal, Dirección, Ciudad, Provincia).", "Error", JOptionPane.ERROR_MESSAGE);
             return; // Detener el proceso si hay campos vacíos
         }
         // 3. Insertar los datos en la base de datos (ejemplo básico con JDBC)
-        String query = "INSERT INTO clientes (nombre, apellido, telefonoPrincipal, telefonoSecundario, correoElectronico, direccion, ciudad, provincia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO clientes (nombre, apellido, telefonoPrincipal, telefonoSecundario, correoElectronico, direccion, provincia) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = (Connection) Conexion_Chaos.conectar(); // Reemplaza con tu clase de conexión
-            PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
+                 PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
 
             pstmt.setString(1, nombre);
             pstmt.setString(2, apellido.isEmpty() ? null : apellido);
@@ -296,8 +306,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
             pstmt.setString(4, telefonoSecundario.isEmpty() ? null : telefonoSecundario);
             pstmt.setString(5, correoElectronico.isEmpty() ? null : correoElectronico);
             pstmt.setString(6, direccion);
-            pstmt.setString(7, ciudad);
-            pstmt.setString(8, provincia);
+            pstmt.setString(7, provincia);
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -317,6 +326,15 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     private void txttelprincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelprincipalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttelprincipalActionPerformed
+
+    private void btnRegistrarCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCliente1ActionPerformed
+        txtapellidocliente.setText("");
+        txtdireccion.setText("");
+        txtemail.setText("");
+        txttelprincipal.setText("");
+        txttelsecundario.setText("");
+
+    }//GEN-LAST:event_btnRegistrarCliente1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,6 +373,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarCliente;
+    private javax.swing.JButton btnRegistrarCliente1;
     private javax.swing.JComboBox<String> cboxprovincia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -368,12 +387,10 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtapellidocliente;
-    private javax.swing.JTextField txtciudad;
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtemail;
     private javax.swing.JTextField txtnombrecliente;
@@ -383,7 +400,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
 
     private void limpiarCampos() {
         txtapellidocliente.setText("");
-        txtciudad.setText("");
         txtdireccion.setText("");
         txtemail.setText("");
         txtnombrecliente.setText("");

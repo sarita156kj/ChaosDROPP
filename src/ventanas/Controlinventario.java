@@ -108,37 +108,38 @@ public class Controlinventario extends javax.swing.JInternalFrame {
             }
         });
 
-        txtstock.setForeground(new java.awt.Color(255, 255, 255));
+        txtstock.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Stock Disponible:");
 
-        txtprecio.setForeground(new java.awt.Color(255, 255, 255));
+        txtprecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Precio:");
 
         jComboCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gorras", "Abrigos", "Camisetas ", "Pantalones", "Bermudas", "Camisas" }));
+        jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Gorras", "Abrigos", "Camisetas ", "Pantalones", "Bermudas", "Camisas" }));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Categoría:");
 
-        txtcodigoarticulo.setForeground(new java.awt.Color(255, 255, 255));
+        txtcodigoarticulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Código Articulo:");
 
-        txtnarticulo.setForeground(new java.awt.Color(255, 255, 255));
+        txtnarticulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre del Artículo:");
+
+        txtidarticulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 30)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -343,6 +344,7 @@ public class Controlinventario extends javax.swing.JInternalFrame {
         limpiarCampos();
         idArticuloSeleccionado = -1;
         btnGuardar.setText("Guardar");
+        mostrarProductos();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -434,7 +436,6 @@ public class Controlinventario extends javax.swing.JInternalFrame {
                 if (filasAfectadas > 0) {
                     JOptionPane.showMessageDialog(null, "Artículo actualizado exitosamente.");
                     limpiarCampos();
-                    mostrarProductos(); // Recargar la tabla
                     btnGuardar.setText("Guardar"); // Volver a la funcionalidad de guardar
                     idArticuloSeleccionado = -1; // Resetear el ID seleccionado
                     // Limpiar los valores originales después de la actualización
@@ -540,34 +541,57 @@ public class Controlinventario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tablaCatalogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCatalogoMouseClicked
+ // Cambiar el texto del botón Guardar a Actualizar cuando se selecciona una fila
+    btnGuardar.setText("Actualizar");
 
-        btnGuardar.setText("Actualizar");
-        int fila = tablaCatalogo.rowAtPoint(evt.getPoint());
-        if (fila >= 0) {
+    // Obtener la fila seleccionada
+    int fila = tablaCatalogo.getSelectedRow();
 
-            if (fila >= 0) {
-                idArticuloSeleccionado = (int) tablaCatalogo.getValueAt(fila, 0);
-                System.out.println("ID Seleccionado desde la tabla: " + idArticuloSeleccionado); // Agregar esta línea
-                originalNombre = tablaCatalogo.getValueAt(fila, 1).toString();
-                originalCodigoArticulo = tablaCatalogo.getValueAt(fila, 2).toString();
-                originalCategoria = tablaCatalogo.getValueAt(fila, 3).toString();
-                originalPrecio = tablaCatalogo.getValueAt(fila, 4).toString();
-                originalStock = tablaCatalogo.getValueAt(fila, 5).toString();
+    // Verificar si se ha seleccionado una fila válida
+    if (fila >= 0) {
+        try {
+            // -- Recuperar los datos de la fila seleccionada usando los índices correctos --
+            // Columna 0: ID (int)
+            idArticuloSeleccionado = (int) tablaCatalogo.getValueAt(fila, 0);
+            // Almacenar el ID en el campo de texto (si es visible y editable=false, mejor)
+            txtidarticulo.setText(String.valueOf(idArticuloSeleccionado));
+            System.out.println("ID Seleccionado desde la tabla: " + idArticuloSeleccionado); // Para depuración
 
-                txtnarticulo.setText((String) originalNombre);
-                txtcodigoarticulo.setText((String) originalCodigoArticulo);
-                jComboCategoria.setSelectedItem(originalCategoria);
-                txtprecio.setText((String) originalPrecio);
-                txtstock.setText((String) originalStock);
-            }
-            txtidarticulo.setText(tablaCatalogo.getValueAt(fila, 0).toString());
-            txtnarticulo.setText(tablaCatalogo.getValueAt(fila, 1).toString());
-            txtprecio.setText(tablaCatalogo.getValueAt(fila, 2).toString());
-            jComboCategoria.setSelectedItem(tablaCatalogo.getValueAt(fila, 3).toString());
-            txtcodigoarticulo.setText(tablaCatalogo.getValueAt(fila, 4).toString());
-            txtstock.setText(tablaCatalogo.getValueAt(fila, 5).toString());
+            // Columna 1: Nombre (String)
+            originalNombre = tablaCatalogo.getValueAt(fila, 1).toString();
+            txtnarticulo.setText((String) originalNombre);
+
+            // Columna 4: Código Artículo (String)
+            originalCodigoArticulo = tablaCatalogo.getValueAt(fila, 4).toString();
+            txtcodigoarticulo.setText((String) originalCodigoArticulo);
+
+            // Columna 3: Categoría (String) - ¡Aplicar trim()!
+            originalCategoria = tablaCatalogo.getValueAt(fila, 3).toString().trim(); // <-- **¡Aquí la corrección!**
+            // Seleccionar el ítem correcto en el JComboBox
+            jComboCategoria.setSelectedItem(originalCategoria);
+            System.out.println("Categoría recuperada y 'trimeada': " + originalCategoria); // Para depuración
+
+
+            // Columna 2: Precio (double/String)
+            originalPrecio = tablaCatalogo.getValueAt(fila, 2).toString();
+            txtprecio.setText((String) originalPrecio);
+
+
+            // Columna 5: Stock (int/String)
+            originalStock = tablaCatalogo.getValueAt(fila, 5).toString();
+            txtstock.setText((String) originalStock);
+
+
+            // -- Opcional: Limpiar los valores originales si no estamos en modo actualización --
+            // Esto es útil si el usuario selecciona una fila y luego hace clic en "Nuevo"
+            // pero tu lógica actual ya maneja esto en btnNuevoActionPerformed
+
+        } catch (Exception e) {
+            // Capturar cualquier error durante la obtención o asignación de datos
+            JOptionPane.showMessageDialog(null, "Error al cargar los datos del producto: " + e.getMessage());
+            e.printStackTrace();
         }
-
+    }
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     /**
