@@ -26,19 +26,19 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private void initComponents() {
 
         escritorio = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
+        openMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -47,11 +47,36 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         escritorio.setBackground(new java.awt.Color(8, 9, 39));
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ventanas/Opcion 7 (1).png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(456, 456, 456)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(511, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(283, 283, 283)
+                .addComponent(jLabel1)
+                .addContainerGap(350, Short.MAX_VALUE))
+        );
+
+        escritorio.add(jPanel1);
+        jPanel1.setBounds(0, 0, 1550, 870);
+
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
         fileMenu.setMnemonic('f');
-        fileMenu.setText("Pedidos");
-        fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        fileMenu.setText("Gestión pedido");
+        fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         fileMenu.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
@@ -78,16 +103,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         });
 
-        openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Seguimiento de envios");
-        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(openMenuItem);
-
         saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         saveMenuItem.setMnemonic('s');
         saveMenuItem.setText("Historial pedido");
@@ -98,11 +113,22 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         fileMenu.add(saveMenuItem);
 
+        openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        openMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ventanas/icons8-seguimiento-de-entrega-24 (1).png"))); // NOI18N
+        openMenuItem.setMnemonic('o');
+        openMenuItem.setText("Seguimiento de envios");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openMenuItem);
+
         menuBar.add(fileMenu);
 
         editMenu.setMnemonic('e');
         editMenu.setText("Gestión producto");
-        editMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cutMenuItem.setMnemonic('t');
@@ -116,32 +142,28 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
+        jMenu2.setText("Registro de cliente");
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenu2MouseReleased(evt);
+            }
+        });
+        menuBar.add(jMenu2);
+
         helpMenu.setMnemonic('h');
         helpMenu.setText("Reportes");
-        helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Generar reporte");
         helpMenu.add(contentMenuItem);
 
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jMenuItem2.setText("Productos mas vendidos");
-        helpMenu.add(jMenuItem2);
-
         menuBar.add(helpMenu);
 
         jMenu1.setText("Configuración");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jMenuItem3.setText("Perfil");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem3);
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem1.setText("Crear Nuevo Usuario");
@@ -152,11 +174,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        menuBar.add(jMenu1);
-
-        jMenu2.setText("Navegación");
-        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +181,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem6);
+        jMenu1.add(jMenuItem6);
 
         jMenuItem7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem7.setText("Cerrar Sesión");
@@ -173,12 +190,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem7);
+        jMenu1.add(jMenuItem7);
 
-        menuBar.add(jMenu2);
+        menuBar.add(jMenu1);
 
         jMenu3.setText("Salir de la aplicación");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu3MouseClicked(evt);
@@ -197,11 +214,11 @@ public class Ventanamultiple extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1131, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1557, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
         );
 
         pack();
@@ -241,10 +258,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-      
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         Ayudaeistrucciones form= new Ayudaeistrucciones();
         escritorio.add(form);
@@ -276,6 +289,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_fileMenuMouseReleased
+
+    private void jMenu2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseReleased
+         RegistroCliente form= new RegistroCliente();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenu2MouseReleased
 
     /**
      * @param args the command line arguments
@@ -319,14 +338,14 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

@@ -309,7 +309,7 @@ public class Controlinventario extends javax.swing.JInternalFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
         jLabel7.setText("jLabel7");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1260, 30, 180, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1350, 20, 180, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 25)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -318,6 +318,7 @@ public class Controlinventario extends javax.swing.JInternalFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pexels-markrz-15106841.jpg"))); // NOI18N
         jLabel5.setText("jLabel5");
+        jLabel5.setPreferredSize(new java.awt.Dimension(1550, 920));
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
