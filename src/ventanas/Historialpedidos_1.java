@@ -376,48 +376,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarPedidoActionPerformed
 
     private void btnreporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreporteActionPerformed
-        Document documento = new Document();
-
-        try {
-            String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Escritorio/Reporte_Pedidos.pdf"));
-            documento.open();
-
-            PdfPTable tabla = new PdfPTable(6);
-            tabla.addCell("ID del pedido");
-            tabla.addCell("Fecha del pedido");
-            tabla.addCell("Nombre del cliente");
-            tabla.addCell("Total del pedido");
-            tabla.addCell("Estado");
-            tabla.addCell("Descripcion del producto");
-
-            try {
-                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
-                PreparedStatement ps = cn.prepareStatement("select * from pedidos");
-
-                ResultSet rs = ps.executeQuery();
-
-                if (rs.next()) {
-
-                    do {
-                        tabla.addCell(rs.getString(1));
-                        tabla.addCell(rs.getString(2));
-                        tabla.addCell(rs.getString(3));
-                        tabla.addCell(rs.getString(4));
-                        tabla.addCell(rs.getString(5));
-                        tabla.addCell(rs.getString(6));
-
-                    } while (rs.next());
-                    documento.add(tabla);
-
-                }
-            } catch (DocumentException | SQLException e) {
-            }
-            documento.close();
-            JOptionPane.showMessageDialog(null, "Reporte creado correctamente.");
-
-        } catch (DocumentException | FileNotFoundException e) {
-        }
+        
 
     }//GEN-LAST:event_btnreporteActionPerformed
 

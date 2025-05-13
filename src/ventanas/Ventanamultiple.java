@@ -1,6 +1,19 @@
 
 package ventanas;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marco
@@ -27,7 +40,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         escritorio = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         editMenu = new javax.swing.JMenu();
@@ -53,13 +65,9 @@ public class Ventanamultiple extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
-        jLabel3.setText("jLabel3");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 10, 170, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/niti.jpg"))); // NOI18N
         jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1550, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, -1));
 
         escritorio.add(jPanel1);
         jPanel1.setBounds(0, 0, 1550, 870);
@@ -70,7 +78,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         editMenu.setText("Gestión producto");
         editMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cutMenuItem.setMnemonic('t');
         cutMenuItem.setText("Inventario");
         cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -90,7 +98,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem3.setText("Registro de cliente");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +138,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         });
 
-        saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         saveMenuItem.setMnemonic('s');
         saveMenuItem.setText("Historial pedido");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +148,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         fileMenu.add(saveMenuItem);
 
-        openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         openMenuItem.setMnemonic('o');
         openMenuItem.setText("Seguimiento de envios");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +158,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         fileMenu.add(openMenuItem);
 
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem2.setText("Gestión pedidos");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,9 +173,14 @@ public class Ventanamultiple extends javax.swing.JFrame {
         helpMenu.setText("Reportes");
         helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Generar reporte");
+        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(contentMenuItem);
 
         menuBar.add(helpMenu);
@@ -175,7 +188,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         jMenu1.setText("Configuración");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem1.setText("Crear Nuevo Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,7 +197,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,7 +206,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem6);
 
-        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem7.setText("Cerrar Sesión");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +329,51 @@ public class Ventanamultiple extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+      Document documento = new Document();
+
+        try {
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Escritorio/Reporte_Pedidos.pdf"));
+            documento.open();
+
+            PdfPTable tabla = new PdfPTable(6);
+            tabla.addCell("ID del pedido");
+            tabla.addCell("Fecha del pedido");
+            tabla.addCell("Nombre del cliente");
+            tabla.addCell("Total del pedido");
+            tabla.addCell("Estado");
+            tabla.addCell("Descripcion del producto");
+
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
+                PreparedStatement ps = cn.prepareStatement("select * from pedidos");
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+
+                    do {
+                        tabla.addCell(rs.getString(1));
+                        tabla.addCell(rs.getString(2));
+                        tabla.addCell(rs.getString(3));
+                        tabla.addCell(rs.getString(4));
+                        tabla.addCell(rs.getString(5));
+                        tabla.addCell(rs.getString(6));
+
+                    } while (rs.next());
+                    documento.add(tabla);
+
+                }
+            } catch (DocumentException | SQLException e) {
+            }
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Reporte creado correctamente.");
+
+        } catch (DocumentException | FileNotFoundException e) {
+        }
+    }//GEN-LAST:event_contentMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -359,7 +417,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
