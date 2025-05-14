@@ -110,7 +110,7 @@ private void verificarPermisos() {
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
         editMenu.setMnemonic('e');
-        editMenu.setText("Gestión producto");
+        editMenu.setText("Gestión Producto");
         editMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -125,7 +125,7 @@ private void verificarPermisos() {
 
         menuBar.add(editMenu);
 
-        jMenu2.setText("Registro de cliente");
+        jMenu2.setText("Registro de Cliente");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -145,7 +145,7 @@ private void verificarPermisos() {
         menuBar.add(jMenu2);
 
         fileMenu.setMnemonic('f');
-        fileMenu.setText("Gestión pedido");
+        fileMenu.setText("Gestión Pedido");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         fileMenu.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
