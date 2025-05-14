@@ -7,8 +7,28 @@ import javax.swing.JOptionPane;
 import logica.Conexion_Chaos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 public class RegistroCliente extends javax.swing.JInternalFrame {
+    
+        private boolean clienteExiste(String telefono, String correo) {
+        String query = "SELECT COUNT(*) FROM clientes WHERE telefonoPrincipal = ? OR correoElectronico = ?";
+        try (Connection con = (Connection) Conexion_Chaos.conectar(); // Reemplaza con tu clase de conexión
+             PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
+
+            pstmt.setString(1, telefono);
+            pstmt.setString(2, correo);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Devuelve true si se encontró al menos un cliente con el mismo teléfono o correo
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al verificar la existencia del cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace(); // Imprimir el error en la consola para depuración
+        }
+        return false; // Si ocurre un error o no se encuentra ningún cliente
+    }
 
     public RegistroCliente() {
         initComponents();
@@ -319,8 +339,10 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Imprimir el error en la consola para depuración
+            e.printStackTrace(); // Imprimir el error en la consola para depuración  
         }
+        
+        
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
     private void txttelprincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelprincipalActionPerformed

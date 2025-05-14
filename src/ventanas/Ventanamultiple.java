@@ -1,12 +1,19 @@
 
 package ventanas;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -367,45 +374,150 @@ private void verificarPermisos() {
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
       Document documento = new Document();
 
+
+
         try {
+
             String ruta = System.getProperty("user.home");
-            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Escritorio/Reporte_Pedidos.pdf"));
+
+            // System.out.println(ruta); // Puedes descomentar para verificar la ruta
+
+
+
+            // Asegúrate de que la ruta de la imagen sea accesible.
+
+            // Considera cargarla como recurso del classpath si está dentro de tu JAR.
+
+            // Image header = Image.getInstance(ReporteProductos.class.getResource("/imagenes/Opcion 3 (1).png")); // Ejemplo cargando desde classpath (ajusta la extensión si no es png)
+
+            Image header = Image.getInstance("src/imagenes/Opcion 3 (1).png"); // Mantengo tu ruta original pero ten en cuenta el problema de ruta relativa
+
+
+
+            header.scaleToFit(650, 1000);
+
+            header.setAlignment(Chunk.ALIGN_CENTER);
+
+
+
+            Paragraph parrafo = new Paragraph();
+
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+
+            parrafo.add("Formato creado por Chaos © \n\n");
+
+            // Asegúrate de que la fuente "Tahoma" esté disponible o usa una fuente estándar
+
+            parrafo.setFont(FontFactory.getFont("Segoe UI" , 18, Font.BOLD, BaseColor.DARK_GRAY));
+
+            parrafo.add("Reporte de Productos Registrados \n\n"); // Título más descriptivo
+
+
+
+            PdfPTable tabla = new PdfPTable(5); // 5 columnas
+
+
+
+            // Añadir encabezados de tabla
+
+            tabla.addCell("ID");
+
+            tabla.addCell("Nombre del producto");
+
+            tabla.addCell("Precio");
+
+            tabla.addCell("Stock");
+
+            tabla.addCell("Codigo Articulo");
+
+
+
             documento.open();
 
-            PdfPTable tabla = new PdfPTable(6);
-            tabla.addCell("ID del pedido");
-            tabla.addCell("Fecha del pedido");
-            tabla.addCell("Nombre del cliente");
-            tabla.addCell("Total del pedido");
-            tabla.addCell("Estado");
-            tabla.addCell("Descripcion del producto");
+            documento.add(header);
 
-            try {
-                Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
-                PreparedStatement ps = cn.prepareStatement("select * from pedidos");
+            documento.add(parrafo);
 
-                ResultSet rs = ps.executeQuery();
 
-                if (rs.next()) {
 
-                    do {
-                        tabla.addCell(rs.getString(1));
-                        tabla.addCell(rs.getString(2));
-                        tabla.addCell(rs.getString(3));
-                        tabla.addCell(rs.getString(4));
-                        tabla.addCell(rs.getString(5));
-                        tabla.addCell(rs.getString(6));
+            // Usando try-with-resources para asegurar el cierre de los recursos de la base de datos
 
-                    } while (rs.next());
-                    documento.add(tabla);
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
+
+                 PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo"); // Selecciona columnas específicas
+
+                 ResultSet rs = pst.executeQuery()) {
+
+
+
+                // Iterar sobre el ResultSet usando un simple while
+
+                while (rs.next()) {
+
+                    // Usa nombres de columna en lugar de índices numéricos (verifica los nombres exactos en tu BD)
+
+                    tabla.addCell(rs.getString("id"));
+
+                    tabla.addCell(rs.getString("nombre"));
+
+                    tabla.addCell(rs.getString("precio"));
+
+                    tabla.addCell(rs.getString("stock"));
+
+                    tabla.addCell(rs.getString("codigo_articulo")); // Asumo este nombre de columna
 
                 }
-            } catch (DocumentException | SQLException e) {
-            }
-            documento.close();
-            JOptionPane.showMessageDialog(null, "Reporte creado correctamente.");
 
-        } catch (DocumentException | FileNotFoundException e) {
+
+
+                // Solo añadir la tabla si hay datos (el while no se ejecuta si no hay)
+
+                // o si quieres añadirla siempre, puedes mover esto fuera del try-with-resources
+
+                documento.add(tabla);
+
+
+
+            } catch (SQLException e) {
+
+                System.out.println("Error en conexión a la base de datos: " + e.getMessage());
+
+                JOptionPane.showMessageDialog(null, "Error al obtener datos de la base de datos.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+
+            }
+
+
+
+            documento.close();
+
+            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "/Desktop/Reporte_Productos.pdf");
+
+
+
+        } catch (FileNotFoundException e) {
+
+            System.out.println("Error al crear el archivo PDF: " + e.getMessage());
+
+            JOptionPane.showMessageDialog(null, "Error al crear el archivo PDF. Verifica si la ruta es válida o si el archivo ya está abierto.", "Error de Archivo", JOptionPane.ERROR_MESSAGE);
+
+        } catch (DocumentException e) {
+
+             System.out.println("Error al generar el contenido del PDF: " + e.getMessage());
+
+             JOptionPane.showMessageDialog(null, "Error al generar el contenido del reporte PDF.", "Error de PDF", JOptionPane.ERROR_MESSAGE);
+
+        } catch (IOException e) {
+
+            System.out.println("Error al cargar la imagen: " + e.getMessage());
+
+            JOptionPane.showMessageDialog(null, "Error al cargar la imagen del encabezado. Verifica la ruta.", "Error de Imagen", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception e) { // Captura cualquier otra excepción inesperada
+
+             System.out.println("Ocurrió un error inesperado: " + e.getMessage());
+
+             JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado al crear el reporte.", "Error Desconocido", JOptionPane.ERROR_MESSAGE);
+
         }
     }//GEN-LAST:event_contentMenuItemActionPerformed
 
