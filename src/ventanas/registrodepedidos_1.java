@@ -561,7 +561,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
             String nombreArticulo = entry.getKey();
             int cantidadPedida = entry.getValue();
 
-            String consultaStock = "SELECT cantidad FROM catalogo WHERE nombre_articulo = ?";
+            String consultaStock = "SELECT cantidad FROM catalogo WHERE nombre = ?";
             pstCatalogo = cn.prepareStatement(consultaStock);
             pstCatalogo.setString(1, nombreArticulo);
             rsCatalogo = pstCatalogo.executeQuery();
@@ -571,7 +571,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
                 if (stockActual >= cantidadPedida) {
                     // Hay suficiente stock, procedemos a actualizar
                     int nuevoStock = stockActual - cantidadPedida;
-                    String actualizarStock = "UPDATE catalogo SET cantidad = ? WHERE nombre_articulo = ?";
+                    String actualizarStock = "UPDATE catalogo SET cantidad = ? WHERE nombre = ?";
                     PreparedStatement pstActualizar = cn.prepareStatement(actualizarStock);
                     pstActualizar.setInt(1, nuevoStock);
                     pstActualizar.setString(2, nombreArticulo);
