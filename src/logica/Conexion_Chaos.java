@@ -36,21 +36,17 @@ public class Conexion_Chaos {
         return conexion; 
     }
     
-    public static List<String> obtenerPermisosPorRol(Connection conexion, int idRol) {
+   public static List<String> obtenerPermisosPorRol(java.sql.Connection con, int idRol) throws SQLException {
     List<String> permisos = new ArrayList<>();
     String sql = "SELECT p.nombre_permiso FROM roles_permisos rp " +
                  "JOIN permisos p ON rp.id_permiso = p.id_permiso " +
                  "WHERE rp.id_rol = ?";
-
-    try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+    try (java.sql.PreparedStatement pstmt = con.prepareStatement(sql)) {
         pstmt.setInt(1, idRol);
         ResultSet rs = pstmt.executeQuery();
         while (rs.next()) {
             permisos.add(rs.getString("nombre_permiso"));
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al obtener permisos: " + e.getMessage());
-        e.printStackTrace(); // Log de la excepción
     }
     return permisos;
 }

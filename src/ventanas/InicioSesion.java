@@ -184,65 +184,65 @@ public class InicioSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
-String correo = txtcorreo1.getText().trim();
-    String contrasena = new String(txtContraseña1.getPassword()).trim();
+        String correo = txtcorreo1.getText().trim();
+        String contrasena = new String(txtContraseña1.getPassword()).trim();
 
-    // Validar que no haya campos vacíos
-    if (correo.isEmpty() || contrasena.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+        // Validar que no haya campos vacíos
+        if (correo.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    // Conectar a la base de datos y verificar credenciales
-    try (java.sql.Connection con = Conexion_Chaos.conectar()) {
-        // 1. Primero, verificar si el correo existe y obtener id_usuario e id_rol
-        String checkUserSql = "SELECT id_usuario, id_rol, contrasena FROM usuarios WHERE correo = ?";
-        try (java.sql.PreparedStatement checkUserPs = con.prepareStatement(checkUserSql)) {
-            checkUserPs.setString(1, correo);
-            ResultSet userRs = checkUserPs.executeQuery();
+        // Conectar a la base de datos y verificar credenciales
+        try (java.sql.Connection con = Conexion_Chaos.conectar()) {
+            // 1. Primero, verificar si el correo existe y obtener id_usuario e id_rol
+            String checkUserSql = "SELECT id, id_rol, contrasena FROM usuarios WHERE correo = ?";
+            try (java.sql.PreparedStatement checkUserPs = con.prepareStatement(checkUserSql)) {
+                checkUserPs.setString(1, correo);
+                ResultSet userRs = checkUserPs.executeQuery();
 
-            // Verificamos si se encontró algún registro con ese correo
-            if (!userRs.next()) {
-                JOptionPane.showMessageDialog(this, "El correo electrónico ingresado no está registrado.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int idUsuario = userRs.getInt("id_usuario");
-                int idRol = userRs.getInt("id_rol");
-                String storedPassword = userRs.getString("contrasena");
-
-                // 2. Comparamos la contraseña ingresada con la contraseña almacenada
-                if (contrasena.equals(storedPassword)) {
-                    // Si las contraseñas coinciden, el inicio de sesión es exitoso
-                    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido/a!", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-
-                    // 3. Obtener los permisos para este rol
-                    java.util.List<String> permisos = Conexion_Chaos.obtenerPermisosPorRol(con, idRol);
-
-                    // 4. Crear una instancia de Usuario y hacerla accesible (variable estática en InicioSesion)
-                    usuarioAutenticado = new Usuario(idUsuario, correo, idRol, permisos);
-
-                    // 5. Abrir la ventana principal (Ventanamultiple)
-                    Ventanamultiple form = new Ventanamultiple();
-                    form.setVisible(true);
-
-                    // 6. Cerrar la ventana actual de inicio de sesión
-                    this.dispose();
-
-                    // 7. Controlar la visibilidad del lblRegistrate basado en permisos
-                    if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
-                        lblRegistrate.setVisible(false);
-
-                    }
-
+                // Verificamos si se encontró algún registro con ese correo
+                if (!userRs.next()) {
+                    JOptionPane.showMessageDialog(this, "El correo electrónico ingresado no está registrado.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    // Si las contraseñas NO coinciden
-                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+                    int idUsuario = userRs.getInt("id");
+                    int idRol = userRs.getInt("id_rol");
+                    String storedPassword = userRs.getString("contrasena");
+
+                    // 2. Comparamos la contraseña ingresada con la contraseña almacenada
+                    if (contrasena.equals(storedPassword)) {
+                        // Si las contraseñas coinciden, el inicio de sesión es exitoso
+                        JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso. ¡Bienvenido/a!", "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
+
+                        // 3. Obtener los permisos para este rol
+                        java.util.List<String> permisos = Conexion_Chaos.obtenerPermisosPorRol(con, idRol);
+
+                        // 4. Crear una instancia de Usuario y hacerla accesible (variable estática en InicioSesion)
+                        usuarioAutenticado = new Usuario(idUsuario, correo, idRol, permisos);
+
+                        // 5. Abrir la ventana principal (Ventanamultiple)
+                        Ventanamultiple form = new Ventanamultiple();
+                        form.setVisible(true);
+
+                        // 6. Cerrar la ventana actual de inicio de sesión
+                        this.dispose();
+
+                        // 7. Controlar la visibilidad del lblRegistrate basado en permisos
+                        if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
+                            lblRegistrate.setVisible(false);
+
+                        }
+
+                    } else {
+                        // Si las contraseñas NO coinciden
+                        JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, "Error al conectar con la base de datos: " + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
     }//GEN-LAST:event_btnAccederActionPerformed
 
     private void lblRegistrateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistrateMouseClicked

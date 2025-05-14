@@ -177,7 +177,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         jLabel11.setText("Tipo de Usuario:");
 
         cbxtipousuario.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        cbxtipousuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Administrador", "Vendedor", "Personal de Logística" }));
+        cbxtipousuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Administrador", "Vendedor", " " }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -187,8 +187,8 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblIniciarSesion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                        .addComponent(lblIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -219,7 +219,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                                         .addComponent(txtContraseña)
                                         .addComponent(txtcorreo))
                                     .addGap(58, 58, 58))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(147, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,6 +306,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
         InicioSesion inicio = new InicioSesion();
         inicio.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lblIniciarSesionMouseClicked
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
@@ -381,6 +382,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     // Cerrar esta ventana y abrir la de inicio de sesión
     this.dispose();
     new InicioSesion().setVisible(true);
+    this.dispose();
 
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 

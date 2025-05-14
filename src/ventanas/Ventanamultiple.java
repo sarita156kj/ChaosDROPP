@@ -31,36 +31,37 @@ public class Ventanamultiple extends javax.swing.JFrame {
         verificarPermisos(); // Llamamos al método para verificar los permisos
     }
 
-    private void verificarPermisos() {
-        Usuario usuarioAutenticado = InicioSesion.getUsuarioAutenticado();
+private void verificarPermisos() {
+    Usuario usuarioAutenticado = InicioSesion.getUsuarioAutenticado();
 
-        if (usuarioAutenticado != null) {
-            if (!usuarioAutenticado.tienePermiso("gestionar_productos")) {
-                editMenu.setEnabled(false);
-            }
-            if (!usuarioAutenticado.tienePermiso("registrar_cliente")) {
-                jMenu2.setEnabled(false);
-            }
-            if (!usuarioAutenticado.tienePermiso("gestionar_pedidos")) {
-                fileMenu.setEnabled(false);
-            }
-            if (!usuarioAutenticado.tienePermiso("generar_reportes")) {
-                helpMenu.setEnabled(false);
-            }
-            if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
-                jMenuItem1.setEnabled(false);
-            }
-            // Puedes seguir añadiendo más verificaciones de permisos para otros elementos del menú
-        } else {
-            // Si no hay usuario autenticado (por alguna razón), podrías deshabilitar todos los menús por seguridad.
+    if (usuarioAutenticado != null) {
+        System.out.println("Permisos del usuario autenticado: " + usuarioAutenticado.getPermisos());
+        if (!usuarioAutenticado.tienePermiso("acceder_productos")) {
             editMenu.setEnabled(false);
-            jMenu2.setEnabled(false);
-            fileMenu.setEnabled(false);
-            helpMenu.setEnabled(false);
-            jMenu1.setEnabled(false);
-            jMenu3.setEnabled(false);
         }
+        if (!usuarioAutenticado.tienePermiso("acceder_clientes")) {
+            jMenu2.setEnabled(false);
+        }
+        if (!usuarioAutenticado.tienePermiso("acceder_pedidos") && !usuarioAutenticado.tienePermiso("acceder_envios")) {
+            fileMenu.setEnabled(false);
+        }
+        if (!usuarioAutenticado.tienePermiso("acceder_ventas")) {
+            helpMenu.setEnabled(false);
+        }
+        if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
+            jMenuItem1.setEnabled(false);
+        }
+        // Puedes seguir añadiendo más verificaciones de permisos para otros elementos del menú
+    } else {
+        // Si no hay usuario autenticado (por alguna razón), podrías deshabilitar todos los menús por seguridad.
+        editMenu.setEnabled(false);
+        jMenu2.setEnabled(false);
+        fileMenu.setEnabled(false);
+        helpMenu.setEnabled(false);
+        jMenu1.setEnabled(false);
+        jMenu3.setEnabled(false);
     }
+}
     
 
     /**

@@ -110,9 +110,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblIniciarSesion" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="116" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="lblIniciarSesion" min="-2" pref="272" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnRegistrarse" min="-2" pref="153" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                           </Group>
@@ -152,7 +152,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="147" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -397,7 +397,7 @@
                     <StringItem index="0" value="Seleccionar"/>
                     <StringItem index="1" value="Administrador"/>
                     <StringItem index="2" value="Vendedor"/>
-                    <StringItem index="3" value="Personal de Log&#xed;stica"/>
+                    <StringItem index="3" value=" "/>
                   </StringArray>
                 </Property>
               </Properties>

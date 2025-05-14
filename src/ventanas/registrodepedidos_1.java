@@ -1,7 +1,5 @@
 package ventanas;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import javax.swing.*;
 import java.sql.SQLException;
