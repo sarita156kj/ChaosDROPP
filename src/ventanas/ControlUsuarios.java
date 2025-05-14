@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class ControlUsuarios extends javax.swing.JFrame {
+public class ControlUsuarios extends javax.swing.JInternalFrame {
 
     private String dbUrl = "jdbc:mysql://localhost:3306/chaos_app?serverTimezone=UTC";
     private String dbUser = "root";
