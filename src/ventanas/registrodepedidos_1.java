@@ -104,7 +104,23 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
             }
         }
         txtmontototal.setText(String.format("%.2f", montoTotal));
+        calcularImpuesto(montoTotal); // Llamamos al método para calcular el impuesto
     }
+
+    private void calcularImpuesto(double montoTotal) {
+        String provinciaSeleccionada = (String) cmbCiudad.getSelectedItem();
+        double impuesto = 0.0;
+        java.util.List<String> provinciasExentas = java.util.Arrays.asList("Santo Domingo", "Puerto Plata", "Santiago", "La Vega", "Samaná");
+
+        if (!provinciasExentas.contains(provinciaSeleccionada)) {
+            // Puedes definir la lógica de tu impuesto aquí, por ejemplo, un porcentaje del monto total.
+            // Para este ejemplo, estableceremos un impuesto fijo de 50 pesos.
+            impuesto = 50.0;
+        }
+
+        txtimpuesto.setText(String.format("%.2f", impuesto));
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -147,6 +163,8 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         txtmontototal = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txtimpuesto = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -257,6 +275,10 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Monto Total:");
 
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Impuesto:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -312,29 +334,36 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
                         .addGap(229, 229, 229)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtdireccion)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(CboArticulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbTipodePago, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(168, 168, 168))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtdireccion)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CboArticulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbTipodePago, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtmontototal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(55, 55, 55))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtmontototal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtimpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,13 +401,11 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(CmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19))
-                        .addGap(24, 24, 24))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel16)
+                            .addComponent(txtmontototal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,13 +423,20 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19)
                             .addComponent(jLabel6)
-                            .addComponent(cmbTipodePago, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16)
-                            .addComponent(txtmontototal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41))))
+                            .addComponent(cmbTipodePago, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(txtimpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22))))
         );
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 1240, 520));
@@ -520,7 +554,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
 
     try {
         cn = Conexion_Chaos.conectar();
-        cn.setAutoCommit(false); 
+        cn.setAutoCommit(false);
 
         // Verificamos el stock y actualizamos la tabla catalogo
         for (Map.Entry<String, Integer> entry : cantidadesPedido.entrySet()) {
@@ -560,7 +594,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         // Si llegamos aquí, significa que hay suficiente stock para todos los artículos
         // Ahora procedemos a insertar el pedido en la tabla de pedidos
         try {
-            String sql = "INSERT INTO pedidos (codigo_pedido, nombre_cliente, apellido_cliente, telefono, direccion, provincia, fecha_pedido, fecha_entrega, descripcion, tipo_pago, estado, monto_total) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO pedidos (codigo_pedido, nombre_cliente, apellido_cliente, telefono, direccion, provincia, fecha_pedido, fecha_entrega, descripcion, tipo_pago, estado, monto_total, impuesto) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             pstPedido = cn.prepareStatement(sql);
             pstPedido.setString(1, txtcodigo.getText());
             pstPedido.setString(2, txtNombreC.getText());
@@ -589,6 +623,7 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
             pstPedido.setString(10, (String) cmbTipodePago.getSelectedItem());
             pstPedido.setString(11, (String) CmbEstado.getSelectedItem());
             pstPedido.setString(12, txtmontototal.getText());
+            pstPedido.setString(13, txtimpuesto.getText()); // Guardamos el valor del impuesto
             pstPedido.executeUpdate();
             JOptionPane.showMessageDialog(null, "Pedido registrado exitosamente.");
             limpiarFormulario();
@@ -621,11 +656,13 @@ private void limpiarFormulario() {
     txtdireccion.setText("");
     txtDescripcion.setText("");
     txtmontototal.setText("");
+    txtimpuesto.setText(""); // También limpiamos el campo de impuesto
     jFechaPedido.setDate(null);
     jFechaEntrega.setDate(null);
     cmbCiudad.setSelectedIndex(0);
     cmbTipodePago.setSelectedIndex(0);
     CmbEstado.setSelectedIndex(0);
+    
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -699,6 +736,7 @@ private void limpiarFormulario() {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -719,6 +757,7 @@ private void limpiarFormulario() {
     private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtcodigo;
     private javax.swing.JTextField txtdireccion;
+    private javax.swing.JTextField txtimpuesto;
     private javax.swing.JTextField txtmontototal;
     // End of variables declaration//GEN-END:variables
 

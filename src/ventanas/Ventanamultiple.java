@@ -28,14 +28,11 @@ import logica.Usuario;
  */
 public class Ventanamultiple extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Ventanamultiple
-     */
     public Ventanamultiple() {
         initComponents();
         this.setExtendedState(Ventanamultiple.MAXIMIZED_BOTH);
         this.setTitle("Sistema de ventas y pedidos - CHAOSdrop");
-        verificarPermisos(); // Llamamos al método para verificar los permisos
+        verificarPermisos(); 
     }
 
 private void verificarPermisos() {
@@ -372,7 +369,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-      Document documento = new Document();
+     Document documento = new Document();
 
 
 

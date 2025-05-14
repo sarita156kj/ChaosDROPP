@@ -5,29 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import logica.Conexion_Chaos;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
 public class RegistroCliente extends javax.swing.JInternalFrame {
-    
-        private boolean clienteExiste(String telefono, String correo) {
-        String query = "SELECT COUNT(*) FROM clientes WHERE telefonoPrincipal = ? OR correoElectronico = ?";
-        try (Connection con = (Connection) Conexion_Chaos.conectar(); // Reemplaza con tu clase de conexión
-             PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
 
-            pstmt.setString(1, telefono);
-            pstmt.setString(2, correo);
-
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Devuelve true si se encontró al menos un cliente con el mismo teléfono o correo
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al verificar la existencia del cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Imprimir el error en la consola para depuración
-        }
-        return false; // Si ocurre un error o no se encuentra ningún cliente
+    // **--- NUEVO MÉTODO: Limpiar los campos del formulario ---**
+    private void limpiarCampos() {
+        txtnombrecliente.setText("");
+        txtapellidocliente.setText("");
+        txttelprincipal.setText("");
+        txttelsecundario.setText("");
+        txtemail.setText("");
+        txtdireccion.setText("");
+        cboxprovincia.setSelectedIndex(0); // Restablecer el JComboBox a su primer elemento ("Seleccionar" en tu caso)
+        // Restablece cualquier otro campo de tu formulario aquí
     }
 
     public RegistroCliente() {
@@ -64,7 +55,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         txtdireccion = new javax.swing.JTextField();
         cboxprovincia = new javax.swing.JComboBox<>();
         btnRegistrarCliente = new javax.swing.JButton();
-        btnRegistrarCliente1 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -155,17 +145,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        btnRegistrarCliente1.setBackground(new java.awt.Color(0, 0, 0));
-        btnRegistrarCliente1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnRegistrarCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegistrarCliente1.setText("Nuevo ");
-        btnRegistrarCliente1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-        btnRegistrarCliente1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarCliente1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -175,25 +154,26 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(59, 59, 59)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addGap(62, 62, 62)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7)
-                                .addComponent(txttelsecundario)
-                                .addComponent(txttelprincipal)
-                                .addComponent(txtapellidocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(txttelsecundario)
+                            .addComponent(txttelprincipal)
+                            .addComponent(txtapellidocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(85, 85, 85)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cboxprovincia, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -204,14 +184,12 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                             .addComponent(txtemail, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel8)
-                                .addGap(202, 202, 202)))
-                        .addGap(58, 58, 58))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(btnRegistrarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(202, 202, 202)))))
+                        .addGap(58, 58, 58))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,11 +226,9 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txttelsecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegistrarCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
         );
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 770, -1));
@@ -300,6 +276,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
+
         // 1. Obtener los datos de los campos
         String nombre = txtnombrecliente.getText().trim();
         String apellido = txtapellidocliente.getText().trim();
@@ -314,7 +291,14 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Por favor, complete los campos obligatorios (Nombre, Teléfono Principal, Dirección, Ciudad, Provincia).", "Error", JOptionPane.ERROR_MESSAGE);
             return; // Detener el proceso si hay campos vacíos
         }
-        // 3. Insertar los datos en la base de datos (ejemplo básico con JDBC)
+
+        // 3. Verificar si el cliente ya existe
+        if (clienteExiste(telefonoPrincipal, correoElectronico)) {
+            JOptionPane.showMessageDialog(this, "Ya existe un cliente registrado con este número de teléfono o correo electrónico.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return; // Detener el registro si el cliente ya existe
+        }
+
+        // 4. Insertar los datos en la base de datos
         String query = "INSERT INTO clientes (nombre, apellido, telefonoPrincipal, telefonoSecundario, correoElectronico, direccion, provincia) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = (Connection) Conexion_Chaos.conectar(); // Reemplaza con tu clase de conexión
@@ -332,31 +316,40 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
 
             if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(this, "Cliente registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                // limpiarCampos(); // Método para limpiar los campos del formulario
+                limpiarCampos(); // **Llamar al método para limpiar los campos después del registro exitoso**
             } else {
                 JOptionPane.showMessageDialog(this, "Error al registrar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error de base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Imprimir el error en la consola para depuración  
+            e.printStackTrace(); // Imprimir el error en la consola para depuración
         }
-        
-        
+    }
+
+    // Método para verificar si el cliente ya existe en la base de datos (sin cambios)
+    private boolean clienteExiste(String telefono, String correo) {
+        String query = "SELECT COUNT(*) FROM clientes WHERE telefonoPrincipal = ? OR correoElectronico = ?";
+        try (Connection con = (Connection) Conexion_Chaos.conectar(); PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
+
+            pstmt.setString(1, telefono);
+            pstmt.setString(2, correo);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al verificar la existencia del cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        return false;
+
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
     private void txttelprincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelprincipalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttelprincipalActionPerformed
-
-    private void btnRegistrarCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCliente1ActionPerformed
-        txtapellidocliente.setText("");
-        txtdireccion.setText("");
-        txtemail.setText("");
-        txttelprincipal.setText("");
-        txttelsecundario.setText("");
-
-    }//GEN-LAST:event_btnRegistrarCliente1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -395,7 +388,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrarCliente;
-    private javax.swing.JButton btnRegistrarCliente1;
     private javax.swing.JComboBox<String> cboxprovincia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -420,12 +412,4 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txttelsecundario;
     // End of variables declaration//GEN-END:variables
 
-    private void limpiarCampos() {
-        txtapellidocliente.setText("");
-        txtdireccion.setText("");
-        txtemail.setText("");
-        txtnombrecliente.setText("");
-        txttelprincipal.setText("");
-        txttelsecundario.setText("");
-    }
 }
