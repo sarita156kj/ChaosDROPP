@@ -121,7 +121,6 @@ public class registrodepedidos_1 extends javax.swing.JInternalFrame {
         txtimpuesto.setText(String.format("%.2f", impuesto));
     }
 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

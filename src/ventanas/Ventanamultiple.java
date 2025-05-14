@@ -313,9 +313,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        InicioSesion form= new InicioSesion();
-        escritorio.add(form);
-        form.setVisible(true);
+ 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -355,9 +353,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_jMenu2MouseReleased
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        registrodepedidos_1 form= new registrodepedidos_1();
-        escritorio.add(form);
-        form.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
