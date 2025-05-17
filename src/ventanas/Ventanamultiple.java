@@ -90,10 +90,11 @@ private void verificarPermisos() {
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,7 +151,7 @@ private void verificarPermisos() {
 
         menuBar.add(jMenu2);
 
-        fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion pedido1.png"))); // NOI18N
+        fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/rastreo (2).png"))); // NOI18N
         fileMenu.setMnemonic('f');
         fileMenu.setText("Gestión Pedido");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -236,16 +237,6 @@ private void verificarPermisos() {
         jMenu1.setText("Configuración");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
-        jMenuItem1.setText("Crear Nuevo Usuario");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-de-informacion.png"))); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
@@ -281,6 +272,27 @@ private void verificarPermisos() {
                 jMenu3ActionPerformed(evt);
             }
         });
+
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas.png"))); // NOI18N
+        jMenuItem4.setText("Control de Usuario");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
+        jMenuItem1.setText("Crear Nuevo Usuario");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
         menuBar.add(jMenu3);
 
         setJMenuBar(menuBar);
@@ -527,6 +539,10 @@ private void verificarPermisos() {
         }
     }//GEN-LAST:event_contentMenuItemActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -576,6 +592,7 @@ private void verificarPermisos() {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
