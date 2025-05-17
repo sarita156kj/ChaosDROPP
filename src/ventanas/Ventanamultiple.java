@@ -105,7 +105,7 @@ private void verificarPermisos() {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/opcion 9 (5).png"))); // NOI18N
         jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1540, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 1540, -1));
 
         escritorio.add(jPanel1);
         jPanel1.setBounds(0, 0, 1550, 870);
@@ -215,13 +215,13 @@ private void verificarPermisos() {
 
         menuBar.add(fileMenu);
 
-        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/procesando-orden (1).png"))); // NOI18N
+        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/informe.png"))); // NOI18N
         helpMenu.setMnemonic('h');
         helpMenu.setText("Reportes");
         helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/libro.png"))); // NOI18N
+        contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/estadistica.png"))); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Generar reporte");
         contentMenuItem.addActionListener(new java.awt.event.ActionListener() {

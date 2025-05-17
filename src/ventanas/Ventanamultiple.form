@@ -136,7 +136,7 @@
         <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/&#xed;conos/procesando-orden (1).png"/>
+              <Image iconType="3" name="/&#xed;conos/informe.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="104"/>
             <Property name="text" type="java.lang.String" value="Reportes"/>
@@ -151,7 +151,7 @@
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/&#xed;conos/libro.png"/>
+                  <Image iconType="3" name="/&#xed;conos/estadistica.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Generar reporte"/>
@@ -320,7 +320,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="1540" height="-1"/>
+                  <AbsoluteConstraints x="0" y="-40" width="1540" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
