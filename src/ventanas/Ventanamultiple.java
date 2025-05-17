@@ -111,11 +111,13 @@ private void verificarPermisos() {
 
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
+        editMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/lista-de-verificacion (1).png"))); // NOI18N
         editMenu.setMnemonic('e');
         editMenu.setText("Gestión Producto");
         editMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         cutMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/inventario-disponible (1).png"))); // NOI18N
         cutMenuItem.setMnemonic('t');
         cutMenuItem.setText("Inventario");
         cutMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -127,6 +129,7 @@ private void verificarPermisos() {
 
         menuBar.add(editMenu);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/control-parental.png"))); // NOI18N
         jMenu2.setText("Registro de Cliente");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,7 +139,8 @@ private void verificarPermisos() {
         });
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem3.setText("Registro de cliente");
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contacto.png"))); // NOI18N
+        jMenuItem3.setText("Registro de Cliente");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -146,6 +150,7 @@ private void verificarPermisos() {
 
         menuBar.add(jMenu2);
 
+        fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion pedido1.png"))); // NOI18N
         fileMenu.setMnemonic('f');
         fileMenu.setText("Gestión Pedido");
         fileMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -176,8 +181,9 @@ private void verificarPermisos() {
         });
 
         saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        saveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/historial-de-pedidos.png"))); // NOI18N
         saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Historial pedido");
+        saveMenuItem.setText("Historial de Pedidos");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -186,8 +192,9 @@ private void verificarPermisos() {
         fileMenu.add(saveMenuItem);
 
         openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        openMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icons8-seguimiento-de-entrega-24.png"))); // NOI18N
         openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Seguimiento de envios");
+        openMenuItem.setText("Seguimiento de Envíos");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
@@ -196,7 +203,8 @@ private void verificarPermisos() {
         fileMenu.add(openMenuItem);
 
         jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem2.setText("Gestión pedidos");
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas 2.png"))); // NOI18N
+        jMenuItem2.setText("Registro de Pedidos");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -206,11 +214,13 @@ private void verificarPermisos() {
 
         menuBar.add(fileMenu);
 
+        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/procesando-orden (1).png"))); // NOI18N
         helpMenu.setMnemonic('h');
         helpMenu.setText("Reportes");
         helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/libro.png"))); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Generar reporte");
         contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -222,10 +232,12 @@ private void verificarPermisos() {
 
         menuBar.add(helpMenu);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/engranaje.png"))); // NOI18N
         jMenu1.setText("Configuración");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
         jMenuItem1.setText("Crear Nuevo Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +247,7 @@ private void verificarPermisos() {
         jMenu1.add(jMenuItem1);
 
         jMenuItem6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-de-informacion.png"))); // NOI18N
         jMenuItem6.setText("Ayuda / Instrucciones de uso");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +257,7 @@ private void verificarPermisos() {
         jMenu1.add(jMenuItem6);
 
         jMenuItem7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/cerrar-sesion.png"))); // NOI18N
         jMenuItem7.setText("Cerrar Sesión");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,7 +268,8 @@ private void verificarPermisos() {
 
         menuBar.add(jMenu1);
 
-        jMenu3.setText("Salir de la aplicación");
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion-de-usuarios.png"))); // NOI18N
+        jMenu3.setText("Gestión de Usuarios");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
