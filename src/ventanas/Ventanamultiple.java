@@ -328,9 +328,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
-       Controlinventario form= new Controlinventario();
-        escritorio.add(form);
-        form.setVisible(true);
+       
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
