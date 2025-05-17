@@ -200,6 +200,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -213,6 +214,8 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
 
+        tablaHistorialPedidos.setBackground(new java.awt.Color(0, 0, 0));
+        tablaHistorialPedidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         tablaHistorialPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -229,7 +232,8 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         btnEliminarPedido.setBackground(new java.awt.Color(0, 0, 0));
         btnEliminarPedido.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnEliminarPedido.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarPedido.setText("Eliminar ");
+        btnEliminarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-x.png"))); // NOI18N
+        btnEliminarPedido.setText(" Eliminar ");
         btnEliminarPedido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
         btnEliminarPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,6 +244,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         btnBuscarCliente.setBackground(new java.awt.Color(0, 0, 0));
         btnBuscarCliente.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/buscar 2.png"))); // NOI18N
         btnBuscarCliente.setText("Buscar ");
         btnBuscarCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
         btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -248,14 +253,15 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre del Cliente:");
 
         btnreporte.setBackground(new java.awt.Color(0, 0, 0));
         btnreporte.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnreporte.setForeground(new java.awt.Color(255, 255, 255));
-        btnreporte.setText("Generar reporte");
+        btnreporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/expediente.png"))); // NOI18N
+        btnreporte.setText(" Generar reporte");
         btnreporte.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         btnreporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,11 +282,11 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtNombreClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnreporte, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85)
+                        .addComponent(btnreporte, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(46, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1298, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -301,28 +307,32 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtNombreClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, 630));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, -1, 630));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI Black", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Historial Pedidos");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, 60));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, -1, 60));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Bienvenido al historial de pedidos - ¿Qué deseas ver? ");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
         jLabel5.setText("jLabel5");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1350, 20, 180, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icons8-historia-de-la-actividad-100.png"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 100, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/empresas-courier-hacer-envios.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -431,6 +441,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

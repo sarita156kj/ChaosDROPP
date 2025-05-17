@@ -87,14 +87,14 @@ private void verificarPermisos() {
         saveMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -215,7 +215,43 @@ private void verificarPermisos() {
 
         menuBar.add(fileMenu);
 
-        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/informe.png"))); // NOI18N
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion-de-usuarios.png"))); // NOI18N
+        jMenu3.setText("Gestión de Usuarios");
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas.png"))); // NOI18N
+        jMenuItem4.setText("Control de Usuario");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
+        jMenuItem1.setText("Crear Nuevo Usuario");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
+        menuBar.add(jMenu3);
+
+        helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/libro.png"))); // NOI18N
         helpMenu.setMnemonic('h');
         helpMenu.setText("Reportes");
         helpMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -259,42 +295,6 @@ private void verificarPermisos() {
 
         menuBar.add(jMenu1);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion-de-usuarios.png"))); // NOI18N
-        jMenu3.setText("Gestión de Usuarios");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu3MouseClicked(evt);
-            }
-        });
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
-            }
-        });
-
-        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas.png"))); // NOI18N
-        jMenuItem4.setText("Control de Usuario");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem4);
-
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
-        jMenuItem1.setText("Crear Nuevo Usuario");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
-
-        menuBar.add(jMenu3);
-
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -305,7 +305,7 @@ private void verificarPermisos() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
         );
 
         pack();
