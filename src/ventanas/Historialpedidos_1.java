@@ -237,7 +237,6 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
 
-        tablaHistorialPedidos.setBackground(new java.awt.Color(204, 204, 204));
         tablaHistorialPedidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         tablaHistorialPedidos.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         tablaHistorialPedidos.setModel(new javax.swing.table.DefaultTableModel(
@@ -254,7 +253,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tablaHistorialPedidos);
 
         btnEliminarPedido.setBackground(new java.awt.Color(0, 0, 0));
-        btnEliminarPedido.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnEliminarPedido.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminarPedido.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-x.png"))); // NOI18N
         btnEliminarPedido.setText(" Eliminar ");
@@ -266,7 +265,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         });
 
         btnBuscarCliente.setBackground(new java.awt.Color(0, 0, 0));
-        btnBuscarCliente.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnBuscarCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/buscar 2.png"))); // NOI18N
         btnBuscarCliente.setText("Buscar ");
@@ -287,19 +286,17 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(txtNombreClienteBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37))))
+                        .addComponent(btnEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,7 +350,7 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         cboxtestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "En almacén", "De camino", "Entregado", "Devuelto al Remitente", "Cancelado" }));
 
         txtactualizar.setBackground(new java.awt.Color(0, 0, 0));
-        txtactualizar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtactualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtactualizar.setForeground(new java.awt.Color(255, 255, 255));
         txtactualizar.setText("Actualizar");
         txtactualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 4));
@@ -376,8 +373,8 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(cboxtestado, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                        .addComponent(txtactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53))))
+                        .addComponent(txtactualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
