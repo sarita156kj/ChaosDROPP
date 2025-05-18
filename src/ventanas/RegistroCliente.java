@@ -21,6 +21,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         // Restablece cualquier otro campo de tu formulario aquí
     }
 
+
     public RegistroCliente() {
         initComponents();
 

@@ -32,6 +32,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private JMenuItem gestionarUsuariosMenuItem; // Declarar variable para el JMenuItem de "Gestion de Usuarios"
     private Usuario usuarioAutenticado;
 
+    
+    
     public Ventanamultiple() {
         initComponents(); // Inicialización de componentes de la ventana
         this.setExtendedState(Ventanamultiple.MAXIMIZED_BOTH);
@@ -162,6 +164,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No tiene permisos para asignar el rol de administrador.", "Error de Permisos", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -611,6 +615,9 @@ this.dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Registro_de_Pedidos form = new Registro_de_Pedidos(this);
+        escritorio.add(form);
+        form.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
