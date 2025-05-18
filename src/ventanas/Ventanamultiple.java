@@ -85,8 +85,9 @@ private void verificarPermisos() {
         jMenuItem3 = new javax.swing.JMenuItem();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
-        openMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        openMenuItem = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -192,6 +193,21 @@ private void verificarPermisos() {
         });
         fileMenu.add(saveMenuItem);
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas 2.png"))); // NOI18N
+        jMenuItem2.setText("Registro de Pedidos");
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem2MouseClicked(evt);
+            }
+        });
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem2);
+
         openMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         openMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icons8-seguimiento-de-entrega-24.png"))); // NOI18N
         openMenuItem.setMnemonic('o');
@@ -203,15 +219,14 @@ private void verificarPermisos() {
         });
         fileMenu.add(openMenuItem);
 
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas 2.png"))); // NOI18N
-        jMenuItem2.setText("Registro de Pedidos");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem5.setText("Registro de pedidos");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem2);
+        fileMenu.add(jMenuItem5);
 
         menuBar.add(fileMenu);
 
@@ -513,7 +528,7 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
             documento.close();
 
-            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "\\Desktop\\Reporte_Productos.pdf");
+            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "/Desktop/Reporte_Productos.pdf");
 
 
 
@@ -549,6 +564,16 @@ registrodepedidos_1 form= new registrodepedidos_1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
+   
+    }//GEN-LAST:event_jMenuItem2MouseClicked
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+         registrodepedidos_1 form= new registrodepedidos_1();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -600,6 +625,7 @@ registrodepedidos_1 form= new registrodepedidos_1();
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
