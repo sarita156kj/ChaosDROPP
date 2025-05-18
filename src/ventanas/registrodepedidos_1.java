@@ -682,6 +682,56 @@ private void limpiarFormulario() {
     calcularMontoTotal();
     }//GEN-LAST:event_btnCalcularActionPerformed
 
+    private void limpiarCamposPedido() {
+        txtNombreC.setText("");
+        txtApellidoC.setText("");
+        txtTelefono.setText("");
+        txtcodigo.setText("");
+        jFechaPedido.setDate(null);; // Limpiar JDateChooser
+        jFechaEntrega.setDate(null); // Establecer JDateChooser a null
+        cmbCiudad.setSelectedIndex(0); // Restablecer JComboBox de provincia al primer elemento
+        txtdireccion.setText("");
+        txtDescripcion.setText(""); // Corregí la doble ".."
+        cmbTipodePago.setSelectedIndex(0); // Restablecer JComboBox de tipo de pago al primer elemento
+        CmbEstado.setSelectedIndex(0); // Restablecer JComboBox de estado al primer elemento    
+    }
+
+    private void CargarArticulos() {
+        CboArticulo.setModel(new DefaultComboBoxModel<>(NOMBRES_ARTICULOS));
+    }
+
+  private void CargarSugerencias() {
+        AutoCompleteDecorator.decorate(CboArticulo);
+    }
+
+private void cargarPreciosDesdeCatalogo() {
+        Connection conexion = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conexion = Conexion_Chaos.conectar();
+            System.out.println("Conexión a la base de datos exitosa."); // <-- Añade esta línea
+            String sql = "SELECT nombre, precio FROM catalogo";
+            pstmt = conexion.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String nombreArticulo = rs.getString("nombre");
+                double precio = rs.getDouble("precio");
+                preciosArticulos.put(nombreArticulo, precio);
+                System.out.println("Artículo cargado: " + nombreArticulo + " - Precio: " + precio); // <-- Añade esta línea
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los precios del catálogo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) {}
+            try { if (pstmt != null) pstmt.close(); } catch (SQLException e) {}
+            try { if (conexion != null) conexion.close(); } catch (SQLException e) {}
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -761,55 +811,7 @@ private void limpiarFormulario() {
     private javax.swing.JTextField txtmontototal;
     // End of variables declaration//GEN-END:variables
 
-    private void limpiarCamposPedido() {
-        txtNombreC.setText("");
-        txtApellidoC.setText("");
-        txtTelefono.setText("");
-        txtcodigo.setText("");
-        jFechaPedido.setDate(null);; // Limpiar JDateChooser
-        jFechaEntrega.setDate(null); // Establecer JDateChooser a null
-        cmbCiudad.setSelectedIndex(0); // Restablecer JComboBox de provincia al primer elemento
-        txtdireccion.setText("");
-        txtDescripcion.setText(""); // Corregí la doble ".."
-        cmbTipodePago.setSelectedIndex(0); // Restablecer JComboBox de tipo de pago al primer elemento
-        CmbEstado.setSelectedIndex(0); // Restablecer JComboBox de estado al primer elemento    
+
     }
 
-    private void CargarArticulos() {
-        CboArticulo.setModel(new DefaultComboBoxModel<>(NOMBRES_ARTICULOS));
-    }
 
-  private void CargarSugerencias() {
-        AutoCompleteDecorator.decorate(CboArticulo);
-    }
-
-private void cargarPreciosDesdeCatalogo() {
-        Connection conexion = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            conexion = Conexion_Chaos.conectar();
-            System.out.println("Conexión a la base de datos exitosa."); // <-- Añade esta línea
-            String sql = "SELECT nombre, precio FROM catalogo";
-            pstmt = conexion.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                String nombreArticulo = rs.getString("nombre");
-                double precio = rs.getDouble("precio");
-                preciosArticulos.put(nombreArticulo, precio);
-                System.out.println("Artículo cargado: " + nombreArticulo + " - Precio: " + precio); // <-- Añade esta línea
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los precios del catálogo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } finally {
-            try { if (rs != null) rs.close(); } catch (SQLException e) {}
-            try { if (pstmt != null) pstmt.close(); } catch (SQLException e) {}
-            try { if (conexion != null) conexion.close(); } catch (SQLException e) {}
-        }
-    }
-
-}
