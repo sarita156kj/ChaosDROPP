@@ -433,6 +433,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
+this.dispose();
         Controlinventario1 form = new Controlinventario1();
         escritorio.add(form);
         form.setVisible(true);
