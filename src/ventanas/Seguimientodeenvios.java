@@ -1,6 +1,5 @@
 package ventanas;
 
-import java.awt.Container;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.PlainDocument;
 
 public class Seguimientodeenvios extends javax.swing.JInternalFrame {
 

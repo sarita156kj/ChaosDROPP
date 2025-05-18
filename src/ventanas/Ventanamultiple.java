@@ -83,8 +83,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         }
     }
-    
-     private void verificarPermisos() {
+
+    private void verificarPermisos() {
         usuarioAutenticado = InicioSesion.getUsuarioAutenticado(); // Obtén el usuario autenticado
 
         if (usuarioAutenticado != null) {
@@ -106,7 +106,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
                     jMenuItem1.setEnabled(false);
                 }
                 GestiondeUsuariomenu.setEnabled(false);
-                 for (Component item : GestiondeUsuariomenu.getMenuComponents()) {
+                for (Component item : GestiondeUsuariomenu.getMenuComponents()) {
                     if (item instanceof JMenuItem) {
                         ((JMenuItem) item).setEnabled(false);
                     }
@@ -129,7 +129,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
     public Usuario crearNuevoUsuario(String nombreUsuario, String contraseña) {
         // Aquí iría la lógica para crear un nuevo usuario en la base de datos
         // y obtener el ID del nuevo usuario.  Esto es un ejemplo.
-        int nuevoIdUsuario = // Obtener el ID del nuevo usuario de la base de datos
+        int nuevoIdUsuario
+                = // Obtener el ID del nuevo usuario de la base de datos
                 -1; // Inicializar en -1 para indicar un error potencial
         // Ejemplo de cómo podrías obtener el ID después de insertar en la base de datos:
         // nuevoIdUsuario = databaseService.insertarUsuario(nombreUsuario, contraseña, rolVendedor);
@@ -161,8 +162,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No tiene permisos para asignar el rol de administrador.", "Error de Permisos", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -603,7 +602,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        registrodepedidos_1 form= new registrodepedidos_1();
+        registrodepedidos_1 form = new registrodepedidos_1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed

@@ -2,12 +2,10 @@ package logica;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class Conexion_Chaos {
 
@@ -19,7 +17,7 @@ public class Conexion_Chaos {
     public static Connection conectar() throws SQLException {
         Connection conexion = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver"); 
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
             
             conexion = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
 
