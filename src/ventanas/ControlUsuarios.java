@@ -1,5 +1,4 @@
 package ventanas;
-      
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,8 +17,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
     private String obtenerNombreRol(int idRol) {
         String nombreRol = "";
         String sql = "SELECT nombre_rol FROM roles WHERE id_rol = ?";
-        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
             sentencia.setInt(1, idRol);
             ResultSet resultado = sentencia.executeQuery();
             if (resultado.next()) {
@@ -39,8 +37,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
     private Integer obtenerIdRol(String nombreRolSeleccionado) {
         Integer idRol = null;
         String sql = "SELECT id_rol FROM roles WHERE nombre_rol = ?";
-        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
             sentencia.setString(1, nombreRolSeleccionado);
             ResultSet resultado = sentencia.executeQuery();
             if (resultado.next()) {
@@ -62,9 +59,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
         DefaultTableModel modeloTabla = new DefaultTableModel(null, nombresColumnas);
         usuariosTable.setModel(modeloTabla);
 
-        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             Statement sentencia = conexion.createStatement();
-             ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios")) {
+        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); Statement sentencia = conexion.createStatement(); ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuarios")) {
 
             int numColumnas = resultado.getMetaData().getColumnCount();
             System.out.println("Número de columnas obtenidas de la base de datos: " + numColumnas);
@@ -140,7 +135,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
                 String correo = txtcorreo.getText();
                 String celular = txtcelular.getText();
                 String tipoEmpleadoSeleccionado = (String) cbxRol.getSelectedItem();
-                Integer idRol = obtenerIdRol(tipoEmpleadoSeleccionado); // Obtener el ID del rol desde la DB
+                Integer idRol = obtenerIdRol(tipoEmpleadoSeleccionado);
 
                 if (idRol == null && !tipoEmpleadoSeleccionado.equals("Seleccionar")) {
                     JOptionPane.showMessageDialog(ControlUsuarios.this, "El tipo de empleado seleccionado no es válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -151,22 +146,20 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
                 }
 
                 String sql = "UPDATE usuarios SET nombre=?, apellido=?, usuario=?, correo=?, telefono=?, id_rol=? WHERE id=?";
-                try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                     PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+                try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
                     sentencia.setString(1, nombre);
                     sentencia.setString(2, apellido);
                     sentencia.setString(3, nombreUsuario);
                     sentencia.setString(4, correo);
-                    sentencia.setString(5, celular); 
-                    sentencia.setInt(7, idRol);
-                    sentencia.setInt(8, usuarioSeleccionadoId);
+                    sentencia.setString(5, celular);
+                    sentencia.setInt(6, idRol); // Corregido el índice
+                    sentencia.setInt(7, usuarioSeleccionadoId); // Corregido el índice
 
                     int filasAfectadas = sentencia.executeUpdate();
 
                     if (filasAfectadas > 0) {
                         JOptionPane.showMessageDialog(ControlUsuarios.this, "Usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        cargarDatosUsuarios(); // Recargar la tabla
-                        // Opcional: Limpiar los campos de texto después de editar
+                        cargarDatosUsuarios();
                         txtid.setText("");
                         txtnombre.setText("");
                         txtapellido.setText("");
@@ -174,7 +167,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
                         txtcorreo.setText("");
                         txtcelular.setText("");
                         cbxRol.setSelectedIndex(0);
-                        usuarioSeleccionadoId = -1; // Resetear el ID seleccionado
+                        usuarioSeleccionadoId = -1;
                     } else {
                         JOptionPane.showMessageDialog(ControlUsuarios.this, "No se pudo actualizar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -198,8 +191,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
 
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     String sql = "DELETE FROM usuarios WHERE id = ?";
-                    try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                         PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+                    try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
                         sentencia.setInt(1, usuarioSeleccionadoId);
 
                         int filasAfectadas = sentencia.executeUpdate();
@@ -241,9 +233,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
         cbxRol.removeAllItems();
         cbxRol.addItem("Seleccionar"); // Valor por defecto
         String sql = "SELECT nombre_rol FROM roles";
-        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             Statement sentencia = conexion.createStatement();
-             ResultSet resultado = sentencia.executeQuery(sql)) {
+        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); Statement sentencia = conexion.createStatement(); ResultSet resultado = sentencia.executeQuery(sql)) {
             while (resultado.next()) {
                 cbxRol.addItem(resultado.getString("nombre_rol").trim());
             }
@@ -303,6 +293,8 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
 
         usuariosTable.setBackground(new java.awt.Color(0, 0, 0));
         usuariosTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        usuariosTable.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        usuariosTable.setForeground(new java.awt.Color(255, 255, 255));
         usuariosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -340,7 +332,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -426,7 +418,7 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
                 .addGap(190, 190, 190)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

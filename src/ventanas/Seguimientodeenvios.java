@@ -215,7 +215,7 @@ public class Seguimientodeenvios extends javax.swing.JInternalFrame {
         jLabel7.setText("Fecha de entrega:");
 
         buscarButton.setBackground(new java.awt.Color(0, 0, 0));
-        buscarButton.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        buscarButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         buscarButton.setForeground(new java.awt.Color(255, 255, 255));
         buscarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/buscar 2.png"))); // NOI18N
         buscarButton.setText("Buscar");

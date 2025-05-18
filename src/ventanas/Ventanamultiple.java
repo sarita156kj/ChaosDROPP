@@ -1,4 +1,3 @@
-
 package ventanas;
 
 import com.itextpdf.text.BaseColor;
@@ -9,6 +8,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
+import java.awt.Component;
 import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import logica.Usuario;
 
@@ -26,45 +27,142 @@ import logica.Usuario;
  */
 public class Ventanamultiple extends javax.swing.JFrame {
 
+    private int rolVendedor = 2; // Asegúrate de que este valor coincida con el ID del rol de vendedor en tu base de datos
+    private int rolAdministrador = 1; // Asegúrate de que este valor coincida con el ID del rol de administrador en tu base de datos
+    private JMenuItem gestionarUsuariosMenuItem; // Declarar variable para el JMenuItem de "Gestion de Usuarios"
+    private Usuario usuarioAutenticado;
+
     public Ventanamultiple() {
-        initComponents();
+        initComponents(); // Inicialización de componentes de la ventana
         this.setExtendedState(Ventanamultiple.MAXIMIZED_BOTH);
         this.setTitle("Sistema de ventas y pedidos - CHAOSdrop");
-        verificarPermisos(); 
+        inicializarUsuarioYMenus(); // Llama al método para inicializar usuario y menús
+        verificarPermisos();
     }
 
-private void verificarPermisos() {
-    Usuario usuarioAutenticado = InicioSesion.getUsuarioAutenticado();
+    private void inicializarUsuarioYMenus() {
+        usuarioAutenticado = obtenerUsuarioLogueado(); // Obtener el usuario de la sesión
 
-    if (usuarioAutenticado != null) {
-        System.out.println("Permisos del usuario autenticado: " + usuarioAutenticado.getPermisos());
-        if (!usuarioAutenticado.tienePermiso("acceder_productos")) {
-            editMenu.setEnabled(false);
+        if (usuarioAutenticado != null) {
+            inhabilitarMenuSegunRol(usuarioAutenticado);
         }
-        if (!usuarioAutenticado.tienePermiso("acceder_clientes")) {
-            jMenu2.setEnabled(false);
-        }
-        if (!usuarioAutenticado.tienePermiso("acceder_pedidos") && !usuarioAutenticado.tienePermiso("acceder_envios")) {
-            fileMenu.setEnabled(false);
-        }
-        if (!usuarioAutenticado.tienePermiso("acceder_ventas")) {
-            helpMenu.setEnabled(false);
-        }
-        if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
-            jMenuItem1.setEnabled(false);
-        }
-        // Puedes seguir añadiendo más verificaciones de permisos para otros elementos del menú
-    } else {
-        // Si no hay usuario autenticado (por alguna razón), podrías deshabilitar todos los menús por seguridad.
-        editMenu.setEnabled(false);
-        jMenu2.setEnabled(false);
-        fileMenu.setEnabled(false);
-        helpMenu.setEnabled(false);
-        jMenu1.setEnabled(false);
-        jMenu3.setEnabled(false);
+
+        // Esto debería estar en tu metodo initComponents
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // pack();
+        // setLocationRelativeTo(null);
+        setVisible(true); // Asegúrate de que esto se llame DESPUÉS de inhabilitar el menú
     }
-}
+
+    private Usuario obtenerUsuarioLogueado() {
+        // Aquí va tu lógica para obtener el usuario que inició sesión
+        // Esto depende de cómo manejes la autenticación en tu aplicación
+        // Por ejemplo:
+        // return usuarioService.obtenerUsuarioPorCredenciales(usuario, contraseña);
+        if (InicioSesion.getUsuarioAutenticado() != null) {
+            return InicioSesion.getUsuarioAutenticado();
+        }
+        return new Usuario(1, "admin123", rolAdministrador); // Esto es SÓLO para pruebas, DEBES obtenerlo de tu lógica real
+    }
+
+    private void inhabilitarMenuSegunRol(Usuario usuario) {
+        // Deshabilita el menú GestiondeUsuariomenu y sus submenús
+        if (usuario.getIdRol() == rolVendedor && GestiondeUsuariomenu != null) { // Verifica el rol y si el menú existe
+            GestiondeUsuariomenu.setEnabled(false); // Deshabilita el menú principal
+
+            // Deshabilita los submenús (JMenuItem) dentro de GestiondeUsuariomenu
+            for (Component item : GestiondeUsuariomenu.getMenuComponents()) {
+                if (item instanceof JMenuItem) {
+                    ((JMenuItem) item).setEnabled(false);
+                }
+            }
+        } else if (usuario.getIdRol() != rolAdministrador && GestiondeUsuariomenu != null) {
+            // Si el usuario no es administrador, deshabilita la opción de gestión de usuarios
+            if (gestionarUsuariosMenuItem != null) {
+                gestionarUsuariosMenuItem.setEnabled(false);
+            }
+        }
+    }
     
+     private void verificarPermisos() {
+        usuarioAutenticado = InicioSesion.getUsuarioAutenticado(); // Obtén el usuario autenticado
+
+        if (usuarioAutenticado != null) {
+            System.out.println("Permisos del usuario autenticado: " + usuarioAutenticado.getPermisos());
+            if (usuarioAutenticado.getIdRol() != rolAdministrador) { // Solo para usuarios que no son administradores
+                if (!usuarioAutenticado.tienePermiso("acceder_productos")) {
+                    editMenu.setEnabled(false);
+                }
+                if (!usuarioAutenticado.tienePermiso("acceder_clientes")) {
+                    jMenu2.setEnabled(false);
+                }
+                if (!usuarioAutenticado.tienePermiso("acceder_pedidos") && !usuarioAutenticado.tienePermiso("acceder_envios")) {
+                    fileMenu.setEnabled(false);
+                }
+                if (!usuarioAutenticado.tienePermiso("acceder_ventas")) {
+                    helpMenu.setEnabled(false);
+                }
+                if (!usuarioAutenticado.tienePermiso("crear_usuarios")) {
+                    jMenuItem1.setEnabled(false);
+                }
+                GestiondeUsuariomenu.setEnabled(false);
+                 for (Component item : GestiondeUsuariomenu.getMenuComponents()) {
+                    if (item instanceof JMenuItem) {
+                        ((JMenuItem) item).setEnabled(false);
+                    }
+                }
+            }
+
+            // Puedes seguir añadiendo más verificaciones de permisos para otros elementos del menú
+        } else {
+            // Si no hay usuario autenticado (por alguna razón), podrías deshabilitar todos los menús por seguridad.
+            editMenu.setEnabled(false);
+            jMenu2.setEnabled(false);
+            fileMenu.setEnabled(false);
+            helpMenu.setEnabled(false);
+            jMenu1.setEnabled(false);
+            GestiondeUsuariomenu.setEnabled(false);
+        }
+    }
+
+    // Método para crear un nuevo usuario con el rol de vendedor por defecto
+    public Usuario crearNuevoUsuario(String nombreUsuario, String contraseña) {
+        // Aquí iría la lógica para crear un nuevo usuario en la base de datos
+        // y obtener el ID del nuevo usuario.  Esto es un ejemplo.
+        int nuevoIdUsuario = // Obtener el ID del nuevo usuario de la base de datos
+                -1; // Inicializar en -1 para indicar un error potencial
+        // Ejemplo de cómo podrías obtener el ID después de insertar en la base de datos:
+        // nuevoIdUsuario = databaseService.insertarUsuario(nombreUsuario, contraseña, rolVendedor);
+
+        if (nuevoIdUsuario != -1) {
+            Usuario nuevoUsuario = new Usuario(nuevoIdUsuario, nombreUsuario, rolVendedor);
+            // También podrías necesitar guardar el nuevoUsuario en la base de datos
+            // o en una sesión, dependiendo de tu arquitectura.
+            return nuevoUsuario;
+        } else {
+            return null; // Indica que hubo un error al crear el usuario
+        }
+    }
+
+    // Método para asignar rol de administrador a un usuario
+    public void asignarRolAdministrador(Usuario usuario) {
+        // Verificar si el usuario que realiza la asignación es un administrador
+        if (usuarioAutenticado != null && usuarioAutenticado.getIdRol() == rolAdministrador) {
+            // Lógica para actualizar el rol del usuario en la base de datos
+            // Por ejemplo:
+            // databaseService.actualizarRolUsuario(usuario.getIdUsuario(), rolAdministrador);
+
+            usuario.setIdRol(rolAdministrador); // Actualiza el rol del usuario en el objeto Usuario
+            // También podrías necesitar actualizar el usuario en la sesión o en cualquier
+            // otro lugar donde se almacene la información del usuario.
+        } else {
+            // Lanzar una excepción o mostrar un mensaje de error indicando que
+            // el usuario no tiene permisos para realizar esta acción.
+            JOptionPane.showMessageDialog(this, "No tiene permisos para asignar el rol de administrador.", "Error de Permisos", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,7 +185,7 @@ private void verificarPermisos() {
         saveMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        GestiondeUsuariomenu = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -215,17 +313,17 @@ private void verificarPermisos() {
 
         menuBar.add(fileMenu);
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion-de-usuarios.png"))); // NOI18N
-        jMenu3.setText("Gestión de Usuarios");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+        GestiondeUsuariomenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/gestion-de-usuarios.png"))); // NOI18N
+        GestiondeUsuariomenu.setText("Gestión de Usuarios");
+        GestiondeUsuariomenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        GestiondeUsuariomenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu3MouseClicked(evt);
+                GestiondeUsuariomenuMouseClicked(evt);
             }
         });
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+        GestiondeUsuariomenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
+                GestiondeUsuariomenuActionPerformed(evt);
             }
         });
 
@@ -237,7 +335,7 @@ private void verificarPermisos() {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        GestiondeUsuariomenu.add(jMenuItem4);
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/nuevo-usuario.png"))); // NOI18N
@@ -247,9 +345,9 @@ private void verificarPermisos() {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        GestiondeUsuariomenu.add(jMenuItem1);
 
-        menuBar.add(jMenu3);
+        menuBar.add(GestiondeUsuariomenu);
 
         helpMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/libro.png"))); // NOI18N
         helpMenu.setMnemonic('h');
@@ -312,116 +410,98 @@ private void verificarPermisos() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-       Seguimientodeenvios form= new Seguimientodeenvios();
+        Seguimientodeenvios form = new Seguimientodeenvios();
         escritorio.add(form);
         form.setVisible(true);
-        
+
     }//GEN-LAST:event_openMenuItemActionPerformed
 
-    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
- 
-    }//GEN-LAST:event_jMenu3ActionPerformed
+    private void GestiondeUsuariomenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestiondeUsuariomenuActionPerformed
+
+    }//GEN-LAST:event_GestiondeUsuariomenuActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        RegistroUsuarios form= new RegistroUsuarios();
+        RegistroUsuarios form = new RegistroUsuarios();
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
-       Controlinventario1 form= new Controlinventario1();
+        Controlinventario1 form = new Controlinventario1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        Historialpedidos_1 form= new Historialpedidos_1();
+        Historialpedidos_1 form = new Historialpedidos_1();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-  this.dispose();
-  
-InicioSesion form = new InicioSesion();
-form.setVisible(true);
+        this.dispose();
+
+        InicioSesion form = new InicioSesion();
+        form.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Ayudaeistrucciones form= new Ayudaeistrucciones();
+        Ayudaeistrucciones form = new Ayudaeistrucciones();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
-   
-    }//GEN-LAST:event_jMenu3MouseClicked
+    private void GestiondeUsuariomenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestiondeUsuariomenuMouseClicked
+
+    }//GEN-LAST:event_GestiondeUsuariomenuMouseClicked
 
     private void fileMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMouseClicked
-        
+
     }//GEN-LAST:event_fileMenuMouseClicked
 
     private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
-       
+
     }//GEN-LAST:event_fileMenuActionPerformed
 
     private void fileMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMousePressed
-     
+
     }//GEN-LAST:event_fileMenuMousePressed
 
     private void fileMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_fileMenuMenuSelected
-       
+
     }//GEN-LAST:event_fileMenuMenuSelected
 
     private void fileMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMouseReleased
-         
+
     }//GEN-LAST:event_fileMenuMouseReleased
 
     private void jMenu2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseReleased
-         RegistroCliente form= new RegistroCliente();
+        RegistroCliente form = new RegistroCliente();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenu2MouseReleased
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-registrodepedidos_1 form= new registrodepedidos_1();
-        escritorio.add(form);
-        form.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        RegistroCliente form= new RegistroCliente();
+        RegistroCliente form = new RegistroCliente();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-     Document documento = new Document();
-
-
+        Document documento = new Document();
 
         try {
 
             String ruta = System.getProperty("user.home");
 
             // System.out.println(ruta); // Puedes descomentar para verificar la ruta
-
-
-
             // Asegúrate de que la ruta de la imagen sea accesible.
-
             // Considera cargarla como recurso del classpath si está dentro de tu JAR.
-
             // Image header = Image.getInstance(ReporteProductos.class.getResource("/imagenes/Opcion 3 (1).png")); // Ejemplo cargando desde classpath (ajusta la extensión si no es png)
-
             Image header = Image.getInstance("src/imagenes/Opcion 3 (1).png"); // Mantengo tu ruta original pero ten en cuenta el problema de ruta relativa
-
-
 
             header.scaleToFit(650, 1000);
 
             header.setAlignment(Chunk.ALIGN_CENTER);
-
-
 
             Paragraph parrafo = new Paragraph();
 
@@ -430,19 +510,13 @@ registrodepedidos_1 form= new registrodepedidos_1();
             parrafo.add("Formato creado por Chaos © \n\n");
 
             // Asegúrate de que la fuente "Tahoma" esté disponible o usa una fuente estándar
-
-            parrafo.setFont(FontFactory.getFont("Segoe UI" , 18, Font.BOLD, BaseColor.DARK_GRAY));
+            parrafo.setFont(FontFactory.getFont("Segoe UI", 18, Font.BOLD, BaseColor.DARK_GRAY));
 
             parrafo.add("Reporte de Productos Registrados \n\n"); // Título más descriptivo
 
-
-
             PdfPTable tabla = new PdfPTable(5); // 5 columnas
 
-
-
             // Añadir encabezados de tabla
-
             tabla.addCell("ID");
 
             tabla.addCell("Nombre del producto");
@@ -453,32 +527,20 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
             tabla.addCell("Codigo Articulo");
 
-
-
             documento.open();
 
             documento.add(header);
 
             documento.add(parrafo);
 
-
-
             // Usando try-with-resources para asegurar el cierre de los recursos de la base de datos
-
-            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
-
-                 PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo"); // Selecciona columnas específicas
-
-                 ResultSet rs = pst.executeQuery()) {
-
-
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo"); // Selecciona columnas específicas
+                     ResultSet rs = pst.executeQuery()) {
 
                 // Iterar sobre el ResultSet usando un simple while
-
                 while (rs.next()) {
 
                     // Usa nombres de columna en lugar de índices numéricos (verifica los nombres exactos en tu BD)
-
                     tabla.addCell(rs.getString("id"));
 
                     tabla.addCell(rs.getString("nombre"));
@@ -491,15 +553,9 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
                 }
 
-
-
                 // Solo añadir la tabla si hay datos (el while no se ejecuta si no hay)
-
                 // o si quieres añadirla siempre, puedes mover esto fuera del try-with-resources
-
                 documento.add(tabla);
-
-
 
             } catch (SQLException e) {
 
@@ -509,13 +565,9 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
             }
 
-
-
             documento.close();
 
             JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "\\Desktop\\Reporte_Productos.pdf");
-
-
 
         } catch (FileNotFoundException e) {
 
@@ -525,9 +577,9 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
         } catch (DocumentException e) {
 
-             System.out.println("Error al generar el contenido del PDF: " + e.getMessage());
+            System.out.println("Error al generar el contenido del PDF: " + e.getMessage());
 
-             JOptionPane.showMessageDialog(null, "Error al generar el contenido del reporte PDF.", "Error de PDF", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al generar el contenido del reporte PDF.", "Error de PDF", JOptionPane.ERROR_MESSAGE);
 
         } catch (IOException e) {
 
@@ -537,18 +589,24 @@ registrodepedidos_1 form= new registrodepedidos_1();
 
         } catch (Exception e) { // Captura cualquier otra excepción inesperada
 
-             System.out.println("Ocurrió un error inesperado: " + e.getMessage());
+            System.out.println("Ocurrió un error inesperado: " + e.getMessage());
 
-             JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado al crear el reporte.", "Error Desconocido", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado al crear el reporte.", "Error Desconocido", JOptionPane.ERROR_MESSAGE);
 
         }
     }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        ControlUsuarios form= new ControlUsuarios();
+        ControlUsuarios form = new ControlUsuarios();
         escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        registrodepedidos_1 form= new registrodepedidos_1();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -586,6 +644,7 @@ registrodepedidos_1 form= new registrodepedidos_1();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu GestiondeUsuariomenu;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenu editMenu;
@@ -595,7 +654,6 @@ registrodepedidos_1 form= new registrodepedidos_1();
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;

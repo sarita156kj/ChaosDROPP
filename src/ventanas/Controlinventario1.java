@@ -110,7 +110,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         btnNuevo.setBackground(new java.awt.Color(0, 0, 0));
-        btnNuevo.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnNuevo.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/agregar-carpeta.png"))); // NOI18N
         btnNuevo.setText(" Nuevo");
@@ -122,7 +122,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         });
 
         btnGuardar.setBackground(new java.awt.Color(0, 0, 0));
-        btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-guardar.png"))); // NOI18N
         btnGuardar.setText(" Guardar");
@@ -249,7 +249,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel8.setText("Buscar:");
 
         btnBuscar.setBackground(new java.awt.Color(0, 0, 0));
-        btnBuscar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnBuscar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/buscar 2.png"))); // NOI18N
         btnBuscar.setText("Buscar");
@@ -261,7 +261,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         });
 
         btnEliminar.setBackground(new java.awt.Color(0, 0, 0));
-        btnEliminar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnEliminar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-x.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
