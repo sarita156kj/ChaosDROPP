@@ -318,7 +318,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-        this.dispose();
+ 
     }//GEN-LAST:event_jMenu3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
