@@ -59,6 +59,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -247,21 +248,25 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26))
         );
 
-        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 770, 600));
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 770, 600));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Nuevo Cliente");
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, -1, -1));
+        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Apartado para registrar nuevo cliente. ");
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 90, -1, -1));
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 90, -1, -1));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Opcion 7 (1,1).png"))); // NOI18N
         jLabel13.setText("jLabel13");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 20, 170, -1));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icons8-añadir-usuario-masculino-100.png"))); // NOI18N
+        jLabel14.setText("jLabel14");
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 20, 100, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pexels-tim-douglas-6567255.jpg"))); // NOI18N
         jLabel2.setText("jLabel2");
@@ -414,6 +419,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

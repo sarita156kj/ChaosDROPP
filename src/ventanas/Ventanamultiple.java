@@ -315,6 +315,7 @@ private void verificarPermisos() {
        Seguimientodeenvios form= new Seguimientodeenvios();
         escritorio.add(form);
         form.setVisible(true);
+        
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
@@ -323,7 +324,6 @@ private void verificarPermisos() {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         RegistroUsuarios form= new RegistroUsuarios();
-        escritorio.add(form);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -340,7 +340,10 @@ private void verificarPermisos() {
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
- 
+  this.dispose();
+  
+InicioSesion form = new InicioSesion();
+form.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -350,7 +353,7 @@ private void verificarPermisos() {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
-        System.exit(0);
+   
     }//GEN-LAST:event_jMenu3MouseClicked
 
     private void fileMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileMenuMouseClicked
@@ -380,7 +383,9 @@ private void verificarPermisos() {
     }//GEN-LAST:event_jMenu2MouseReleased
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
+registrodepedidos_1 form= new registrodepedidos_1();
+        escritorio.add(form);
+        form.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -508,7 +513,7 @@ private void verificarPermisos() {
 
             documento.close();
 
-            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "/Desktop/Reporte_Productos.pdf");
+            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "\\Desktop\\Reporte_Productos.pdf");
 
 
 
@@ -540,7 +545,9 @@ private void verificarPermisos() {
     }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+        ControlUsuarios form= new ControlUsuarios();
+        escritorio.add(form);
+        form.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
