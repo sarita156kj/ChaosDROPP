@@ -1,5 +1,6 @@
 package ventanas;
 
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -20,6 +21,38 @@ import java.sql.SQLException;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import logica.Usuario;
+import javax.swing.JInternalFrame;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image; // Asegúrate de importar Image
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.parser.Path;
+
+import java.io.File; // Importar File
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement; // Importar PreparedStatement
+import java.sql.ResultSet; // Importar ResultSet
+import java.sql.SQLException; // Importar SQLException
+
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,8 +65,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private JMenuItem gestionarUsuariosMenuItem; // Declarar variable para el JMenuItem de "Gestion de Usuarios"
     private Usuario usuarioAutenticado;
 
-    
-    
     public Ventanamultiple() {
         initComponents(); // Inicialización de componentes de la ventana
         this.setExtendedState(Ventanamultiple.MAXIMIZED_BOTH);
@@ -164,8 +195,40 @@ public class Ventanamultiple extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No tiene permisos para asignar el rol de administrador.", "Error de Permisos", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    
+
+    private String obtenerRutaEscritorio() {
+        try {
+            File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
+            if (escritorio.exists()) {
+                return escritorio.getAbsolutePath();
+            }
+        } catch (Exception e) {
+            System.err.println("No se pudo obtener la ruta del escritorio: " + e.getMessage());
+        }
+        return null;
+    }
+
+private static void drawTopCurvedBar(PdfContentByte canvas) {
+    canvas.saveState();
+    canvas.setColorFill(new BaseColor(10, 20, 60));
+    canvas.moveTo(0, 800);
+    canvas.curveTo(150, 840, 450, 760, 600, 800);
+    canvas.lineTo(600, 842);
+    canvas.lineTo(0, 842);
+    canvas.closePathFillStroke();
+    canvas.restoreState();
+}
+
+private static void drawBottomCurvedBar(PdfContentByte canvas) {
+    canvas.saveState();
+    canvas.setColorFill(new BaseColor(10, 20, 60));
+    canvas.moveTo(0, 40); // 🔽 bajamos la curva más cerca del borde inferior
+    canvas.curveTo(150, 10, 450, 70, 600, 40);
+    canvas.lineTo(600, 0);
+    canvas.lineTo(0, 0);
+    canvas.closePathFillStroke();
+    canvas.restoreState();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -421,9 +484,39 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        Seguimientodeenvios form = new Seguimientodeenvios();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        Seguimientodeenvios form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof Seguimientodeenvios) {
+                form = (Seguimientodeenvios) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new Seguimientodeenvios();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
 
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -437,16 +530,75 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
-this.dispose();
-        Controlinventario1 form = new Controlinventario1();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        Controlinventario1 form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof Controlinventario1) {
+                form = (Controlinventario1) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new Controlinventario1();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        Historialpedidos_1 form = new Historialpedidos_1();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        Historialpedidos_1 form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof Historialpedidos_1) {
+                form = (Historialpedidos_1) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new Historialpedidos_1();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -457,9 +609,39 @@ this.dispose();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Ayudaeistrucciones form = new Ayudaeistrucciones();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        Ayudaeistrucciones form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof ControlUsuarios) {
+                form = (Ayudaeistrucciones) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new Ayudaeistrucciones();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void GestiondeUsuariomenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestiondeUsuariomenuMouseClicked
@@ -487,131 +669,190 @@ this.dispose();
     }//GEN-LAST:event_fileMenuMouseReleased
 
     private void jMenu2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseReleased
-        RegistroCliente form = new RegistroCliente();
-        escritorio.add(form);
-        form.setVisible(true);
+
     }//GEN-LAST:event_jMenu2MouseReleased
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        RegistroCliente form = new RegistroCliente();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        RegistroCliente form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof RegistroCliente) {
+                form = (RegistroCliente) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new RegistroCliente();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-        Document documento = new Document();
+Document documento = null;
+FileOutputStream archivoPDF = null;
 
-        try {
+try {
+    // 1. Ruta al escritorio
+    String rutaEscritorio = obtenerRutaEscritorio();
+    String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Productos.pdf";
+    File archivoSalida = new File(rutaCompletaArchivo);
+    archivoPDF = new FileOutputStream(archivoSalida);
 
-            String ruta = System.getProperty("user.home");
+   // 2. Documento con márgenes ajustados
+documento = new Document(PageSize.A4, 50, 50, 120, 80); // ← bajamos el margen inferior
+PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
+documento.open();
+PdfContentByte canvas = writer.getDirectContentUnder();
 
-            // System.out.println(ruta); // Puedes descomentar para verificar la ruta
-            // Asegúrate de que la ruta de la imagen sea accesible.
-            // Considera cargarla como recurso del classpath si está dentro de tu JAR.
-            // Image header = Image.getInstance(ReporteProductos.class.getResource("/imagenes/Opcion 3 (1).png")); // Ejemplo cargando desde classpath (ajusta la extensión si no es png)
-            Image header = Image.getInstance("src/imagenes/Opcion 3 (1).png"); // Mantengo tu ruta original pero ten en cuenta el problema de ruta relativa
+// 3. Dibujar barras curvas equilibradas
+drawTopCurvedBar(canvas);
+drawBottomCurvedBar(canvas);
 
-            header.scaleToFit(650, 1000);
+// 4. Logo en esquina superior izquierda
+try {
+    Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
+    logo.scaleToFit(100, 100); 
+    logo.setAbsolutePosition(50, 750); 
+    documento.add(logo);
+} catch (Exception e) {
+    System.err.println("Error cargando logo: " + e.getMessage());
+}
 
-            header.setAlignment(Chunk.ALIGN_CENTER);
+// 5. Subir título aún más
+Paragraph tituloPrincipal = new Paragraph("Reporte de Productos Registrados", 
+    FontFactory.getFont("Segoe UI", 26, Font.BOLD, BaseColor.DARK_GRAY));
+tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
+tituloPrincipal.setSpacingBefore(-10f);   // 🔼 Pegado al logo
+tituloPrincipal.setSpacingAfter(10f);     // 🔽 Separación con los datos
+documento.add(tituloPrincipal);
 
-            Paragraph parrafo = new Paragraph();
+    // 7. Información general más arriba
+    com.itextpdf.text.Font fontRegular = FontFactory.getFont("Segoe UI", 12, BaseColor.DARK_GRAY);
+    Paragraph fecha = new Paragraph("Fecha: " + new java.util.Date().toString(), fontRegular);
+    Paragraph destinatario = new Paragraph("Destinatario: Departamento de Inventario", fontRegular);
+    Paragraph descripcion = new Paragraph(
+        "Descripción: Este reporte contiene un resumen detallado de los productos registrados actualmente en el sistema.",
+        fontRegular);
+    descripcion.setSpacingAfter(15f);
 
-            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+    documento.add(fecha);
+    documento.add(destinatario);
+    documento.add(descripcion);
 
-            parrafo.add("Formato creado por Chaos © \n\n");
+    // 8. Tabla con estilo
+    PdfPTable tabla = new PdfPTable(5);
+    tabla.setWidthPercentage(100);
+    tabla.setSpacingBefore(20f);
 
-            // Asegúrate de que la fuente "Tahoma" esté disponible o usa una fuente estándar
-            parrafo.setFont(FontFactory.getFont("Segoe UI", 18, Font.BOLD, BaseColor.DARK_GRAY));
+    // Encabezado de tabla
+    com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 12, Font.BOLD, BaseColor.WHITE);
+    BaseColor headerBg = new BaseColor(10, 20, 60);
+    String[] encabezados = {"ID", "Nombre del producto", "Precio", "Stock", "Código Artículo"};
+    for (String encabezado : encabezados) {
+        PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
+        cell.setBackgroundColor(headerBg);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setPadding(8f);
+        tabla.addCell(cell);
+    }
 
-            parrafo.add("Reporte de Productos Registrados \n\n"); // Título más descriptivo
+    // Cuerpo de la tabla
+    try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
+         PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo");
+         ResultSet rs = pst.executeQuery()) {
 
-            PdfPTable tabla = new PdfPTable(5); // 5 columnas
-
-            // Añadir encabezados de tabla
-            tabla.addCell("ID");
-
-            tabla.addCell("Nombre del producto");
-
-            tabla.addCell("Precio");
-
-            tabla.addCell("Stock");
-
-            tabla.addCell("Codigo Articulo");
-
-            documento.open();
-
-            documento.add(header);
-
-            documento.add(parrafo);
-
-            // Usando try-with-resources para asegurar el cierre de los recursos de la base de datos
-            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo"); // Selecciona columnas específicas
-                     ResultSet rs = pst.executeQuery()) {
-
-                // Iterar sobre el ResultSet usando un simple while
-                while (rs.next()) {
-
-                    // Usa nombres de columna en lugar de índices numéricos (verifica los nombres exactos en tu BD)
-                    tabla.addCell(rs.getString("id"));
-
-                    tabla.addCell(rs.getString("nombre"));
-
-                    tabla.addCell(rs.getString("precio"));
-
-                    tabla.addCell(rs.getString("stock"));
-
-                    tabla.addCell(rs.getString("codigo_articulo")); // Asumo este nombre de columna
-
-                }
-
-                // Solo añadir la tabla si hay datos (el while no se ejecuta si no hay)
-                // o si quieres añadirla siempre, puedes mover esto fuera del try-with-resources
-                documento.add(tabla);
-
-            } catch (SQLException e) {
-
-                System.out.println("Error en conexión a la base de datos: " + e.getMessage());
-
-                JOptionPane.showMessageDialog(null, "Error al obtener datos de la base de datos.", "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
-
-            }
-
-            documento.close();
-
-            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en: " + ruta + "\\Desktop\\Reporte_Productos.pdf");
-
-        } catch (FileNotFoundException e) {
-
-            System.out.println("Error al crear el archivo PDF: " + e.getMessage());
-
-            JOptionPane.showMessageDialog(null, "Error al crear el archivo PDF. Verifica si la ruta es válida o si el archivo ya está abierto.", "Error de Archivo", JOptionPane.ERROR_MESSAGE);
-
-        } catch (DocumentException e) {
-
-            System.out.println("Error al generar el contenido del PDF: " + e.getMessage());
-
-            JOptionPane.showMessageDialog(null, "Error al generar el contenido del reporte PDF.", "Error de PDF", JOptionPane.ERROR_MESSAGE);
-
-        } catch (IOException e) {
-
-            System.out.println("Error al cargar la imagen: " + e.getMessage());
-
-            JOptionPane.showMessageDialog(null, "Error al cargar la imagen del encabezado. Verifica la ruta.", "Error de Imagen", JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception e) { // Captura cualquier otra excepción inesperada
-
-            System.out.println("Ocurrió un error inesperado: " + e.getMessage());
-
-            JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado al crear el reporte.", "Error Desconocido", JOptionPane.ERROR_MESSAGE);
-
+        com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 11, BaseColor.BLACK);
+        while (rs.next()) {
+            tabla.addCell(new PdfPCell(new Phrase(rs.getString("id"), fontBody)));
+            tabla.addCell(new PdfPCell(new Phrase(rs.getString("nombre"), fontBody)));
+            tabla.addCell(new PdfPCell(new Phrase(rs.getString("precio"), fontBody)));
+            tabla.addCell(new PdfPCell(new Phrase(rs.getString("stock"), fontBody)));
+            tabla.addCell(new PdfPCell(new Phrase(rs.getString("codigo_articulo"), fontBody)));
         }
+    } catch (SQLException e) {
+        throw new Exception("Error al obtener datos de la base de datos.", e);
+    }
+
+    documento.add(tabla);
+
+    // 9. Pie de página
+    Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin", 
+        FontFactory.getFont("Segoe UI", 10, Font.ITALIC, BaseColor.GRAY));
+    footer.setAlignment(Element.ALIGN_CENTER);
+    documento.add(footer);
+
+    // 10. Confirmación
+    JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en:\n" + rutaCompletaArchivo);
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+} finally {
+    if (documento != null) {
+        documento.close();
+    }
+}
+
+
+
+
+
     }//GEN-LAST:event_contentMenuItemActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        ControlUsuarios form = new ControlUsuarios();
-        escritorio.add(form);
+        // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        ControlUsuarios form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof ControlUsuarios) {
+                form = (ControlUsuarios) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new ControlUsuarios();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -625,6 +866,7 @@ this.dispose();
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -635,16 +877,24 @@ this.dispose();
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventanamultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventanamultiple.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventanamultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventanamultiple.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventanamultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventanamultiple.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventanamultiple.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventanamultiple.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
