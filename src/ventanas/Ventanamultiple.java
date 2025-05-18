@@ -189,6 +189,8 @@ public class Ventanamultiple extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -202,10 +204,10 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/opcion 9 (5).png"))); // NOI18N
         jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 1540, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 1530, -1));
 
         escritorio.add(jPanel1);
-        jPanel1.setBounds(0, 0, 1550, 870);
+        jPanel1.setBounds(0, 0, 1540, 870);
 
         menuBar.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -364,6 +366,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         helpMenu.add(contentMenuItem);
 
+        jMenuItem5.setText("jMenuItem5");
+        helpMenu.add(jMenuItem5);
+
+        jMenuItem8.setText("jMenuItem8");
+        helpMenu.add(jMenuItem8);
+
         menuBar.add(helpMenu);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/engranaje.png"))); // NOI18N
@@ -398,7 +406,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1557, Short.MAX_VALUE)
+            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 1519, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -655,8 +663,10 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
