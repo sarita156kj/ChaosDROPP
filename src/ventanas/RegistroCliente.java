@@ -139,7 +139,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         txtdireccion.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
 
         cboxprovincia.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        cboxprovincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azua", "Baoruco", "Barahona", "Dajabón", "Distrito Nacional", "Duarte", "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal   ", "Independencia", "La Altagracia", "La Romana", "La Vega", "María Trinidad Sánchez", "Monseñor Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Samaná", "San Cristóbal", "San José de Ocoa", "San Juan", "San Pedro de Macorís", "Sánchez Ramírez", "Santiago", "Santiago Rodríguez   ", "Santo Domingo   ", "Valverde" }));
+        cboxprovincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Azua", "Baoruco", "Barahona", "Dajabón", "Distrito Nacional", "Duarte", "Elías Piña", "El Seibo", "Espaillat", "Hato Mayor", "Hermanas Mirabal   ", "Independencia", "La Altagracia", "La Romana", "La Vega", "María Trinidad Sánchez", "Monseñor Nouel", "Monte Cristi", "Monte Plata", "Pedernales", "Peravia", "Puerto Plata", "Samaná", "San Cristóbal", "San José de Ocoa", "San Juan", "San Pedro de Macorís", "Sánchez Ramírez", "Santiago", "Santiago Rodríguez   ", "Santo Domingo   ", "Valverde" }));
 
         btnRegistrarCliente.setBackground(new java.awt.Color(0, 0, 0));
         btnRegistrarCliente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

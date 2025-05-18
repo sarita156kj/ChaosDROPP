@@ -198,7 +198,6 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
         }
     }
 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -445,30 +444,36 @@ public class Historialpedidos_1 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEliminarPedidoActionPerformed
 
     private void txtactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtactualizarActionPerformed
-        String query = "UPDATE pedidos SET estado = ? WHERE idPedido = ?";
+if (idPedidoSeleccionado != null) {
+String nuevoEstado = (String) cboxtestado.getSelectedItem();
+if (!nuevoEstado.equals("Seleccionar")) {
+String query = "UPDATE pedidos SET estado = ? WHERE idPedido = ?";
+try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement(query)) {
+pstmt.setString(1, nuevoEstado);
+pstmt.setString(2, idPedidoSeleccionado);
 
-        try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement(query)) {
-            String nuevoEstado = null;
-            pstmt.setString(1, nuevoEstado);
-            String idPedido = null;
-            pstmt.setString(2, idPedido);
+int filasAfectadas = pstmt.executeUpdate();
 
-            int filasAfectadas = pstmt.executeUpdate();
+if (filasAfectadas > 0) {
+JOptionPane.showMessageDialog(null, "El estado del pedido con ID: " + idPedidoSeleccionado + " se ha actualizado a: " + nuevoEstado + ".", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+cargarHistorialPedidos(); // Recargar la tabla para mostrar los cambios
+} else {
+JOptionPane.showMessageDialog(null, "No se pudo actualizar el estado del pedido con ID: " + idPedidoSeleccionado + ".", "Error", JOptionPane.ERROR_MESSAGE);
+}
 
-            if (filasAfectadas > 0) {
-                JOptionPane.showMessageDialog(null, "El estado del pedido con ID: " + idPedido + " se ha actualizado a: " + nuevoEstado + ".", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarHistorialPedidos(); // Recargar la tabla para mostrar los cambios
-            } else {
-                JOptionPane.showMessageDialog(null, "No se pudo actualizar el estado del pedido con ID: " + idPedido + ".", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el estado del pedido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } finally {
-            idPedidoSeleccionado = null; // Resetear el ID seleccionado después de la actualización
-            cboxtestado.setSelectedIndex(0); // Resetear el JComboBox después de la actualización
-        }
+} catch (SQLException e) {
+JOptionPane.showMessageDialog(null, "Error al actualizar el estado del pedido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+e.printStackTrace();
+} finally {
+idPedidoSeleccionado = null; // Resetear el ID seleccionado después de la actualización
+cboxtestado.setSelectedIndex(0); // Resetear el JComboBox después de la actualización
+}
+} else {
+JOptionPane.showMessageDialog(null, "Por favor, seleccione un estado para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+}
+} else {
+JOptionPane.showMessageDialog(null, "Por favor, seleccione un pedido de la tabla para actualizar su estado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+}
     }//GEN-LAST:event_txtactualizarActionPerformed
 
     /**
