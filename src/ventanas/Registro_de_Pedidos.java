@@ -627,7 +627,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
 
         btnRegistrar.setBackground(new java.awt.Color(0, 0, 0));
-        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/crear-una-cuenta.png"))); // NOI18N
         btnRegistrar.setText("Registrar");
@@ -639,7 +639,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         });
 
         btnNuevo.setBackground(new java.awt.Color(0, 0, 0));
-        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnNuevo.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/agregar-carpeta.png"))); // NOI18N
         btnNuevo.setText("Nuevo");
@@ -651,7 +651,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         });
 
         btnCancelar.setBackground(new java.awt.Color(0, 0, 0));
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-x.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -663,7 +663,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         });
 
         btnCalcular.setBackground(new java.awt.Color(0, 0, 0));
-        btnCalcular.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCalcular.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCalcular.setForeground(new java.awt.Color(255, 255, 255));
         btnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/calculadora.png"))); // NOI18N
         btnCalcular.setText("Calcular");
