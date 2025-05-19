@@ -196,17 +196,49 @@ public class Ventanamultiple extends javax.swing.JFrame {
         }
     }
 
-    private String obtenerRutaEscritorio() {
-        try {
-            File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
-            if (escritorio.exists()) {
-                return escritorio.getAbsolutePath();
+   private String obtenerYCreaCarpetaReportesEnEscritorio() {
+    String nombreCarpetaReportes = "Reportes"; // Define el nombre de la carpeta aquí
+    try {
+        // 1. Obtener la ruta del escritorio
+        File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
+
+        if (escritorio != null && escritorio.exists()) {
+            // 2. Construir la ruta completa a la nueva carpeta
+            File carpetaReportes = new File(escritorio, nombreCarpetaReportes);
+
+            // 3. Verificar si la carpeta ya existe y es un directorio
+            if (carpetaReportes.exists() && carpetaReportes.isDirectory()) {
+                System.out.println("La carpeta de reportes ya existe: " + carpetaReportes.getAbsolutePath());
+                return carpetaReportes.getAbsolutePath(); // Retorna la ruta si ya existe
+            } else if (!carpetaReportes.exists()) {
+                // 4. Si no existe, intentar crearla
+                boolean creado = carpetaReportes.mkdirs(); // mkdirs() crea directorios padre si son necesarios
+
+                if (creado) {
+                    System.out.println("Carpeta de reportes creada exitosamente: " + carpetaReportes.getAbsolutePath());
+                    return carpetaReportes.getAbsolutePath(); // Retorna la ruta si se creó
+                } else {
+                    // Falló la creación (ej. permisos insuficientes)
+                    System.err.println("No se pudo crear la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
+                    return null; // Falló la creación
+                }
+            } else {
+                // Existe una entrada con ese nombre pero no es un directorio
+                System.err.println("Existe una entrada no-directorio con el nombre de la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
+                return null; // Existe algo que no es una carpeta
             }
-        } catch (Exception e) {
-            System.err.println("No se pudo obtener la ruta del escritorio: " + e.getMessage());
+
+        } else {
+            System.err.println("No se pudo obtener la ruta del escritorio.");
+            return null; // No se pudo obtener el escritorio
         }
-        return null;
+
+    } catch (Exception e) {
+        System.err.println("Ocurrió un error al obtener/crear la carpeta de reportes: " + e.getMessage());
+        // Puedes imprimir la traza del error para depuración si es necesario: e.printStackTrace();
+        return null; // Error inesperado
     }
+}
 
     private static void drawTopCurvedBar(PdfContentByte canvas) {
         canvas.saveState();
@@ -727,7 +759,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         try {
             // 1. Ruta al escritorio
-            String rutaEscritorio = obtenerRutaEscritorio();
+            String rutaEscritorio = obtenerYCreaCarpetaReportesEnEscritorio();
             String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Productos.pdf";
             File archivoSalida = new File(rutaCompletaArchivo);
             archivoPDF = new FileOutputStream(archivoSalida);
@@ -876,7 +908,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
         try {
             // 1. Ruta al escritorio
-            String rutaEscritorio = obtenerRutaEscritorio();
+            String rutaEscritorio = obtenerYCreaCarpetaReportesEnEscritorio();
             String rutaCompletaArchivo = rutaEscritorio + File.separator + "Historial_Pedidos.pdf";
             File archivoSalida = new File(rutaCompletaArchivo);
             archivoPDF = new FileOutputStream(archivoSalida);
