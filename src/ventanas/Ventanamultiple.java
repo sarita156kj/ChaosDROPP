@@ -208,27 +208,37 @@ public class Ventanamultiple extends javax.swing.JFrame {
         return null;
     }
 
-private static void drawTopCurvedBar(PdfContentByte canvas) {
-    canvas.saveState();
-    canvas.setColorFill(new BaseColor(10, 20, 60));
-    canvas.moveTo(0, 800);
-    canvas.curveTo(150, 840, 450, 760, 600, 800);
-    canvas.lineTo(600, 842);
-    canvas.lineTo(0, 842);
-    canvas.closePathFillStroke();
-    canvas.restoreState();
-}
+    private static void drawTopCurvedBar(PdfContentByte canvas) {
+        canvas.saveState();
+        canvas.setColorFill(new BaseColor(10, 20, 60));
+        canvas.moveTo(0, 800);
+        canvas.curveTo(150, 840, 450, 760, 600, 800);
+        canvas.lineTo(600, 842);
+        canvas.lineTo(0, 842);
+        canvas.closePathFillStroke();
+        canvas.restoreState();
+    }
 
-private static void drawBottomCurvedBar(PdfContentByte canvas) {
-    canvas.saveState();
-    canvas.setColorFill(new BaseColor(10, 20, 60));
-    canvas.moveTo(0, 40); // 🔽 bajamos la curva más cerca del borde inferior
-    canvas.curveTo(150, 10, 450, 70, 600, 40);
-    canvas.lineTo(600, 0);
-    canvas.lineTo(0, 0);
-    canvas.closePathFillStroke();
-    canvas.restoreState();
-}
+    private static void drawBottomCurvedBar(PdfContentByte canvas) {
+        canvas.saveState();
+        canvas.setColorFill(new BaseColor(10, 20, 60));
+        canvas.moveTo(0, 40); // 🔽 bajamos la curva más cerca del borde inferior
+        canvas.curveTo(150, 10, 450, 70, 600, 40);
+        canvas.lineTo(600, 0);
+        canvas.lineTo(0, 0);
+        canvas.closePathFillStroke();
+        canvas.restoreState();
+    }
+
+    private static PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean multilinea) {
+        PdfPCell celda = new PdfPCell(new Phrase(texto != null ? texto : "", fuente));
+        celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celda.setVerticalAlignment(multilinea ? Element.ALIGN_TOP : Element.ALIGN_MIDDLE);
+        celda.setPadding(5f);
+        celda.setMinimumHeight(multilinea ? 35f : 24f);
+        celda.setNoWrap(!multilinea);
+        return celda;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -257,7 +267,6 @@ private static void drawBottomCurvedBar(PdfContentByte canvas) {
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -425,7 +434,7 @@ private static void drawBottomCurvedBar(PdfContentByte canvas) {
         contentMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/estadistica.png"))); // NOI18N
         contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Generar reporte");
+        contentMenuItem.setText("Generar reporte de inventario");
         contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contentMenuItemActionPerformed(evt);
@@ -433,11 +442,15 @@ private static void drawBottomCurvedBar(PdfContentByte canvas) {
         });
         helpMenu.add(contentMenuItem);
 
-        jMenuItem5.setText("jMenuItem5");
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/historial-de-pedidos (1).png"))); // NOI18N
+        jMenuItem5.setText("Generar reporte de historial de pedidos");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         helpMenu.add(jMenuItem5);
-
-        jMenuItem8.setText("jMenuItem8");
-        helpMenu.add(jMenuItem8);
 
         menuBar.add(helpMenu);
 
@@ -709,112 +722,107 @@ private static void drawBottomCurvedBar(PdfContentByte canvas) {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
-Document documento = null;
-FileOutputStream archivoPDF = null;
+        Document documento = null;
+        FileOutputStream archivoPDF = null;
 
-try {
-    // 1. Ruta al escritorio
-    String rutaEscritorio = obtenerRutaEscritorio();
-    String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Productos.pdf";
-    File archivoSalida = new File(rutaCompletaArchivo);
-    archivoPDF = new FileOutputStream(archivoSalida);
+        try {
+            // 1. Ruta al escritorio
+            String rutaEscritorio = obtenerRutaEscritorio();
+            String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Productos.pdf";
+            File archivoSalida = new File(rutaCompletaArchivo);
+            archivoPDF = new FileOutputStream(archivoSalida);
 
-   // 2. Documento con márgenes ajustados
-documento = new Document(PageSize.A4, 50, 50, 120, 80); // ← bajamos el margen inferior
-PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
-documento.open();
-PdfContentByte canvas = writer.getDirectContentUnder();
+            // 2. Documento con márgenes ajustados
+            documento = new Document(PageSize.A4, 50, 50, 120, 80); // ← bajamos el margen inferior
+            PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
+            documento.open();
+            PdfContentByte canvas = writer.getDirectContentUnder();
 
 // 3. Dibujar barras curvas equilibradas
-drawTopCurvedBar(canvas);
-drawBottomCurvedBar(canvas);
+            drawTopCurvedBar(canvas);
+            drawBottomCurvedBar(canvas);
 
 // 4. Logo en esquina superior izquierda
-try {
-    Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
-    logo.scaleToFit(100, 100); 
-    logo.setAbsolutePosition(50, 750); 
-    documento.add(logo);
-} catch (Exception e) {
-    System.err.println("Error cargando logo: " + e.getMessage());
-}
+            try {
+                Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
+                logo.scaleToFit(100, 100);
+                logo.setAbsolutePosition(50, 750);
+                documento.add(logo);
+            } catch (Exception e) {
+                System.err.println("Error cargando logo: " + e.getMessage());
+            }
 
 // 5. Subir título aún más
-Paragraph tituloPrincipal = new Paragraph("Reporte de Productos Registrados", 
-    FontFactory.getFont("Segoe UI", 26, Font.BOLD, BaseColor.DARK_GRAY));
-tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
-tituloPrincipal.setSpacingBefore(-10f);   // 🔼 Pegado al logo
-tituloPrincipal.setSpacingAfter(10f);     // 🔽 Separación con los datos
-documento.add(tituloPrincipal);
+            Paragraph tituloPrincipal = new Paragraph("Reporte de Productos Registrados",
+                    FontFactory.getFont("Segoe UI", 26, Font.BOLD, BaseColor.DARK_GRAY));
+            tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
+            tituloPrincipal.setSpacingBefore(-10f);   // 🔼 Pegado al logo
+            tituloPrincipal.setSpacingAfter(10f);     // 🔽 Separación con los datos
+            documento.add(tituloPrincipal);
 
-    // 7. Información general más arriba
-    com.itextpdf.text.Font fontRegular = FontFactory.getFont("Segoe UI", 12, BaseColor.DARK_GRAY);
-    Paragraph fecha = new Paragraph("Fecha: " + new java.util.Date().toString(), fontRegular);
-    Paragraph destinatario = new Paragraph("Destinatario: Departamento de Inventario", fontRegular);
-    Paragraph descripcion = new Paragraph(
-        "Descripción: Este reporte contiene un resumen detallado de los productos registrados actualmente en el sistema.",
-        fontRegular);
-    descripcion.setSpacingAfter(15f);
+            // 7. Información general más arriba
+            com.itextpdf.text.Font fontRegular = FontFactory.getFont("Segoe UI", 12, BaseColor.DARK_GRAY);
+            Paragraph fecha = new Paragraph("Fecha: " + new java.util.Date().toString(), fontRegular);
+            Paragraph destinatario = new Paragraph("Destinatario: Departamento de Inventario", fontRegular);
+            Paragraph descripcion = new Paragraph(
+                    "Descripción: Este reporte contiene un resumen detallado de los productos registrados actualmente en el sistema.",
+                    fontRegular);
+            descripcion.setSpacingAfter(15f);
 
-    documento.add(fecha);
-    documento.add(destinatario);
-    documento.add(descripcion);
+            documento.add(fecha);
+            documento.add(destinatario);
+            documento.add(descripcion);
 
-    // 8. Tabla con estilo
-    PdfPTable tabla = new PdfPTable(5);
-    tabla.setWidthPercentage(100);
-    tabla.setSpacingBefore(20f);
+            // 8. Tabla con estilo
+            PdfPTable tabla = new PdfPTable(5);
+            tabla.setWidthPercentage(100);
+            tabla.setSpacingBefore(20f);
 
-    // Encabezado de tabla
-    com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 12, Font.BOLD, BaseColor.WHITE);
-    BaseColor headerBg = new BaseColor(10, 20, 60);
-    String[] encabezados = {"ID", "Nombre del producto", "Precio", "Stock", "Código Artículo"};
-    for (String encabezado : encabezados) {
-        PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
-        cell.setBackgroundColor(headerBg);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setPadding(8f);
-        tabla.addCell(cell);
-    }
+            // Encabezado de tabla
+            com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 12, Font.BOLD, BaseColor.WHITE);
+            BaseColor headerBg = new BaseColor(10, 20, 60);
+            String[] encabezados = {"ID", "Nombre del producto", "Precio", "Stock", "Código Artículo"};
+            for (String encabezado : encabezados) {
+                PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
+                cell.setBackgroundColor(headerBg);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setPadding(8f);
+                tabla.addCell(cell);
+            }
 
-    // Cuerpo de la tabla
-    try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
-         PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo");
-         ResultSet rs = pst.executeQuery()) {
+            // Cuerpo de la tabla
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement("SELECT id, nombre, precio, stock, codigo_articulo FROM catalogo"); ResultSet rs = pst.executeQuery()) {
 
-        com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 11, BaseColor.BLACK);
-        while (rs.next()) {
-            tabla.addCell(new PdfPCell(new Phrase(rs.getString("id"), fontBody)));
-            tabla.addCell(new PdfPCell(new Phrase(rs.getString("nombre"), fontBody)));
-            tabla.addCell(new PdfPCell(new Phrase(rs.getString("precio"), fontBody)));
-            tabla.addCell(new PdfPCell(new Phrase(rs.getString("stock"), fontBody)));
-            tabla.addCell(new PdfPCell(new Phrase(rs.getString("codigo_articulo"), fontBody)));
+                com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 11, BaseColor.BLACK);
+                while (rs.next()) {
+                    tabla.addCell(new PdfPCell(new Phrase(rs.getString("id"), fontBody)));
+                    tabla.addCell(new PdfPCell(new Phrase(rs.getString("nombre"), fontBody)));
+                    tabla.addCell(new PdfPCell(new Phrase(rs.getString("precio"), fontBody)));
+                    tabla.addCell(new PdfPCell(new Phrase(rs.getString("stock"), fontBody)));
+                    tabla.addCell(new PdfPCell(new Phrase(rs.getString("codigo_articulo"), fontBody)));
+                }
+            } catch (SQLException e) {
+                throw new Exception("Error al obtener datos de la base de datos.", e);
+            }
+
+            documento.add(tabla);
+
+            // 9. Pie de página
+            Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin",
+                    FontFactory.getFont("Segoe UI", 10, Font.ITALIC, BaseColor.GRAY));
+            footer.setAlignment(Element.ALIGN_CENTER);
+            documento.add(footer);
+
+            // 10. Confirmación
+            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en:\n" + rutaCompletaArchivo);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (documento != null) {
+                documento.close();
+            }
         }
-    } catch (SQLException e) {
-        throw new Exception("Error al obtener datos de la base de datos.", e);
-    }
-
-    documento.add(tabla);
-
-    // 9. Pie de página
-    Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin", 
-        FontFactory.getFont("Segoe UI", 10, Font.ITALIC, BaseColor.GRAY));
-    footer.setAlignment(Element.ALIGN_CENTER);
-    documento.add(footer);
-
-    // 10. Confirmación
-    JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en:\n" + rutaCompletaArchivo);
-
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} finally {
-    if (documento != null) {
-        documento.close();
-    }
-}
-
-
-
 
 
     }//GEN-LAST:event_contentMenuItemActionPerformed
@@ -861,6 +869,122 @@ documento.add(tituloPrincipal);
         form.setVisible(true);
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Document documento = null;
+        FileOutputStream archivoPDF = null;
+
+        try {
+            // 1. Ruta al escritorio
+            String rutaEscritorio = obtenerRutaEscritorio();
+            String rutaCompletaArchivo = rutaEscritorio + File.separator + "Historial_Pedidos.pdf";
+            File archivoSalida = new File(rutaCompletaArchivo);
+            archivoPDF = new FileOutputStream(archivoSalida);
+
+            // 2. Documento con márgenes ajustados
+            documento = new Document(PageSize.A4, 50, 50, 120, 80); // margen inferior ajustado
+            PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
+            documento.open();
+            PdfContentByte canvas = writer.getDirectContentUnder();
+
+            // 3. Dibujar barras curvas equilibradas
+            drawTopCurvedBar(canvas);
+            drawBottomCurvedBar(canvas);
+
+            // 4. Logo en esquina superior izquierda
+            try {
+                Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
+                logo.scaleToFit(100, 100);
+                logo.setAbsolutePosition(50, 750);
+                documento.add(logo);
+            } catch (Exception e) {
+                System.err.println("Error cargando logo: " + e.getMessage());
+            }
+
+            // 5. Título principal
+            Paragraph tituloPrincipal = new Paragraph("Historial de Pedidos",
+                    FontFactory.getFont("Segoe UI", 26, Font.BOLD, BaseColor.DARK_GRAY));
+            tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
+            tituloPrincipal.setSpacingBefore(-10f);
+            tituloPrincipal.setSpacingAfter(10f);
+            documento.add(tituloPrincipal);
+
+            // 6. Información general antes de la tabla
+            com.itextpdf.text.Font fontInfo = FontFactory.getFont("Segoe UI", 12, BaseColor.DARK_GRAY);
+            Paragraph fecha = new Paragraph("Fecha: " + new java.util.Date().toString(), fontInfo);
+            Paragraph destinatario = new Paragraph("Destinatario: Departamento de Ventas", fontInfo);
+            Paragraph descripcion = new Paragraph(
+                    "Descripción: Este reporte muestra el historial completo de pedidos realizados por los clientes.",
+                    fontInfo);
+            descripcion.setSpacingAfter(15f);
+            documento.add(fecha);
+            documento.add(destinatario);
+            documento.add(descripcion);
+
+            // 7. Tabla de historial de pedidos con 10 columnas
+            PdfPTable tabla = new PdfPTable(10);
+            tabla.setWidthPercentage(100);
+            tabla.setSpacingBefore(15f);
+            tabla.setWidths(new float[]{2.2f, 2.2f, 2.5f, 2f, 2.5f, 2f, 2f, 3.5f, 2.5f, 4f}); // proporciones por campo
+
+            // Encabezados con tamaño reducido
+            com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 10, Font.BOLD, BaseColor.WHITE);
+            BaseColor headerBg = new BaseColor(10, 20, 60);
+            String[] encabezados = {
+                "Nombre", "Apellido", "Teléfono", "ID Pedido", "Fecha",
+                "Estado", "Provincia", "Dirección", "Monto Total", "Descripción"
+            };
+            for (String encabezado : encabezados) {
+                PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
+                cell.setBackgroundColor(headerBg);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setPadding(5f);
+                tabla.addCell(cell);
+            }
+
+            // Cuerpo con fuente un poco más grande
+            com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 10.5f, BaseColor.BLACK);
+
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement("SELECT nombreCliente, apellidoCliente, telefonoCliente, idPedido, fechaPedido, estado, provincia, direccion, montoTotal, descripcion FROM pedidos"); ResultSet rs = pst.executeQuery()) {
+
+                while (rs.next()) {
+                    tabla.addCell(crearCelda(rs.getString("nombreCliente"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("apellidoCliente"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("telefonoCliente"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("idPedido"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("fechaPedido"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("estado"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("provincia"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("direccion"), fontBody, true));
+                    tabla.addCell(crearCelda("$" + rs.getString("montoTotal"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("descripcion"), fontBody, true));
+                }
+            } catch (SQLException e) {
+                throw new Exception("Error al obtener datos del historial de pedidos.", e);
+            }
+
+            documento.add(tabla);
+
+            // 8. Pie de página
+            Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin",
+                    FontFactory.getFont("Segoe UI", 10, Font.ITALIC, BaseColor.GRAY));
+            footer.setAlignment(Element.ALIGN_CENTER);
+            documento.add(footer);
+
+            // 9. Confirmación
+            JOptionPane.showMessageDialog(null, "Reporte PDF 'Historial_Pedidos.pdf' creado exitosamente en:\n" + rutaCompletaArchivo);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (documento != null) {
+                documento.close();
+            }
+        }
+
+
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -924,7 +1048,6 @@ documento.add(tituloPrincipal);
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
