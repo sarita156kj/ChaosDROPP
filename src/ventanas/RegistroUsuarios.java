@@ -8,18 +8,36 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logica.Conexion_Chaos;
+import java.sql.ResultSet;
+
+
 /**
  *
  * @author sarah
  */
 public class RegistroUsuarios extends javax.swing.JFrame {
 
-
-   public RegistroUsuarios() {
-        initComponents();
+    private boolean esUsuarioExistente(String nombre, String apellido, String usuario) {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE nombre = ? AND apellido = ? AND usuario = ?";
+        try (Connection conn = Conexion_Chaos.conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, apellido);
+            pstmt.setString(3, usuario);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Devuelve true si se encontró al menos un usuario con los mismos datos
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al verificar la existencia del usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false; // Si ocurre un error o no se encuentra ningún usuario
     }
 
-   
+
+    public RegistroUsuarios() {
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -270,72 +288,77 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_lblIniciarSesionMouseClicked
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
+        String nombre = txtnombre.getText().trim();
+        String apellido = txtapellido.getText().trim();
+        String usuario = txtusuario.getText().trim();
+        String telefono = txtcelular.getText().trim();
+        String correo = txtcorreo.getText().trim();
+        String contrasena = new String(txtContraseña.getPassword()).trim();
+        String confirmar = new String(txtConfirmar.getPassword()).trim();
 
-    String nombre = txtnombre.getText().trim();
-    String apellido = txtapellido.getText().trim();
-    String usuario = txtusuario.getText().trim();
-    String telefono = txtcelular.getText().trim();
-    String correo = txtcorreo.getText().trim();
-    String contrasena = new String(txtContraseña.getPassword()).trim();
-    String confirmar = new String(txtConfirmar.getPassword()).trim();
-
-    // Validar que todos los campos estén llenos
-    if (nombre.isEmpty() || apellido.isEmpty() || usuario.isEmpty()
-            || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos y seleccione un tipo de usuario.");
-        return;
-    }
-
-    // Validar que las contraseñas coincidan
-    if (!contrasena.equals(confirmar)) {
-        JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
-        return;
-    }
-
-    // Validar la seguridad de la contraseña: debe contener números y mayúsculas
-    if (!esContraseñaSegura(contrasena)) {
-        JOptionPane.showMessageDialog(this, "La contraseña debe contener al menos un número y una letra mayúscula para mayor seguridad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // Validar que el teléfono solo contenga números
-    if (!telefono.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "El número de teléfono solo debe contener dígitos.");
-        return;
-    }
-
-    // Definir el idRol para vendedor (asumiendo que es 2)
-    int idRolVendedor = 2;
-
-    // Insertar en la base de datos incluyendo el id_rol
-    try (Connection conn = Conexion_Chaos.conectar()) {
-        if (conn == null) {
-            JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.");
+        // Validar que todos los campos estén llenos
+        if (nombre.isEmpty() || apellido.isEmpty() || usuario.isEmpty()
+                || telefono.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmar.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
             return;
         }
 
-        String sql = "INSERT INTO usuarios (nombre, apellido, usuario, correo, telefono, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, nombre);
-        ps.setString(2, apellido);
-        ps.setString(3, usuario);
-        ps.setString(4, correo);
-        ps.setString(5, telefono);
-        ps.setString(6, contrasena);
-        ps.setInt(7, idRolVendedor); // Establecemos el id_rol para vendedor
+        // Verificar si el usuario ya existe por nombre, apellido y nombre de usuario
+        if (esUsuarioExistente(nombre, apellido, usuario)) {
+            JOptionPane.showMessageDialog(this, "Ya existe un usuario registrado con este nombre, apellido y nombre de usuario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        ps.executeUpdate();
+        // Validar que las contraseñas coincidan
+        if (!contrasena.equals(confirmar)) {
+            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.");
+            return;
+        }
 
-        JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.");
+        // Validar la seguridad de la contraseña: debe contener números y mayúsculas
+        if (!esContraseñaSegura(contrasena)) {
+            JOptionPane.showMessageDialog(this, "La contraseña debe contener al menos un número y una letra mayúscula para mayor seguridad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    } catch (SQLException ex) {
-        Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        JOptionPane.showMessageDialog(this, "Error al registrar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        // Validar que el teléfono solo contenga números
+        if (!telefono.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "El número de teléfono solo debe contener dígitos.");
+            return;
+        }
 
-    // Cerrar esta ventana y abrir la de inicio de sesión
-    this.dispose();
-    new InicioSesion().setVisible(true);
+        // Definir el idRol para vendedor (asumiendo que es 2)
+        int idRolVendedor = 2;
+
+        // Insertar en la base de datos incluyendo el id_rol
+        try (Connection conn = Conexion_Chaos.conectar()) {
+            if (conn == null) {
+                JOptionPane.showMessageDialog(this, "No se pudo conectar a la base de datos.");
+                return;
+            }
+
+            String sql = "INSERT INTO usuarios (nombre, apellido, usuario, correo, telefono, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setString(3, usuario);
+            ps.setString(4, correo);
+            ps.setString(5, telefono);
+            ps.setString(6, contrasena);
+            ps.setInt(7, idRolVendedor); // Establecemos el id_rol para vendedor
+
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Usuario registrado correctamente.");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al registrar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Cerrar esta ventana y abrir la de inicio de sesión
+        this.dispose();
+        new InicioSesion().setVisible(true);
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
@@ -404,10 +427,9 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private boolean esContraseñaSegura(String contraseña) {
-    boolean tieneNumero = contraseña.matches(".*[0-9]+.*");
-    boolean tieneMayuscula = contraseña.matches(".*[A-Z]+.*");
-    return tieneNumero && tieneMayuscula;
-}
-
+        boolean tieneNumero = contraseña.matches(".*[0-9]+.*");
+        boolean tieneMayuscula = contraseña.matches(".*[A-Z]+.*");
+        return tieneNumero && tieneMayuscula;
+    }
 
 }

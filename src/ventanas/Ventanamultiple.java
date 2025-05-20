@@ -1,51 +1,26 @@
 package ventanas;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
 import java.awt.Component;
 import java.awt.Font;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import logica.Usuario;
 import javax.swing.JInternalFrame;
 
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image; // Asegúrate de importar Image
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.parser.Path;
 
 import java.io.File; // Importar File
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement; // Importar PreparedStatement
@@ -196,49 +171,49 @@ public class Ventanamultiple extends javax.swing.JFrame {
         }
     }
 
-   private String obtenerYCreaCarpetaReportesEnEscritorio() {
-    String nombreCarpetaReportes = "Reportes"; // Define el nombre de la carpeta aquí
-    try {
-        // 1. Obtener la ruta del escritorio
-        File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
+    private String obtenerYCreaCarpetaReportesEnEscritorio() {
+        String nombreCarpetaReportes = "Reportes"; // Define el nombre de la carpeta aquí
+        try {
+            // 1. Obtener la ruta del escritorio
+            File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
 
-        if (escritorio != null && escritorio.exists()) {
-            // 2. Construir la ruta completa a la nueva carpeta
-            File carpetaReportes = new File(escritorio, nombreCarpetaReportes);
+            if (escritorio != null && escritorio.exists()) {
+                // 2. Construir la ruta completa a la nueva carpeta
+                File carpetaReportes = new File(escritorio, nombreCarpetaReportes);
 
-            // 3. Verificar si la carpeta ya existe y es un directorio
-            if (carpetaReportes.exists() && carpetaReportes.isDirectory()) {
-                System.out.println("La carpeta de reportes ya existe: " + carpetaReportes.getAbsolutePath());
-                return carpetaReportes.getAbsolutePath(); // Retorna la ruta si ya existe
-            } else if (!carpetaReportes.exists()) {
-                // 4. Si no existe, intentar crearla
-                boolean creado = carpetaReportes.mkdirs(); // mkdirs() crea directorios padre si son necesarios
+                // 3. Verificar si la carpeta ya existe y es un directorio
+                if (carpetaReportes.exists() && carpetaReportes.isDirectory()) {
+                    System.out.println("La carpeta de reportes ya existe: " + carpetaReportes.getAbsolutePath());
+                    return carpetaReportes.getAbsolutePath(); // Retorna la ruta si ya existe
+                } else if (!carpetaReportes.exists()) {
+                    // 4. Si no existe, intentar crearla
+                    boolean creado = carpetaReportes.mkdirs(); // mkdirs() crea directorios padre si son necesarios
 
-                if (creado) {
-                    System.out.println("Carpeta de reportes creada exitosamente: " + carpetaReportes.getAbsolutePath());
-                    return carpetaReportes.getAbsolutePath(); // Retorna la ruta si se creó
+                    if (creado) {
+                        System.out.println("Carpeta de reportes creada exitosamente: " + carpetaReportes.getAbsolutePath());
+                        return carpetaReportes.getAbsolutePath(); // Retorna la ruta si se creó
+                    } else {
+                        // Falló la creación (ej. permisos insuficientes)
+                        System.err.println("No se pudo crear la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
+                        return null; // Falló la creación
+                    }
                 } else {
-                    // Falló la creación (ej. permisos insuficientes)
-                    System.err.println("No se pudo crear la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
-                    return null; // Falló la creación
+                    // Existe una entrada con ese nombre pero no es un directorio
+                    System.err.println("Existe una entrada no-directorio con el nombre de la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
+                    return null; // Existe algo que no es una carpeta
                 }
+
             } else {
-                // Existe una entrada con ese nombre pero no es un directorio
-                System.err.println("Existe una entrada no-directorio con el nombre de la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
-                return null; // Existe algo que no es una carpeta
+                System.err.println("No se pudo obtener la ruta del escritorio.");
+                return null; // No se pudo obtener el escritorio
             }
 
-        } else {
-            System.err.println("No se pudo obtener la ruta del escritorio.");
-            return null; // No se pudo obtener el escritorio
+        } catch (Exception e) {
+            System.err.println("Ocurrió un error al obtener/crear la carpeta de reportes: " + e.getMessage());
+            // Puedes imprimir la traza del error para depuración si es necesario: e.printStackTrace();
+            return null; // Error inesperado
         }
-
-    } catch (Exception e) {
-        System.err.println("Ocurrió un error al obtener/crear la carpeta de reportes: " + e.getMessage());
-        // Puedes imprimir la traza del error para depuración si es necesario: e.printStackTrace();
-        return null; // Error inesperado
     }
-}
 
     private static void drawTopCurvedBar(PdfContentByte canvas) {
         canvas.saveState();
@@ -289,10 +264,11 @@ public class Ventanamultiple extends javax.swing.JFrame {
         cutMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         fileMenu = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         openMenuItem = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         GestiondeUsuariomenu = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -356,6 +332,15 @@ public class Ventanamultiple extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
+        jMenuItem8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem8.setText("Historial de Clientes");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
         menuBar.add(jMenu2);
 
         fileMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/rastreo (2).png"))); // NOI18N
@@ -388,6 +373,16 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         });
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas 2.png"))); // NOI18N
+        jMenuItem2.setText("Registro de Pedidos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem2);
+
         saveMenuItem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         saveMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/historial-de-pedidos.png"))); // NOI18N
         saveMenuItem.setMnemonic('s');
@@ -409,16 +404,6 @@ public class Ventanamultiple extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openMenuItem);
-
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/contador-de-salidas 2.png"))); // NOI18N
-        jMenuItem2.setText("Registro de Pedidos");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        fileMenu.add(jMenuItem2);
 
         menuBar.add(fileMenu);
 
@@ -1018,6 +1003,12 @@ public class Ventanamultiple extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        Historial_de_Clientes form = new Historial_de_Clientes();
+        escritorio.add(form);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1080,6 +1071,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;

@@ -2,8 +2,6 @@ package ventanas;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class ControlUsuarios extends javax.swing.JInternalFrame {
@@ -118,113 +116,6 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
                 }
             } else {
                 usuarioSeleccionadoId = -1;
-            }
-        });
-
-        btnEditar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (usuarioSeleccionadoId == -1) {
-                    JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un usuario para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                String nombre = txtnombre.getText();
-                String apellido = txtapellido.getText();
-                String nombreUsuario = txtusuario.getText();
-                String correo = txtcorreo.getText();
-                String celular = txtcelular.getText();
-                String tipoEmpleadoSeleccionado = (String) cbxRol.getSelectedItem();
-                Integer idRol = obtenerIdRol(tipoEmpleadoSeleccionado);
-
-                if (idRol == null && !tipoEmpleadoSeleccionado.equals("Seleccionar")) {
-                    JOptionPane.showMessageDialog(ControlUsuarios.this, "El tipo de empleado seleccionado no es válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    return;
-                } else if (tipoEmpleadoSeleccionado.equals("Seleccionar")) {
-                    JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un tipo de empleado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                String sql = "UPDATE usuarios SET nombre=?, apellido=?, usuario=?, correo=?, telefono=?, id_rol=? WHERE id=?";
-                try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-                    sentencia.setString(1, nombre);
-                    sentencia.setString(2, apellido);
-                    sentencia.setString(3, nombreUsuario);
-                    sentencia.setString(4, correo);
-                    sentencia.setString(5, celular);
-                    sentencia.setInt(6, idRol); // Corregido el índice
-                    sentencia.setInt(7, usuarioSeleccionadoId); // Corregido el índice
-
-                    int filasAfectadas = sentencia.executeUpdate();
-
-                    if (filasAfectadas > 0) {
-                        JOptionPane.showMessageDialog(ControlUsuarios.this, "Usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        cargarDatosUsuarios();
-                        txtid.setText("");
-                        txtnombre.setText("");
-                        txtapellido.setText("");
-                        txtusuario.setText("");
-                        txtcorreo.setText("");
-                        txtcelular.setText("");
-                        cbxRol.setSelectedIndex(0);
-                        usuarioSeleccionadoId = -1;
-                    } else {
-                        JOptionPane.showMessageDialog(ControlUsuarios.this, "No se pudo actualizar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(ControlUsuarios.this, "Error al actualizar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-
-        btnElimianr.addActionListener(new ActionListener() { // **CORRECCIÓN:** Nombre del botón
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (usuarioSeleccionadoId == -1) {
-                    JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un usuario para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                int confirmacion = JOptionPane.showConfirmDialog(ControlUsuarios.this, "¿Está seguro de que desea eliminar este usuario?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
-
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    String sql = "DELETE FROM usuarios WHERE id = ?";
-                    try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-                        sentencia.setInt(1, usuarioSeleccionadoId);
-
-                        int filasAfectadas = sentencia.executeUpdate();
-
-                        if (filasAfectadas > 0) {
-                            JOptionPane.showMessageDialog(ControlUsuarios.this, "Usuario eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            cargarDatosUsuarios(); // Recargar la tabla
-                            // Limpiar los campos de texto después de eliminar
-                            txtid.setText("");
-                            txtnombre.setText("");
-                            txtapellido.setText("");
-                            txtusuario.setText("");
-                            txtcorreo.setText("");
-                            txtcelular.setText("");
-                            cbxRol.setSelectedIndex(0);
-                            usuarioSeleccionadoId = -1; // Resetear el ID seleccionado
-                        } else {
-                            JOptionPane.showMessageDialog(ControlUsuarios.this, "No se pudo eliminar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(ControlUsuarios.this, "Error al eliminar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
-
-        btncrearnuevousuario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                RegistroUsuarios registroFrame = new RegistroUsuarios();
-                registroFrame.setVisible(true);
             }
         });
     }
@@ -601,7 +492,8 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btncrearnuevousuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearnuevousuarioActionPerformed
-        btncrearnuevousuarioActionPerformed(evt);
+        RegistroUsuarios registroFrame = new RegistroUsuarios();
+        registroFrame.setVisible(true);
     }//GEN-LAST:event_btncrearnuevousuarioActionPerformed
 
     private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
@@ -609,20 +501,108 @@ public class ControlUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtidActionPerformed
 
     private void btnElimianrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimianrActionPerformed
-        btnElimianrActionPerformed(evt);
+        if (usuarioSeleccionadoId == -1) {
+            JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un usuario para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(ControlUsuarios.this, "¿Está seguro de que desea eliminar este usuario?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            String sql = "DELETE FROM usuarios WHERE id = ?";
+            try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+                sentencia.setInt(1, usuarioSeleccionadoId);
+
+                int filasAfectadas = sentencia.executeUpdate();
+
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(ControlUsuarios.this, "Usuario eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    cargarDatosUsuarios(); // Recargar la tabla
+                    // Limpiar los campos de texto después de eliminar
+                    txtid.setText("");
+                    txtnombre.setText("");
+                    txtapellido.setText("");
+                    txtusuario.setText("");
+                    txtcorreo.setText("");
+                    txtcelular.setText("");
+                    cbxRol.setSelectedIndex(0);
+                    usuarioSeleccionadoId = -1; // Resetear el ID seleccionado
+                } else {
+                    JOptionPane.showMessageDialog(ControlUsuarios.this, "No se pudo eliminar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(ControlUsuarios.this, "Error al eliminar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnElimianrActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        btnEditarActionPerformed(evt);
+
+        if (usuarioSeleccionadoId == -1) {
+            JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un usuario para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String nombre = txtnombre.getText();
+        String apellido = txtapellido.getText();
+        String nombreUsuario = txtusuario.getText();
+        String correo = txtcorreo.getText();
+        String celular = txtcelular.getText();
+        String tipoEmpleadoSeleccionado = (String) cbxRol.getSelectedItem();
+        Integer idRol = obtenerIdRol(tipoEmpleadoSeleccionado);
+
+        if (idRol == null && !tipoEmpleadoSeleccionado.equals("Seleccionar")) {
+            JOptionPane.showMessageDialog(ControlUsuarios.this, "El tipo de empleado seleccionado no es válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (tipoEmpleadoSeleccionado.equals("Seleccionar")) {
+            JOptionPane.showMessageDialog(ControlUsuarios.this, "Por favor, seleccione un tipo de empleado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String sql = "UPDATE usuarios SET nombre=?, apellido=?, usuario=?, correo=?, telefono=?, id_rol=? WHERE id=?";
+        try (Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword); PreparedStatement sentencia = conexion.prepareStatement(sql)) {
+            sentencia.setString(1, nombre);
+            sentencia.setString(2, apellido);
+            sentencia.setString(3, nombreUsuario);
+            sentencia.setString(4, correo);
+            sentencia.setString(5, celular);
+            sentencia.setInt(6, idRol);
+            sentencia.setInt(7, usuarioSeleccionadoId);
+
+            int filasAfectadas = sentencia.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                JOptionPane.showMessageDialog(ControlUsuarios.this, "Usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarDatosUsuarios();
+                txtid.setText("");
+                txtnombre.setText("");
+                txtapellido.setText("");
+                txtusuario.setText("");
+                txtcorreo.setText("");
+                txtcelular.setText("");
+                cbxRol.setSelectedIndex(0);
+                usuarioSeleccionadoId = -1;
+            } else {
+                JOptionPane.showMessageDialog(ControlUsuarios.this, "No se pudo actualizar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(ControlUsuarios.this, "Error al actualizar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtid.setText("");
         txtnombre.setText("");
         txtapellido.setText("");
         txtusuario.setText("");
         txtcorreo.setText("");
-        txtid.setText("");
+        txtcelular.setText("");
         cbxRol.setSelectedIndex(0);
+        usuarioSeleccionadoId = -1;
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**

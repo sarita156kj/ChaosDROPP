@@ -9,19 +9,6 @@ import java.sql.ResultSet;
 
 public class RegistroCliente extends javax.swing.JInternalFrame {
 
-    // **--- NUEVO MÉTODO: Limpiar los campos del formulario ---**
-    private void limpiarCampos() {
-        txtnombrecliente.setText("");
-        txtapellidocliente.setText("");
-        txttelprincipal.setText("");
-        txttelsecundario.setText("");
-        txtemail.setText("");
-        txtdireccion.setText("");
-        cboxprovincia.setSelectedIndex(0); // Restablecer el JComboBox a su primer elemento ("Seleccionar" en tu caso)
-        // Restablece cualquier otro campo de tu formulario aquí
-    }
-
-
     public RegistroCliente() {
         initComponents();
 
@@ -298,7 +285,6 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
-
         // 1. Obtener los datos de los campos
         String nombre = txtnombrecliente.getText().trim();
         String apellido = txtapellidocliente.getText().trim();
@@ -349,7 +335,7 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
         }
     }
 
-    // Método para verificar si el cliente ya existe en la base de datos (sin cambios)
+// Método para verificar si el cliente ya existe en la base de datos (sin cambios)
     private boolean clienteExiste(String telefono, String correo) {
         String query = "SELECT COUNT(*) FROM clientes WHERE telefonoPrincipal = ? OR correoElectronico = ?";
         try (Connection con = (Connection) Conexion_Chaos.conectar(); PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(query)) {
@@ -366,6 +352,18 @@ public class RegistroCliente extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    private void limpiarCampos() {
+        txtnombrecliente.setText("");
+        txtapellidocliente.setText("");
+        txttelprincipal.setText("");
+        txttelsecundario.setText("");
+        txtemail.setText("");
+        txtdireccion.setText("");
+        cboxprovincia.setSelectedIndex(0); 
+
 
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 

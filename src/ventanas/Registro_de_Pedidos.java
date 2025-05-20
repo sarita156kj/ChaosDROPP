@@ -1,32 +1,16 @@
 package ventanas;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Font;
-import java.io.File;
-import java.io.FileOutputStream;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import logica.Conexion_Chaos;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +18,7 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
 
     private Map<String, Double> preciosArticulos = new HashMap<>();
     private final Ventanamultiple Ventanamultiple;
+    private Set<String> articulosSeleccionados = new HashSet<>();
 
     public Registro_de_Pedidos(Ventanamultiple ventanas) {
         initComponents();
@@ -42,23 +27,35 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
         AutoCompleteDecorator.decorate(cbx_Articulo);
         cargarPreciosArticulos();
         txtmontototal.setEditable(false);
+        txtimpuesto.setEditable(false);
+        txtSubtotal.setEditable(false);
+        cbx_Articulo.setSelectedIndex(-1); // Inicialmente no seleccionar nada
 
         cbx_Articulo.addActionListener(evt -> {
             String articuloSeleccionado = (String) cbx_Articulo.getSelectedItem();
-            if (articuloSeleccionado != null && !articuloSeleccionado.isEmpty()) {
+            if (articuloSeleccionado != null && !articuloSeleccionado.isEmpty() && !articulosSeleccionados.contains(articuloSeleccionado)) {
                 String textoActual = txtDescripcion.getText();
                 if (!textoActual.isEmpty()) {
                     txtDescripcion.append("\n1 x " + articuloSeleccionado + " (Talla)");
                 } else {
                     txtDescripcion.setText("1 x " + articuloSeleccionado + " (Talla)");
                 }
-                cbx_Articulo.setSelectedIndex(-1);
+                articulosSeleccionados.add(articuloSeleccionado);
+                cbx_Articulo.setSelectedIndex(-1); // Deseleccionar después de añadir
+            } else if (articuloSeleccionado != null && !articuloSeleccionado.isEmpty() && articulosSeleccionados.contains(articuloSeleccionado)) {
+                // Si ya está seleccionado, no hacer nada para evitar duplicados en la lista interna
+                cbx_Articulo.setSelectedIndex(-1); // Deseleccionar después de la selección
+            } else if (articuloSeleccionado != null && !articuloSeleccionado.isEmpty()) {
+                cbx_Articulo.setSelectedIndex(-1); // Deseleccionar si no se cumple la condición de no duplicado
             }
         });
+
+        btnCalcular.addActionListener(evt -> calcularMontoTotalPedido());
     }
 
     private void cargarNombresArticulos() {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement(""); // Añadir una opción vacía o "Seleccionar" al inicio
         try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement("SELECT nombre FROM catalogo"); ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 model.addElement(rs.getString("nombre"));
@@ -68,6 +65,7 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
             e.printStackTrace();
         }
         cbx_Articulo.setModel(model);
+        cbx_Articulo.setSelectedIndex(-1); // Deseleccionar la opción por defecto
     }
 
     private void cargarPreciosArticulos() {
@@ -81,7 +79,7 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
         }
     }
 
-   private Map<String, Integer> obtenerCantidadesPedido() {
+    private Map<String, Integer> obtenerCantidadesPedido() {
         Map<String, Integer> cantidadesPedido = new HashMap<>();
         String descripcion = txtDescripcion.getText();
         String[] lineas = descripcion.split("\n");
@@ -159,9 +157,7 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
         double impuesto = 0.0;
         java.util.List<String> provinciasExentas = java.util.Arrays.asList("Santo Domingo", "Puerto Plata", "Santiago", "La Vega", "Samaná");
 
-        if (!provinciasExentas.contains(provinciaSeleccionada)) {
-            // Puedes definir la lógica de tu impuesto aquí, por ejemplo, un porcentaje del subtotal.
-            // Para este ejemplo, estableceremos un impuesto del 18% (ITBIS en RD).
+        if (provinciaSeleccionada != null && !provinciasExentas.contains(provinciaSeleccionada)) {
             impuesto = subtotal * 0.18;
         }
 
@@ -188,8 +184,12 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
                 if (rs.next()) {
                     int stockActual = rs.getInt("stock");
                     int cantidadPedido = cantidadesPedido.get(nombreArticulo);
-                    if (stockActual <= 20) {
-                        JOptionPane.showMessageDialog(this, "Advertencia: El artículo '" + nombreArticulo + "' tiene un stock de " + stockActual + " unidades. Considere actualizar el stock.", "Advertencia de Stock", JOptionPane.WARNING_MESSAGE);
+                    if (cantidadPedido > 10) {
+                        JOptionPane.showMessageDialog(this, "No se pueden pedir más de 10 unidades del artículo '" + nombreArticulo + "' en un solo pedido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    } else if (stockActual == 10 && cantidadPedido > 0) {
+                        JOptionPane.showMessageDialog(this, "Advertencia: El stock del artículo '" + nombreArticulo + "' es de 10 unidades. Considere actualizar el stock.", "Advertencia de Stock", JOptionPane.WARNING_MESSAGE);
+                        // No impedimos el registro, solo advertimos. Si quieres impedirlo, retorna false aquí.
                     } else if (cantidadPedido > stockActual) {
                         JOptionPane.showMessageDialog(this, "Error: No hay suficiente stock para el artículo '" + nombreArticulo + "'. Stock actual: " + stockActual + ", Cantidad pedida: " + cantidadPedido, "Error de Stock", JOptionPane.ERROR_MESSAGE);
                         return false; // No hay suficiente stock para registrar el pedido
@@ -206,100 +206,30 @@ public class Registro_de_Pedidos extends javax.swing.JInternalFrame {
         }
         return true; // Stock verificado correctamente
     }
-    
- private String obtenerYCreaCarpetaReportesEnEscritorio() {
-    String nombreCarpetaReportes = "Reportes"; // Define el nombre de la carpeta aquí
-    try {
-        // 1. Obtener la ruta del escritorio
-        File escritorio = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
 
-        if (escritorio != null && escritorio.exists()) {
-            // 2. Construir la ruta completa a la nueva carpeta
-            File carpetaReportes = new File(escritorio, nombreCarpetaReportes);
-
-            // 3. Verificar si la carpeta ya existe y es un directorio
-            if (carpetaReportes.exists() && carpetaReportes.isDirectory()) {
-                System.out.println("La carpeta de reportes ya existe: " + carpetaReportes.getAbsolutePath());
-                return carpetaReportes.getAbsolutePath(); // Retorna la ruta si ya existe
-            } else if (!carpetaReportes.exists()) {
-                // 4. Si no existe, intentar crearla
-                boolean creado = carpetaReportes.mkdirs(); // mkdirs() crea directorios padre si son necesarios
-
-                if (creado) {
-                    System.out.println("Carpeta de reportes creada exitosamente: " + carpetaReportes.getAbsolutePath());
-                    return carpetaReportes.getAbsolutePath(); // Retorna la ruta si se creó
-                } else {
-                    // Falló la creación (ej. permisos insuficientes)
-                    System.err.println("No se pudo crear la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
-                    return null; // Falló la creación
-                }
-            } else {
-                // Existe una entrada con ese nombre pero no es un directorio
-                System.err.println("Existe una entrada no-directorio con el nombre de la carpeta de reportes: " + carpetaReportes.getAbsolutePath());
-                return null; // Existe algo que no es una carpeta
-            }
-
-        } else {
-            System.err.println("No se pudo obtener la ruta del escritorio.");
-            return null; // No se pudo obtener el escritorio
+    private boolean actualizarStockEnBaseDeDatos() {
+        Map<String, Integer> cantidadesPedido = obtenerCantidadesPedido();
+        if (cantidadesPedido == null) {
+            return false; // Error al obtener las cantidades del pedido
         }
 
-    } catch (Exception e) {
-        System.err.println("Ocurrió un error al obtener/crear la carpeta de reportes: " + e.getMessage());
-        // Puedes imprimir la traza del error para depuración si es necesario: e.printStackTrace();
-        return null; // Error inesperado
+        try (Connection con = Conexion_Chaos.conectar(); PreparedStatement pstmt = con.prepareStatement("UPDATE catalogo SET stock = stock - ? WHERE nombre = ?")) {
+            for (Map.Entry<String, Integer> entry : cantidadesPedido.entrySet()) {
+                String nombreArticulo = entry.getKey();
+                int cantidadPedido = entry.getValue();
+                pstmt.setInt(1, cantidadPedido);
+                pstmt.setString(2, nombreArticulo);
+                pstmt.executeUpdate();
+            }
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el stock en la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            return false;
+        }
     }
-}
+    
 
-private static void drawTopCurvedBar(PdfContentByte canvas) {
-    // Color azul oscuro, relleno
-    BaseColor azulOscuro = new BaseColor(10, 20, 60);
-    canvas.setColorFill(azulOscuro);
-
-    // Coordenadas y curvas ajustadas para horizontal (A4 landscape 842 x 595)
-    // Vamos a dibujar una barra curva en la parte superior
-
-    // Empieza en la esquina superior izquierda
-    canvas.moveTo(0, 595);
-    // Línea horizontal a la derecha
-    canvas.lineTo(842, 595);
-    // Curva Bézier hacia abajo (línea curva en la parte superior)
-    canvas.curveTo(650, 560, 450, 590, 0, 560);
-    // Cierra el path
-    canvas.closePathFillStroke();
-}
-
-private static void drawBottomCurvedBar(PdfContentByte canvas) {
-    // Color azul oscuro, relleno
-    BaseColor azulOscuro = new BaseColor(10, 20, 60);
-    canvas.setColorFill(azulOscuro);
-
-    // Barra curva en la parte inferior del documento
-    // Comienza en esquina inferior izquierda
-    canvas.moveTo(0, 0);
-    // Línea horizontal a la derecha
-    canvas.lineTo(842, 0);
-    // Curva Bézier hacia arriba (línea curva en la parte inferior)
-    canvas.curveTo(650, 30, 450, 0, 0, 30);
-    // Cierra el path
-    canvas.closePathFillStroke();
-}
-
-
-// Método auxiliar
-private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente) {
-    return crearCelda(texto, fuente, false);
-}
-
-private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean multilinea) {
-    PdfPCell celda = new PdfPCell(new Phrase(texto != null ? texto : "", fuente));
-    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    celda.setVerticalAlignment(multilinea ? Element.ALIGN_TOP : Element.ALIGN_MIDDLE);
-    celda.setPadding(4f);
-    celda.setMinimumHeight(multilinea ? 30f : 20f);
-    celda.setNoWrap(!multilinea); // permitir salto de línea solo en campos como descripción
-    return celda;
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -345,7 +275,6 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
@@ -456,19 +385,6 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icon-pds-360-w.jpg"))); // NOI18N
         jLabel19.setText("jLabel19");
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/histo.png"))); // NOI18N
-        jButton1.setText(" Generar Reporte");
-        jButton1.setToolTipText("");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -539,17 +455,13 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(211, 211, 211)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108))))
+                        .addGap(549, 549, 549))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
+                .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
@@ -747,7 +659,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-              String nombreCliente = txtnombre.getText().trim();
+        String nombreCliente = txtnombre.getText().trim();
         String apellidoCliente = txtapellido.getText().trim();
 
         // 1. Verificar campos obligatorios
@@ -771,7 +683,15 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
             return; // La verificación de stock falló, el método verificarStock() ya mostró el mensaje de error.
         }
 
-        // 4. Guardar los datos del pedido en la base de datos
+        // 4. Actualizar stock en la base de datos
+        if (actualizarStockEnBaseDeDatos()) {
+            System.out.println("Stock actualizado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // No continuar con el registro si falla la actualización del stock
+        }
+
+        // 5. Guardar los datos del pedido en la base de datos
         try (Connection con = Conexion_Chaos.conectar();
              PreparedStatement pstmt = con.prepareStatement("INSERT INTO pedidos (idPedido, nombreCliente, apellidoCliente, telefonoCliente, direccion, provincia, fechaPedido, fechaEntrega, tipoPago, estado, descripcion, total_pago, impuesto, montoTotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
 
@@ -796,6 +716,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
             if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(this, "Pedido registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 limpiarCampos(); // Opcional: limpiar los campos después del registro
+                // **** OPCIONAL: GENERAR REPORTE PDF AQUÍ SI LO DESEAS ****
             } else {
                 JOptionPane.showMessageDialog(this, "Error al registrar el pedido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -826,6 +747,7 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
         }
         return false; // Error o cliente no encontrado
     }
+
     private void limpiarCampos() {
         txtnombre.setText("");
         txtapellido.setText("");
@@ -847,130 +769,6 @@ private PdfPCell crearCelda(String texto, com.itextpdf.text.Font fuente, boolean
     private void txtimpuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtimpuestoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtimpuestoActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-Document documento = null;
-FileOutputStream archivoPDF = null;
-
-try {
-    // 1. Ruta al escritorio
-    String rutaEscritorio = obtenerYCreaCarpetaReportesEnEscritorio();
-    String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Registro_pedidos.pdf";
-    File archivoSalida = new File(rutaCompletaArchivo);
-    archivoPDF = new FileOutputStream(archivoSalida);
-
-    // 2. Documento con márgenes ajustados
-    documento = new Document(PageSize.A4.rotate(), 50, 50, 120, 80); // ← horizontal (paisaje)
-    PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
-    documento.open();
-    PdfContentByte canvas = writer.getDirectContentUnder();
-
-    // 3. Dibujar barras curvas
-    drawTopCurvedBar(canvas);
-    drawBottomCurvedBar(canvas);
-
-    // 4. Logo
-    try {
-        Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
-        logo.scaleToFit(100, 100);
-        logo.setAbsolutePosition(50, 520); // Ajustado para formato horizontal
-        documento.add(logo);
-    } catch (Exception e) {
-        System.err.println("Error cargando logo: " + e.getMessage());
-    }
-
-    // 5. Título
-    Paragraph tituloPrincipal = new Paragraph("Reporte de Pedidos Detallado (Formato Horizontal)",
-        FontFactory.getFont("Segoe UI", 22, Font.BOLD, BaseColor.DARK_GRAY));
-    tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
-    tituloPrincipal.setSpacingBefore(-10f);
-    tituloPrincipal.setSpacingAfter(10f);
-    documento.add(tituloPrincipal);
-
-    // 6. Información
-    com.itextpdf.text.Font fontRegular = FontFactory.getFont("Segoe UI", 11, BaseColor.DARK_GRAY);
-    documento.add(new Paragraph("Fecha: " + new java.util.Date().toString(), fontRegular));
-    documento.add(new Paragraph("Destinatario: Departamento de Ventas", fontRegular));
-    documento.add(new Paragraph("Descripción: Este reporte contiene todos los pedidos registrados con detalles completos.",
-        fontRegular));
-    documento.add(new Paragraph("\n"));
-
-    // 7. Tabla con 14 columnas
-    PdfPTable tabla = new PdfPTable(14);
-    tabla.setWidthPercentage(100);
-    tabla.setSpacingBefore(15f);
-
-    // Anchos relativos para las columnas (ajustados para contenido legible)
-    tabla.setWidths(new float[]{2.5f, 2.5f, 2.5f, 2f, 2.5f, 2.5f, 2.2f, 3f, 4.5f, 2.5f, 2.2f, 2.5f, 2.5f, 2.5f});
-
-    // Encabezados
-    com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 9, Font.BOLD, BaseColor.WHITE);
-    BaseColor headerBg = new BaseColor(10, 20, 60);
-
-    String[] encabezados = {
-        "Nombre", "Apellido", "Teléfono", "ID Pedido", "Fecha Pedido",
-        "Fecha Entrega", "Provincia", "Dirección", "Descripción",
-        "Tipo Pago", "Estado", "Total Pago", "Impuesto", "Monto Total"
-    };
-
-    for (String encabezado : encabezados) {
-        PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
-        cell.setBackgroundColor(headerBg);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setPadding(5f);
-        cell.setMinimumHeight(22f);
-        tabla.addCell(cell);
-    }
-
-    // 8. Cuerpo de tabla
-    try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", "");
-         PreparedStatement pst = cn.prepareStatement(
-             "SELECT nombreCliente, apellidoCliente, telefonoCliente, idPedido, fechaPedido, fechaEntrega, provincia, direccion, descripcion, tipoPago, estado, total_pago, impuesto, montoTotal FROM pedidos");
-         ResultSet rs = pst.executeQuery()) {
-
-        com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 8, BaseColor.BLACK);
-
-        while (rs.next()) {
-            tabla.addCell(crearCelda(rs.getString("nombreCliente"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("apellidoCliente"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("telefonoCliente"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("idPedido"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("fechaPedido"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("fechaEntrega"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("provincia"), fontBody, true));
-            tabla.addCell(crearCelda(rs.getString("direccion"), fontBody, true));
-            tabla.addCell(crearCelda(rs.getString("descripcion"), fontBody, true)); // permitir salto de línea
-            tabla.addCell(crearCelda(rs.getString("tipoPago"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("estado"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("total_pago"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("impuesto"), fontBody));
-            tabla.addCell(crearCelda(rs.getString("montoTotal"), fontBody));
-        }
-
-    } catch (SQLException e) {
-        throw new Exception("Error al obtener datos de pedidos.", e);
-    }
-
-    documento.add(tabla);
-
-    // 9. Pie
-    Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin",
-        FontFactory.getFont("Segoe UI", 9, Font.ITALIC, BaseColor.GRAY));
-    footer.setAlignment(Element.ALIGN_CENTER);
-    documento.add(footer);
-
-    // 10. Confirmación
-    JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en:\n" + rutaCompletaArchivo);
-
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-} finally {
-    if (documento != null) {
-        documento.close();
-    }
-}
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1018,7 +816,6 @@ try {
     private javax.swing.JComboBox<String> cbx_Estado;
     private javax.swing.JComboBox<String> cbx_Provincia;
     private javax.swing.JComboBox<String> cbx_TipodePago;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

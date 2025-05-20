@@ -46,6 +46,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         txtstocknuevo.setEnabled(false);
         idArticuloSeleccionado = -1;
         btnGuardar.setText("Guardar");
+        txtbuscar.setText("");
     }
 
     /**
@@ -61,7 +62,6 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
         txtprecio = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jComboCategoria = new javax.swing.JComboBox<>();
@@ -74,6 +74,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         txtstock = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         txtbuscar = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -121,18 +122,6 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
             }
         });
 
-        btnGuardar.setBackground(new java.awt.Color(0, 0, 0));
-        btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-guardar.png"))); // NOI18N
-        btnGuardar.setText(" Guardar");
-        btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-
         txtprecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
@@ -140,7 +129,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel3.setText("Precio:");
 
         jComboCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Gorras", "Abrigos", "Camisetas ", "Pantalones", "Bermudas", "Camisas" }));
+        jComboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Gorras", "Abrigos", "Camisetas ", "Pantalones", "Bermudas", "Camisas", "Calzado" }));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -159,6 +148,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel1.setText("Nombre del Artículo:");
 
         txtidarticulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtidarticulo.setEnabled(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -171,6 +161,18 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/icons8-editor-de-registro-50.png"))); // NOI18N
         jLabel15.setText(" Registro de Artículo");
 
+        btnGuardar.setBackground(new java.awt.Color(0, 0, 0));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/boton-guardar.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -181,7 +183,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                             .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(71, 71, 71))
                         .addGroup(jPanel4Layout.createSequentialGroup()
@@ -234,8 +236,8 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
                 .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
         );
 
@@ -548,6 +550,7 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaCatalogoMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
         String nombre = txtnarticulo.getText().trim();
         String codigoArticulo = txtcodigoarticulo.getText().trim();
         String categoria = jComboCategoria.getSelectedItem().toString();
@@ -556,128 +559,143 @@ public class Controlinventario1 extends javax.swing.JInternalFrame {
         String nuevoStockStr = txtstocknuevo.getText().trim();
 
         if (btnGuardar.getText().equals("Guardar")) { // Guardar Nuevo
-            if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+            if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || categoria.equals("Seleccionar")) {
                 JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos.");
                 return;
             }
             try {
                 double precio = Double.parseDouble(precioStr);
                 int stock = Integer.parseInt(stockStr);
-                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id != ?";
+                String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE codigo_articulo = ?";
                 String insertQuery = "INSERT INTO catalogo (nombre, codigo_articulo, categoria, precio, stock) VALUES (?, ?, ?, ?, ?)";
 
-                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
-                    checkStmt.setString(1, nombre);
-                    checkStmt.setString(2, codigoArticulo);
-                    checkStmt.setInt(3, -1);
-                    ResultSet rs = checkStmt.executeQuery();
-                    rs.next();
-                    int count = rs.getInt(1);
-                    if (count > 0) {
-                        JOptionPane.showMessageDialog(null, "Ya existe un artículo con ese nombre o código.");
+                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery); PreparedStatement insertStmt = con.prepareStatement(insertQuery)) {
+
+                    checkStmt.setString(1, codigoArticulo);
+                    ResultSet checkRs = checkStmt.executeQuery();
+                    if (checkRs.next() && checkRs.getInt(1) > 0) {
+                        JOptionPane.showMessageDialog(null, "Ya existe un artículo con este código.");
                         return;
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controlinventario1.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Error al verificar el artículo: " + ex.getMessage());
-                    return;
-                }
 
-                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement insertStmt = con.prepareStatement(insertQuery)) {
+                    checkQuery = "SELECT COUNT(*) FROM catalogo WHERE nombre = ? AND codigo_articulo = ? AND id != ?";
+                    try (PreparedStatement checkNombreCodigoStmt = con.prepareStatement(checkQuery)) {
+                        checkNombreCodigoStmt.setString(1, nombre);
+                        checkNombreCodigoStmt.setString(2, codigoArticulo);
+                        checkNombreCodigoStmt.setInt(3, -1); // Para asegurar que no compare con un ID existente al insertar
+                        ResultSet checkNombreCodigoRs = checkNombreCodigoStmt.executeQuery();
+                        if (checkNombreCodigoRs.next() && checkNombreCodigoRs.getInt(1) > 0) {
+                            JOptionPane.showMessageDialog(null, "Ya existe un artículo con este nombre y código.");
+                            return;
+                        }
+                    }
+
                     insertStmt.setString(1, nombre);
                     insertStmt.setString(2, codigoArticulo);
                     insertStmt.setString(3, categoria);
                     insertStmt.setDouble(4, precio);
                     insertStmt.setInt(5, stock);
-                    insertStmt.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Artículo guardado correctamente.");
-                    limpiarCampos();
-                    mostrarProductos();
+
+                    int filasAfectadas = insertStmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        JOptionPane.showMessageDialog(null, "Artículo guardado correctamente.");
+                        limpiarCampos();
+                        mostrarProductos();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo guardar el artículo.");
+                    }
+
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al guardar el artículo: " + ex.getMessage());
                     ex.printStackTrace();
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido para el precio y el stock.");
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese un formato numérico válido para el precio y el stock.");
             }
         } else if (btnGuardar.getText().equals("Actualizar")) { // Actualizar Existente
-            if (idArticuloSeleccionado != -1) {
-                if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, completa los campos para actualizar la información básica.");
-                    return;
-                }
-                try {
-                    double precio = Double.parseDouble(precioStr);
-                    int nuevoStock = 0;
-                    int stockFinal;
-                    boolean actualizarStock = false;
+            if (idArticuloSeleccionado == -1) {
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún artículo para actualizar.");
+                return;
+            }
+            if (nombre.isEmpty() || codigoArticulo.isEmpty() || precioStr.isEmpty() || categoria.equals("Seleccionar")) {
+                JOptionPane.showMessageDialog(null, "Por favor, completa al menos el nombre, código, precio y categoría para actualizar.");
+                return;
+            }
+            try {
+                double precio = Double.parseDouble(precioStr);
+                int stockActual = -1; // Valor por defecto si no se proporciona nuevo stock
 
-                    if (!nuevoStockStr.isEmpty()) {
-                        try {
-                            nuevoStock = Integer.parseInt(nuevoStockStr);
-                            stockFinal = originalStock + nuevoStock;
-                            actualizarStock = true;
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "Por favor, ingrese un número entero válido para agregar al stock.");
-                            return;
-                        }
-                    } else {
-                        stockFinal = originalStock; // Mantener el stock original si no se ingresa nuevo stock
+                // Obtener el stock actual de la base de datos
+                String obtenerStockQuery = "SELECT stock FROM catalogo WHERE id = ?";
+                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement obtenerStockStmt = con.prepareStatement(obtenerStockQuery)) {
+                    obtenerStockStmt.setInt(1, idArticuloSeleccionado);
+                    ResultSet stockRs = obtenerStockStmt.executeQuery();
+                    if (stockRs.next()) {
+                        stockActual = stockRs.getInt("stock");
                     }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al obtener el stock actual: " + ex.getMessage());
+                    ex.printStackTrace();
+                    return; // Importante salir si no se puede obtener el stock actual
+                }
 
-                    String checkQuery = "SELECT COUNT(*) FROM catalogo WHERE (nombre = ? OR codigo_articulo = ?) AND id != ?";
-                    try (Connection con = Conexion_Chaos.conectar(); PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
-                        checkStmt.setString(1, nombre);
-                        checkStmt.setString(2, codigoArticulo);
-                        checkStmt.setInt(3, idArticuloSeleccionado);
-                        ResultSet rs = checkStmt.executeQuery();
-                        rs.next();
-                        int count = rs.getInt(1);
-                        if (count > 0) {
-                            JOptionPane.showMessageDialog(null, "Ya existe otro artículo con ese nombre o código.");
-                            return;
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Controlinventario1.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null, "Error al verificar el artículo: " + ex.getMessage());
+                int nuevoStock = stockActual; // Inicializar con el stock actual
+
+                // Si se ingresa un nuevo stock, sumarlo al actual
+                if (!nuevoStockStr.isEmpty()) {
+                    try {
+                        int cantidadNueva = Integer.parseInt(nuevoStockStr);
+                        nuevoStock = stockActual + cantidadNueva;
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Por favor, ingrese un formato numérico válido para la cantidad a añadir al stock.");
                         return;
                     }
-
-                    String updateQuery;
-                    if (actualizarStock) {
-                        updateQuery = "UPDATE catalogo SET nombre=?, codigo_articulo=?, categoria=?, precio=?, stock=? WHERE id=?";
-                    } else {
-                        updateQuery = "UPDATE catalogo SET nombre=?, codigo_articulo=?, categoria=?, precio=? WHERE id=?";
-                    }
-
-                    try (Connection con = Conexion_Chaos.conectar(); PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
-                        updateStmt.setString(1, nombre);
-                        updateStmt.setString(2, codigoArticulo);
-                        updateStmt.setString(3, categoria);
-                        updateStmt.setDouble(4, precio);
-                        if (actualizarStock) {
-                            updateStmt.setInt(5, stockFinal);
-                            updateStmt.setInt(6, idArticuloSeleccionado);
-                        } else {
-                            updateStmt.setInt(5, idArticuloSeleccionado);
-                        }
-                        int filasAfectadas = updateStmt.executeUpdate();
-                        if (filasAfectadas > 0) {
-                            JOptionPane.showMessageDialog(null, "Artículo actualizado correctamente.");
-                            limpiarCampos();
-                            mostrarProductos();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No se pudo actualizar el artículo.");
-                        }
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Error al actualizar el artículo: " + ex.getMessage());
-                        ex.printStackTrace();
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese un número válido para el precio.");
+                } else if (!stockStr.isEmpty()) {
+                    // Si no se ingresa nuevoStockStr pero sí se modificó el stock principal, usar ese valor
+                    nuevoStock = Integer.parseInt(stockStr);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún artículo para actualizar.");
+
+                String updateQuery = "UPDATE catalogo SET nombre=?, codigo_articulo=?, categoria=?, precio=?, stock=? WHERE id=?";
+
+                try (Connection con = Conexion_Chaos.conectar(); PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, nombre);
+                    updateStmt.setString(2, codigoArticulo);
+                    updateStmt.setString(3, categoria);
+                    updateStmt.setDouble(4, precio);
+                    updateStmt.setInt(5, nuevoStock);
+                    updateStmt.setInt(6, idArticuloSeleccionado);
+
+                    int filasAfectadas = updateStmt.executeUpdate();
+                    if (filasAfectadas > 0) {
+                        JOptionPane.showMessageDialog(null, "Artículo actualizado correctamente.");
+                        limpiarCampos();
+                        mostrarProductos();
+                        tablaCatalogo.clearSelection();
+                        idArticuloSeleccionado = -1;
+                        btnGuardar.setText("Guardar"); // Volver al modo guardar
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo actualizar el artículo.");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar el artículo: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese un formato numérico válido para el precio.");
+            }
+        }
+    }
+
+    private void verificarCamposLlenosParaActualizar() {
+        String nombre = txtnarticulo.getText().trim();
+        String codigoArticulo = txtcodigoarticulo.getText().trim();
+        String precioStr = txtprecio.getText().trim();
+        String stockStr = txtstock.getText().trim();
+        String categoria = jComboCategoria.getSelectedItem().toString();
+
+        if (btnGuardar.getText().equals("Guardar")) {
+            if (!nombre.isEmpty() && !codigoArticulo.isEmpty() && !precioStr.isEmpty() && !stockStr.isEmpty() && !categoria.equals("Seleccionar")) {
+
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
