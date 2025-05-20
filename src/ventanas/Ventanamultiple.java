@@ -246,6 +246,58 @@ public class Ventanamultiple extends javax.swing.JFrame {
         celda.setNoWrap(!multilinea);
         return celda;
     }
+    
+
+
+private static void drawTopCurvedBar1(PdfContentByte canvas) {
+    // Color azul oscuro, relleno
+    BaseColor azulOscuro = new BaseColor(10, 20, 60);
+    canvas.setColorFill(azulOscuro);
+
+    // Coordenadas y curvas ajustadas para horizontal (A4 landscape 842 x 595)
+    // Vamos a dibujar una barra curva en la parte superior
+
+    // Empieza en la esquina superior izquierda
+    canvas.moveTo(0, 595);
+    // Línea horizontal a la derecha
+    canvas.lineTo(842, 595);
+    // Curva Bézier hacia abajo (línea curva en la parte superior)
+    canvas.curveTo(650, 560, 450, 590, 0, 560);
+    // Cierra el path
+    canvas.closePathFillStroke();
+}
+
+private static void drawBottomCurvedBar1(PdfContentByte canvas) {
+    // Color azul oscuro, relleno
+    BaseColor azulOscuro = new BaseColor(10, 20, 60);
+    canvas.setColorFill(azulOscuro);
+
+    // Barra curva en la parte inferior del documento
+    // Comienza en esquina inferior izquierda
+    canvas.moveTo(0, 0);
+    // Línea horizontal a la derecha
+    canvas.lineTo(842, 0);
+    // Curva Bézier hacia arriba (línea curva en la parte inferior)
+    canvas.curveTo(650, 30, 450, 0, 0, 30);
+    // Cierra el path
+    canvas.closePathFillStroke();
+}
+
+
+// Método auxiliar
+private PdfPCell crearCelda1(String texto, com.itextpdf.text.Font fuente) {
+    return crearCelda(texto, fuente, false);
+}
+
+private PdfPCell crearCelda1(String texto, com.itextpdf.text.Font fuente, boolean multilinea) {
+    PdfPCell celda = new PdfPCell(new Phrase(texto != null ? texto : "", fuente));
+    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+    celda.setVerticalAlignment(multilinea ? Element.ALIGN_TOP : Element.ALIGN_MIDDLE);
+    celda.setPadding(4f);
+    celda.setMinimumHeight(multilinea ? 30f : 20f);
+    celda.setNoWrap(!multilinea); // permitir salto de línea solo en campos como descripción
+    return celda;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -333,6 +385,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/íconos/atencion-al-cliente.png"))); // NOI18N
         jMenuItem8.setText("Historial de Clientes");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -516,15 +569,15 @@ public class Ventanamultiple extends javax.swing.JFrame {
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
         // Dentro del método donde manejas la acción para abrir Historialpedidos_1
 
-        Seguimientodeenvios form = null; // Inicializamos la variable fuera del bucle
+        Seguimientodeenvios1 form = null; // Inicializamos la variable fuera del bucle
 
 // Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
         JInternalFrame[] frames = escritorio.getAllFrames();
 
 // Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
         for (JInternalFrame frame : frames) {
-            if (frame instanceof Seguimientodeenvios) {
-                form = (Seguimientodeenvios) frame; // Encontramos una instancia existente
+            if (frame instanceof Seguimientodeenvios1) {
+                form = (Seguimientodeenvios1) frame; // Encontramos una instancia existente
                 break; // Salimos del bucle ya que encontramos lo que buscábamos
             }
         }
@@ -532,7 +585,7 @@ public class Ventanamultiple extends javax.swing.JFrame {
 // Si form sigue siendo null, significa que no encontramos una instancia existente
         if (form == null) {
             // No existe, creamos una nueva instancia
-            form = new Seguimientodeenvios();
+            form = new Seguimientodeenvios1();
             escritorio.add(form); // La añadimos al JDesktopPane
         }
 
@@ -894,103 +947,111 @@ public class Ventanamultiple extends javax.swing.JFrame {
         try {
             // 1. Ruta al escritorio
             String rutaEscritorio = obtenerYCreaCarpetaReportesEnEscritorio();
-            String rutaCompletaArchivo = rutaEscritorio + File.separator + "Historial_Pedidos.pdf";
+            String rutaCompletaArchivo = rutaEscritorio + File.separator + "Reporte_Historial_pedidos.pdf";
             File archivoSalida = new File(rutaCompletaArchivo);
             archivoPDF = new FileOutputStream(archivoSalida);
 
             // 2. Documento con márgenes ajustados
-            documento = new Document(PageSize.A4, 50, 50, 120, 80); // margen inferior ajustado
+            documento = new Document(PageSize.A4.rotate(), 50, 50, 120, 80); // ← horizontal (paisaje)
             PdfWriter writer = PdfWriter.getInstance(documento, archivoPDF);
             documento.open();
             PdfContentByte canvas = writer.getDirectContentUnder();
 
-            // 3. Dibujar barras curvas equilibradas
-            drawTopCurvedBar(canvas);
-            drawBottomCurvedBar(canvas);
+            // 3. Dibujar barras curvas
+            drawTopCurvedBar1(canvas);
+            drawBottomCurvedBar1(canvas);
 
-            // 4. Logo en esquina superior izquierda
+            // 4. Logo
             try {
                 Image logo = Image.getInstance(getClass().getResource("/imagenes/Opcion 3 (1).png"));
-                logo.scaleToFit(100, 100);
-                logo.setAbsolutePosition(50, 750);
+                logo.scaleToFit(110, 110);
+                logo.setAbsolutePosition(50, 500); // Ajustado para formato horizontal
                 documento.add(logo);
             } catch (Exception e) {
                 System.err.println("Error cargando logo: " + e.getMessage());
             }
 
-            // 5. Título principal
-            Paragraph tituloPrincipal = new Paragraph("Historial de Pedidos",
+            // 5. Título
+            Paragraph tituloPrincipal = new Paragraph("Reporte de Historial de pedidos",
                     FontFactory.getFont("Segoe UI", 26, Font.BOLD, BaseColor.DARK_GRAY));
             tituloPrincipal.setAlignment(Element.ALIGN_CENTER);
             tituloPrincipal.setSpacingBefore(-10f);
             tituloPrincipal.setSpacingAfter(10f);
             documento.add(tituloPrincipal);
 
-            // 6. Información general antes de la tabla
-            com.itextpdf.text.Font fontInfo = FontFactory.getFont("Segoe UI", 12, BaseColor.DARK_GRAY);
-            Paragraph fecha = new Paragraph("Fecha: " + new java.util.Date().toString(), fontInfo);
-            Paragraph destinatario = new Paragraph("Destinatario: Departamento de Ventas", fontInfo);
-            Paragraph descripcion = new Paragraph(
-                    "Descripción: Este reporte muestra el historial completo de pedidos realizados por los clientes.",
-                    fontInfo);
-            descripcion.setSpacingAfter(15f);
-            documento.add(fecha);
-            documento.add(destinatario);
-            documento.add(descripcion);
+            // 6. Información
+            com.itextpdf.text.Font fontRegular = FontFactory.getFont("Segoe UI", 11, BaseColor.DARK_GRAY);
+            documento.add(new Paragraph("Fecha: " + new java.util.Date().toString(), fontRegular));
+            documento.add(new Paragraph("Destinatario: Departamento de Ventas", fontRegular));
+            documento.add(new Paragraph("Descripción: Este reporte contiene todos los pedidos registrados con detalles completos.",
+                    fontRegular));
+            documento.add(new Paragraph("\n"));
 
-            // 7. Tabla de historial de pedidos con 10 columnas
-            PdfPTable tabla = new PdfPTable(10);
+            // 7. Tabla con 14 columnas
+            PdfPTable tabla = new PdfPTable(14);
             tabla.setWidthPercentage(100);
             tabla.setSpacingBefore(15f);
-            tabla.setWidths(new float[]{2.2f, 2.2f, 2.5f, 2f, 2.5f, 2f, 2f, 3.5f, 2.5f, 4f}); // proporciones por campo
 
-            // Encabezados con tamaño reducido
-            com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 10, Font.BOLD, BaseColor.WHITE);
+            // Anchos relativos para las columnas (ajustados para contenido legible)
+            tabla.setWidths(new float[]{2.5f, 2.5f, 2.5f, 2f, 2.5f, 2.5f, 2.2f, 3f, 4.5f, 2.5f, 2.2f, 2.5f, 2.5f, 2.5f});
+
+            // Encabezados
+            com.itextpdf.text.Font fontHeader = FontFactory.getFont("Segoe UI", 9, Font.BOLD, BaseColor.WHITE);
             BaseColor headerBg = new BaseColor(10, 20, 60);
+
             String[] encabezados = {
-                "Nombre", "Apellido", "Teléfono", "ID Pedido", "Fecha",
-                "Estado", "Provincia", "Dirección", "Monto Total", "Descripción"
+                "Nombre", "Apellido", "Teléfono", "ID Pedido", "Fecha Pedido",
+                "Fecha Entrega", "Provincia", "Dirección", "Descripción",
+                "Tipo Pago", "Estado", "Total Pago", "Impuesto", "Monto Total"
             };
+
             for (String encabezado : encabezados) {
                 PdfPCell cell = new PdfPCell(new Phrase(encabezado, fontHeader));
                 cell.setBackgroundColor(headerBg);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setPadding(5f);
+                cell.setMinimumHeight(22f);
                 tabla.addCell(cell);
             }
 
-            // Cuerpo con fuente un poco más grande
-            com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 10.5f, BaseColor.BLACK);
+            // 8. Cuerpo de tabla
+            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement(
+                    "SELECT nombreCliente, apellidoCliente, telefonoCliente, idPedido, fechaPedido, fechaEntrega, provincia, direccion, descripcion, tipoPago, estado, total_pago, impuesto, montoTotal FROM pedidos"); ResultSet rs = pst.executeQuery()) {
 
-            try (Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/chaos_app", "root", ""); PreparedStatement pst = cn.prepareStatement("SELECT nombreCliente, apellidoCliente, telefonoCliente, idPedido, fechaPedido, estado, provincia, direccion, montoTotal, descripcion FROM pedidos"); ResultSet rs = pst.executeQuery()) {
+                com.itextpdf.text.Font fontBody = FontFactory.getFont("Segoe UI", 8, BaseColor.BLACK);
 
                 while (rs.next()) {
                     tabla.addCell(crearCelda(rs.getString("nombreCliente"), fontBody, false));
                     tabla.addCell(crearCelda(rs.getString("apellidoCliente"), fontBody, false));
-                    tabla.addCell(crearCelda(rs.getString("telefonoCliente"), fontBody, true));
-                    tabla.addCell(crearCelda(rs.getString("idPedido"), fontBody, true));
-                    tabla.addCell(crearCelda(rs.getString("fechaPedido"), fontBody, true));
-                    tabla.addCell(crearCelda(rs.getString("estado"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("telefonoCliente"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("idPedido"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("fechaPedido"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("fechaEntrega"), fontBody, false));
                     tabla.addCell(crearCelda(rs.getString("provincia"), fontBody, true));
                     tabla.addCell(crearCelda(rs.getString("direccion"), fontBody, true));
-                    tabla.addCell(crearCelda("$" + rs.getString("montoTotal"), fontBody, false));
-                    tabla.addCell(crearCelda(rs.getString("descripcion"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("descripcion"), fontBody, true)); // permitir salto de línea
+                    tabla.addCell(crearCelda(rs.getString("tipoPago"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("estado"), fontBody, true));
+                    tabla.addCell(crearCelda(rs.getString("total_pago"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("impuesto"), fontBody, false));
+                    tabla.addCell(crearCelda(rs.getString("montoTotal"), fontBody, false));
                 }
+
             } catch (SQLException e) {
-                throw new Exception("Error al obtener datos del historial de pedidos.", e);
+                throw new Exception("Error al obtener datos de pedidos.", e);
             }
 
             documento.add(tabla);
 
-            // 8. Pie de página
+            // 9. Pie
             Paragraph footer = new Paragraph("\n\nReporte generado desde la cuenta: ChaosAdmin",
-                    FontFactory.getFont("Segoe UI", 10, Font.ITALIC, BaseColor.GRAY));
+                    FontFactory.getFont("Segoe UI", 9, Font.ITALIC, BaseColor.GRAY));
             footer.setAlignment(Element.ALIGN_CENTER);
             documento.add(footer);
 
-            // 9. Confirmación
-            JOptionPane.showMessageDialog(null, "Reporte PDF 'Historial_Pedidos.pdf' creado exitosamente en:\n" + rutaCompletaArchivo);
+            // 10. Confirmación
+            JOptionPane.showMessageDialog(null, "Reporte PDF creado exitosamente en:\n" + rutaCompletaArchivo);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al crear el reporte:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -1004,9 +1065,39 @@ public class Ventanamultiple extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Historial_de_Clientes form = new Historial_de_Clientes();
-        escritorio.add(form);
+                // Dentro del método donde manejas la acción para abrir Historialpedidos_1
+
+        Historial_de_Clientes form = null; // Inicializamos la variable fuera del bucle
+
+// Obtenemos todos los JInternalFrames que están actualmente en el JDesktopPane
+        JInternalFrame[] frames = escritorio.getAllFrames();
+
+// Iteramos sobre los frames para ver si ya existe una instancia de Historialpedidos_1
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof Historial_de_Clientes) {
+                form = (Historial_de_Clientes) frame; // Encontramos una instancia existente
+                break; // Salimos del bucle ya que encontramos lo que buscábamos
+            }
+        }
+
+// Si form sigue siendo null, significa que no encontramos una instancia existente
+        if (form == null) {
+            // No existe, creamos una nueva instancia
+            form = new Historial_de_Clientes();
+            escritorio.add(form); // La añadimos al JDesktopPane
+        }
+
+// Hacemos visible la ventana (ya sea la nueva o la existente)
         form.setVisible(true);
+
+// Opcional: Intentar seleccionar y traer al frente la ventana
+        try {
+            form.setSelected(true);
+            form.toFront(); // Traer la ventana al frente si ya estaba abierta
+        } catch (java.beans.PropertyVetoException e) {
+            // Manejar la excepción si ocurre un problema al seleccionar la ventana
+            e.printStackTrace(); // O maneja de forma más apropiada
+        }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
